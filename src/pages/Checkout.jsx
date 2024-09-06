@@ -151,7 +151,7 @@ function Checkout() {
 
     const OrderPlace = async () => {
         const token = cookies?.pk2;
-    
+
         try {
             const thisForm = new FormData();
 
@@ -173,37 +173,37 @@ function Checkout() {
             thisForm.append("payment_method", formData.payment_method);
             thisForm.append("shiping_method", formData.shiping_method);
 
-    
+
             let response;
-            
-            console.log("token",token);
-            
+
+            console.log("token", token);
+
             if (token) {
                 response = await placeOrder(thisForm);
-            
+
             } else {
                 console.log("runnnn");
-                console.log("runnnn",thisForm);
-            thisForm.append("sub_total", subTotal);
-            console.log('cttt',carts)
-            // Append cartItems as a JSON string
-        thisForm.append("cartItems", JSON.stringify(carts));
+                console.log("runnnn", thisForm);
+                thisForm.append("sub_total", subTotal);
+                console.log('cttt', carts)
+                // Append cartItems as a JSON string
+                thisForm.append("cartItems", JSON.stringify(carts));
                 response = await orderPlace(thisForm);
 
                 console.log("Response:", response); // Log the response to inspect it
             }
-            const guestEmail = localStorage.setItem('email',JSON.stringify(formData.email))
+            const guestEmail = localStorage.setItem('email', JSON.stringify(formData.email))
             localStorage.removeItem('cart')
             if (response.success) navigate('/thankyou');
             else Alert(response.message, response.success);
-    
+
         } catch (error) {
             console.log("Error:", error); // Log any errors encountered
             Alert(error.message, false);
         }
     };
-    
-    
+
+
 
     const subscriberAdd = async () => {
         try {
@@ -283,6 +283,27 @@ function Checkout() {
     };
 
 
+    const handleFileUpload = (e, id) => {
+        const file = e.target.files[0];
+    
+        if (file) {
+            // Combine all updates into one setFormData call
+            setFormData((prevData) => ({
+                ...prevData,
+                invoice_recipt: file,
+                payment_method: id
+            }));
+            
+            // Update payment value as well
+            setPaymentValue(id);
+    
+            console.log("File uploaded: ", file);
+            console.log("Payment method selected: ", id);
+        } else {
+            console.log("No file selected");
+        }
+    };
+
 
 
     const DigtalWalletsData = paymentMethodData
@@ -298,7 +319,21 @@ function Checkout() {
                         </Space>
                     </Radio.Group>
 
-                    <input type='file' placeholder='images' name='images' className='form_input' onChange={(e) => setFormData({ ...formData, invoice_recipt: e.target.files[0] })} />
+                    <input
+                        type="file"
+                        placeholder="images"
+                        name="images"
+                        className="form_input"
+                        // onChange={(e) => {
+                        //     setFormData({ ...formData, invoice_recipt: e.target.files[0] });
+                        //     // Auto-select the payment method when a file is uploaded
+                        //     if (paymentValue !== p._id) {
+                        //         setPaymentValue(p._id);
+                        //         setFormData({ ...formData, payment_method: p._id });
+                        //     }
+                        // }}
+                        onChange={(e)=>handleFileUpload(e,p._id)}
+                    />
                 </div>
             ),
             children: (
@@ -319,7 +354,14 @@ function Checkout() {
                             <Radio value={p._id} onClick={() => { setFormData({ ...formData, payment_method: p._id }) }}>{p.Title}</Radio>
                         </Space>
                     </Radio.Group>
-                    <input type='file' name='images' placeholder='Email' className='form_input' onChange={(e) => setFormData({ ...formData, invoice_recipt: e.target.files[0] })} />
+                    {console.log('iiiii', formData.invoice_recipt)}
+                    <input
+                        type="file"
+                        placeholder="images"
+                        name="images"
+                        className="form_input"
+                        onChange={(e)=>handleFileUpload(e,p._id)}
+                    />
 
                 </div>
             ),
@@ -554,7 +596,9 @@ function Checkout() {
         try {
             const response = await GetPaymentMethods()
             setPaymentMethods(response.paymentMethods)
+            setPaymentMethod(response.paymentMethods[0])
             setPaymentMethodData(response.paymentMethodDetails.filter(e => e.status == "active"))
+
         } catch (error) {
             console.log(error)
             Alert(reponse.message, false)
@@ -640,22 +684,22 @@ function Checkout() {
                                             <h3>Contact</h3>
                                             {
                                                 user == null &&
-                                            <Form.Item
-                                                label=""
-                                                name="email"
-                                                rules={[{ required: true, message: 'Please input your email!', },]}
-                                                className='form_item'
-                                            >
-                                                    
-                                                
-                                                        {console.log(formData.email, "bbbb")}
+                                                <Form.Item
+                                                    label=""
+                                                    name="email"
+                                                    rules={[{ required: true, message: 'Please input your email!', },]}
+                                                    className='form_item'
+                                                >
 
-                                                        <Input type='email' placeholder='Email' className='form_input' value={formData?.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
-                                                        {/* <p className='note'>Make sure that email is correct!!</p> */}
-                                                    
 
-                                            </Form.Item>
-                                                }
+                                                    {console.log(formData.email, "bbbb")}
+
+                                                    <Input type='email' placeholder='Email' className='form_input' value={formData?.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+                                                    {/* <p className='note'>Make sure that email is correct!!</p> */}
+
+
+                                                </Form.Item>
+                                            }
 
 
                                             {/* <Form.Item
@@ -706,7 +750,7 @@ function Checkout() {
                                                             },
                                                         ]}
                                                     >
-                                                        {console.log('ff',formData.first_name)}
+                                                        {console.log('ff', formData.first_name)}
                                                         <Input placeholder='First Name' className='form_input' value={formData.first_name} onChange={(e) => setFormData({ ...formData, first_name: e.target.value })} />
                                                     </Form.Item>
                                                 </Col>
@@ -871,7 +915,7 @@ function Checkout() {
                                         <div className='mt-8'>
 
                                             <h3>Payment Method</h3>
-
+                                            {console.log('paymentMethods', paymentMethods)}
                                             <Radio.Group onChange={onChangePaymentMethod} value={paymentMethod} className='radio_group'>
                                                 {
                                                     paymentMethods.length > 0 && paymentMethods?.map((e, i) => {

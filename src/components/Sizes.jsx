@@ -1,14 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-function Sizes({ data, selectedSize, setselectedSize, matchingVariant }) {
+function Sizes({ data, selectedSize, setselectedSize, matchingVariant ,colors,setSizes}) {
 
     // const [selectedSize, setselectedSize] = useState('')
-
+    console.log('ssssss',colors)
     let size = data?.productConfig?.map((p) => p.size).map(s => s.name)
     let sizes = [...new Set(size)]
 
     console.log('selectedSize', selectedSize)
     console.log('matchingVariant', matchingVariant)
+
+
+    useEffect(()=>{
+        if(sizes.length>0  && (!selectedSize && colors.length > 0)){
+            console.log(":::::::::::::::::::::")
+            setSizes(sizes)
+            setselectedSize(sizes[0])
+        }
+    },[])
     return (
         <>
 

@@ -43,7 +43,9 @@ function SingleProduct() {
     const [productData, setProductData] = useState({})
     const [productConfigId, setProductConfigId] = useState("")
     const [relatedProducts, setRelatedProducts] = useState([])
-
+    const [colors,setColors] = useState([])
+    const [sizes,setSizes] = useState([])
+    const [material,setMaterials] = useState([])
     const [formData, setFormData] = useState({
         product_id: id,
         product_config_id: 2,
@@ -133,7 +135,8 @@ function SingleProduct() {
         return setFormData({ ...formData, product_config_id: matchedConfig?._id ||  null})
     }
 
-
+    
+    console.log('ccccccccccccccccccccccccccc',sizes)
     function findMatchingVariants(color) {
         const findMatchingVariant = productData?.productConfig?.filter(variant =>
             (!color || variant.color.name === color)
@@ -219,12 +222,12 @@ function SingleProduct() {
 
                                     <p className='product_desc'>{productData?.short_description}</p>
 
-                                    {
+                                    {   
                                         (productData?.productConfig)?.length > 0 &&
                                         <>
-                                            <Colors data={productData} selectedColor={selectedColor} setselectedColor={setselectedColor} matchingVariant={matchingVariant} />
-                                            <Sizes data={productData} selectedSize={selectedSize} setselectedSize={setselectedSize} matchingVariant={matchingVariant} />
-                                            <Material data={productData} selectedmaterial={selectedmaterial} setselectedMaterial={setselectedMaterial} matchingVariant={matchingVariant} />
+                                            <Colors data={productData} selectedColor={selectedColor} setselectedColor={setselectedColor} matchingVariant={matchingVariant} colors={colors} setColors={setColors} />
+                                            <Sizes data={productData} selectedSize={selectedSize} setselectedSize={setselectedSize} matchingVariant={matchingVariant}    selectedColor={selectedColor}    sizes={sizes}  setSizes={setSizes}    colors={colors} />
+                                            <Material data={productData} selectedmaterial={selectedmaterial} setselectedMaterial={setselectedMaterial} matchingVariant={matchingVariant}  setselectedSize={setselectedSize}  sizes={sizes}/>
                                         </>
                                     }
 

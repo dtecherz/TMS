@@ -93,7 +93,7 @@ function NavMenu() {
                                 :
                                 <><li><Link  to = "/order-tracking/:id">Track Order 🚚 </Link></li></>
                             }
-                            {(user?.role != "guest" && (cookies?.pk2 !== null || cookies.pk2 !== undefined))
+                            {(user && (cookies?.pk2 !== null || cookies.pk2 !== undefined))
                                 ?
                                 <li><Link onClick={SignOut}>Sign Out</Link></li>
                                 :

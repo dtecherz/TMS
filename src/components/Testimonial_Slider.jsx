@@ -70,8 +70,8 @@ function Testimonial_Slider() {
                             <div className="testimonial_card_border"></div>
                         </div>
                         <div className='testimonial_author_desc'>
-                            <img src={testimonial_3} alt="avatar" className='testimonail_avatar' />
-                            <h5 className='name'>Wayne Olson</h5>
+                            {/* <img src={testimonial_3} alt="avatar" className='testimonail_avatar' />
+                            <h5 className='name'>Wayne Olson</h5> */}
                             {/* <p className='job'>Editor</p> */}
                         </div>
                     </div>
@@ -82,8 +82,8 @@ function Testimonial_Slider() {
                             <div className="testimonial_card_border"></div>
                         </div>
                         <div className='testimonial_author_desc'>
-                            <img src={testimonial_3} alt="avatar" className='testimonail_avatar' />
-                            <h5 className='name'>Wayne Olson</h5>
+                            {/* <img src={testimonial_3} alt="avatar" className='testimonail_avatar' />
+                            <h5 className='name'>Wayne Olson</h5> */}
                             {/* <p className='job'>Editor</p> */}
                         </div>
                     </div>
@@ -94,8 +94,8 @@ function Testimonial_Slider() {
                             <div className="testimonial_card_border"></div>
                         </div>
                         <div className='testimonial_author_desc'>
-                            <img src={testimonial_3} alt="avatar" className='testimonail_avatar' />
-                            <h5 className='name'>Wayne Olson</h5>
+                            {/* <img src={testimonial_3} alt="avatar" className='testimonail_avatar' />
+                            <h5 className='name'>Wayne Olson</h5> */}
                             {/* <p className='job'>Editor</p> */}
                         </div>
                     </div>
@@ -106,8 +106,8 @@ function Testimonial_Slider() {
                             <div className="testimonial_card_border"></div>
                         </div>
                         <div className='testimonial_author_desc'>
-                            <img src={testimonial_3} alt="avatar" className='testimonail_avatar' />
-                            <h5 className='name'>Wayne Olson</h5>
+                            {/* <img src={testimonial_3} alt="avatar" className='testimonail_avatar' />
+                            <h5 className='name'>Wayne Olson</h5> */}
                             {/* <p className='job'>Editor</p> */}
                         </div>
                     </div>
@@ -118,8 +118,8 @@ function Testimonial_Slider() {
                             <div className="testimonial_card_border"></div>
                         </div>
                         <div className='testimonial_author_desc'>
-                            <img src={testimonial_3} alt="avatar" className='testimonail_avatar' />
-                            <h5 className='name'>Wayne Olson</h5>
+                            {/* <img src={testimonial_3} alt="avatar" className='testimonail_avatar' />
+                            <h5 className='name'>Wayne Olson</h5> */}
                             {/* <p className='job'>Editor</p> */}
                         </div>
                     </div>

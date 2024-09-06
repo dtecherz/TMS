@@ -1,12 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-function Material({ data ,selectedmaterial,setselectedMaterial,matchingVariant}) {
+function Material({ data ,selectedmaterial,setselectedMaterial,matchingVariant,setselectedSize,sizes}) {
 
     // const [selectedmaterial, setselectedMaterial] = useState('')
 
     let material = data?.productConfig?.map((p) => p.materail).map(s => s?.name)
     let materials = [...new Set(material)]
     console.log("materials", materials)
+
+    useEffect(()=>{
+        if(materials.length>0  && (!selectedmaterial && sizes.length > 0)){
+            console.log(":::::::::::::::::::::")
+            // setSizes(sizes)
+            setselectedMaterial(sizes[0])
+        }
+    },[])
     return (
         <>
 

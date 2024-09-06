@@ -135,7 +135,7 @@ function Navbar_2(props) {
                         <Tooltip title="Logout">
                             <Link to={'/sign-in'} className="hidden transition-all duration-300  focus:outline-none focus:ring-0 font-medium px-2 sm:px-4 sm:py-0 text-center md:flex justify-center items-center">
                                 {
-                                    (user?.role != "guest" && (cookies?.pk2 !== null || cookies.pk2 !== undefined)) ?
+                                    (user && (cookies?.pk2 !== null || cookies.pk2 !== undefined)) ?
                                     <LogoutOutlined className='social_icons' style={{fontSize: "20px"}} />
                                 :
 

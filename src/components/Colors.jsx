@@ -1,15 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-function Colors({data,selectedColor,setselectedColor,matchingVariant}) {
+function Colors({ data, selectedColor, setselectedColor, matchingVariant ,setColors}) {
 
     // const [selectedColor, setselectedColor] = useState()
 
-   let color = data?.productConfig?.map((p)=>p.color).map(s=>s.name)
-   let colors = [...new Set(color)]
+    let color = data?.productConfig?.map((p) => p.color).map(s => s.name)
+    let colors = [...new Set(color)]
 
-   console.log('colors',colors)
-   console.log('selectedColor',selectedColor)
-   console.log('matchingVariant',matchingVariant)
+    
+    console.log('colors', colors)
+    console.log('selectedColor', selectedColor)
+    console.log('matchingVariant', matchingVariant)
+
+
+    // Set the default selected color to the first item in colors
+    useEffect(() => {
+        if (colors.length > 0 && !selectedColor) {
+            setColors(colors)
+            setselectedColor(colors[0]); // Set the first color by default
+        }
+    }, []);
     return (
         <>
             <div className="colors">

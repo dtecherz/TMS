@@ -4,12 +4,15 @@ import { Button, Col, Flex, Image, Row, Typography } from 'antd'
 import My_Button from '../components/Button'
 
 import image from "../assets/img.jfif"
-import image1 from '../assets/content.webp'
-import image3 from '../assets/cc1.webp'
+import image1 from '../assets/ab2.jpg'
+// import image1 from '../assets/content.webp'
+import image3 from '../assets/ab1.jpg'
+// import image3 from '../assets/cc1.webp'
 import image2 from '../assets/contentImage.jfif'
 import testimonial_3 from "../assets/testimonials-3.png"
 import Testimonial_Slider from '../components/Testimonial_Slider'
 import { InstagramEmbed } from 'react-social-media-embed'
+import Footer from '../components/Footer'
 
 const imgStyle = {
     display: 'block',
@@ -148,7 +151,7 @@ function Home() {
                         </div>
                     </div>
                 </div>
-
+                <Footer/>
 
             </section>
         </>
