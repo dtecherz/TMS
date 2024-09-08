@@ -111,6 +111,13 @@ dd {
   font-family: Lato, sans-serif;
 }
 
+.underline {
+  background: linear-gradient(270deg, var(--themeBrownColor) 63%, var(--themeBlueColor)) 0 100% transparent no-repeat !important;
+  background-size: 100% 2px !important;
+  transition: all 0.5s ease-in-out !important;
+}
+
+
 .table {
   display: block !important;
 }
@@ -164,7 +171,8 @@ dd {
 .single_products_area .materials {
   margin-top: 2rem;
 }
-img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi{
+
+img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi {
   height: 70px;
 }
 
@@ -321,7 +329,6 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
 }
 
 
-
 .demo-logo .logo {
   width: 80px;
   height: auto;
@@ -436,14 +443,14 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
 .hero_area .section_content {
   /* padding: 43px 54% 0 0px !important; */
   padding: 43px 0 0 0px !important;
-  max-width: 600px;
+  max-width: 650px;
   margin: 0 0rem 0 4rem;
 }
 
 .hero_area .section_content h2 {
-  font-size: 78px !important;
+  font-size: 60px !important;
   font-weight: 500;
-  line-height: 84px;
+  line-height: 55px;
   letter-spacing: 7px;
   text-align: left;
   text-transform: uppercase;
@@ -544,9 +551,10 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
 
 .smart_product_area {
   /* background-image: url(./assets/center.webp); */
-  background-image: url(./assets/bgg2.jpg);
+  /* background-image: url(./assets/bgg2.jpg); */
   background-position: 50% 0px;
   background-attachment: fixed;
+  background: #C2935C;
 }
 
 .smart_product_area .section_content {
@@ -555,7 +563,7 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
 }
 
 .smart_product_area .content_box .col_1 {
-  background-color: var(--themeGreenColor);
+  background-color: var(--themeGrayTextColor);
   padding: 0% 10% 0% 10% !important;
 }
 
@@ -812,6 +820,18 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
   background-size: cover;
 }
 
+.testimonials_area::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  /* Light gray color with 50% opacity */
+  z-index: 0;
+}
+
 .testimonials_area .section_content {
   text-align: center;
   padding-top: 140px !important;
@@ -825,7 +845,7 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
   letter-spacing: .165em;
   text-transform: uppercase;
   color: white;
-  margin: 0 0 8px !important;
+  margin: 0 0 30px !important;
 }
 
 .testimonials_area .section_content p {
@@ -1790,6 +1810,12 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
   text-decoration: underline;
 }
 
+.smart_product_area .content_box .col_2 img {
+  max-height: 500px;
+  width: 500px;
+  object-fit: cover;
+}
+
 
 
 
@@ -1801,11 +1827,19 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
 
 @media screen and (max-width: 1200px) {
 
+  .workshops_area .section_content {
+    margin-left: 30px;
+  }
+
   .hero_area .section_content h2 {
-    font-size: 65px !important;
+    font-size: 40px !important;
     font-weight: 500;
-    line-height: 70px;
+    line-height: 40px;
     letter-spacing: 5px;
+  }
+
+  .hero_area .section_content p {
+    font-size: 16px;
   }
 
   .testimonials_area .section_content {
@@ -1819,10 +1853,15 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
 
 }
 
+
 @media screen and (max-width: 1024px) {
   .hero_area .section_content {
     /* padding: 20% 32% 24% 0% !important; */
     max-width: 500px;
+  }
+
+  .smart_product_area .content_box .col_1 .desc {
+    font-size: 16px;
   }
 
   .smart_product_area .content_box .col_1,
@@ -1833,20 +1872,38 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
   }
 
   .smart_product_area .content_box .col_1 {
-    padding: 22% 27% 22% 12% !important;
+    padding: 20% 27% 20% 12% !important;
   }
 
   .smart_product_area .content_box .col_1_border_right {
     display: none;
   }
 
-  .workshops_area .section_content {
-    padding: 80px 0% 80px 44% !important;
+  
+  .workshops_area .section_content h2,
+  .testimonials_area .section_content h1 {
+    font-size: 40px !important;
+    font-weight: 500;
+    line-height: 40px;
+    letter-spacing: 5px;
+  }
 
+  .workshops_area .section_content p {
+    font-size: 16px;
+  }
+
+  .workshops_area .section_content {
+    padding: 20px 0% 5px 5% !important;
   }
 
   .workshops_area .section_content p {
     margin: 10px 0px 40px 0px;
+  }
+
+  .smart_product_area .content_box .col_2 img {
+    max-height: 100% !important;
+    width: auto !important;
+    object-fit: cover;
   }
 
 
@@ -1895,30 +1952,40 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
   }
 
   .smart_product_area .section_content .content_box .col_1 {
-    width: 50%;
-    max-height: 450px;
-    padding: 40px 20px !important;
+    width: 100%;
+    max-height: 100%;
+    padding: 70px 30px !important;
   }
 
   .smart_product_area .section_content .content_box .cccc {
-    width: 50%;
-    height: 448px !important;
+    width: 100%;
+    height: auto !important;
     object-fit: cover;
+  }
 
-
-    /* padding: 10px !important; */
+  .smart_product_area .content_box .col_2 img {
+    max-height: 100% !important;
+    width: 100% !important;
+    object-fit: cover;
   }
 
   .hero_area .section_content h2 {
-    font-size: 60px !important;
+    font-size: 45px !important;
   }
 
   .workshops_area .section_content {
-    padding: 50px 2% 100px 2% !important;
+    padding: 10px 0% 100px 0% !important;
+    margin-left: 0px !important;
   }
 
+  .workshops_area .section_content h2,
+  .testimonials_area .section_content h1 {
+    font-size: 45px !important;
+  }
+  
+
   .workshops_area .ccc {
-    padding: 50px 2% 100px 2% !important;
+    padding: 50px 2% 0px 2% !important;
   }
 
   .page_breadcrumb .page_title {
@@ -2013,6 +2080,18 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
   .journey_area .journey_card h4 {
     font-size: 19px;
     line-height: 1.368em;
+  }
+
+  .workshops_area .ccc {
+    padding: 50px 0% 0% 0% !important;
+  }
+
+  .workshops_area .section_content {
+    padding: 0px 0% 100px 0% !important;
+  }
+
+  .footer .footer_inner {
+    padding: 70px 0px;
   }
 }
 

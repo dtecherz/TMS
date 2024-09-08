@@ -26,7 +26,7 @@ function SingleProductSlider({ product, pImg, setPImg, images }) {
         prevArrow: <FaChevronLeft to="prev" />,
         dotsClass: "slick-dots slick-thumb",
         infinite: false,
-
+        fade: true,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -50,16 +50,10 @@ function SingleProductSlider({ product, pImg, setPImg, images }) {
                         </div>
                     })
                 }
-                {/* <div>
-                    <Image src={jacket} preview={true} width={"100%"} className="single_product_image" />
-                    <Image src={"https://react-slick.neostack.com/img/react-slick/abstract02.jpg"} preview={true} width={"100%"} className="single_product_image" />
-                </div>
-                <div>
-                    <Image src={"https://react-slick.neostack.com/img/react-slick/abstract04.jpg"} preview={true} width={"100%"} className="single_product_image" />
-                </div> */}
             </Slider>
         </div>
     );
 }
+
 
 export default SingleProductSlider;

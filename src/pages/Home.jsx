@@ -28,8 +28,8 @@ function Home() {
                 <div className='section_inner'>
                     <div className='container'>
                         <div className='section_content'>
-                            <h2>CRAFTING FINE SKILLS</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elitse tsed do eius mod tempor incididu nt ut labor dolore senast magna se aliqua ut enim minims veniam</p>
+                            <h2>Elevate Your Style with Timeless Elegance</h2>
+                            <p>Discover our premium tan leather handbag—where style meets functionality. Shop now for handcrafted bags and slippers that add a chic touch to any outfit.</p>
 
                             <My_Button text={"View More"} />
 
@@ -46,7 +46,6 @@ function Home() {
                         <div className='section_content '>
                             <div className="content_box">
                                 <div className='col_1 card'>
-                                    <p className='sub_title'>Smart products</p>
                                     <h1 className='title'>THE FINEST OF HANDMADE</h1>
                                     <p className='desc'>Lorem ipsum dolor sit amet a con sectetur adipisicing elit se do eius mod tempor incididunt ut labore et dolore magna aliqua ut enim minim veniam quis ost rud exercitation ullamc laboris nisi ut aliquip ex ea commo.</p>
 
@@ -55,11 +54,7 @@ function Home() {
                                     <div className="col_1_border_right"></div>
                                 </div>
                                 <div className='col_2 card cccc'>
-                                    <Image src={image3} alt="image" preview={false} style={{
-                                        maxHeight: "500px",
-                                        width: "500px",
-                                        objectFit: "cover"
-                                    }} />
+                                    <Image src={image3} alt="image" preview={false} />
                                 </div>
                             </div>
                         </div>
@@ -79,7 +74,7 @@ function Home() {
                                         maxHeight: "500px",
                                         width: "500px",
                                         objectFit: "cover",
-                                        borderRadius:"5px"
+                                        borderRadius: "5px"
                                     }} />
                                 </div>
                             </Col>
@@ -143,17 +138,16 @@ function Home() {
                     <div className='container'>
                         <div className='section_content'>
                             <h1>THE WORDS OF OTHERS</h1>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing</p>
-
 
                             <Testimonial_Slider />
 
                         </div>
                     </div>
                 </div>
-                <Footer/>
 
             </section>
+
+            <Footer />
         </>
     )
 }

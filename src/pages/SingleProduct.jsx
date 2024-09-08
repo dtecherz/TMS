@@ -19,7 +19,7 @@ import Colors from '../components/Colors'
 import Sizes from '../components/Sizes'
 import Material from '../components/Material'
 import SingleProductSlider from '../components/SingleProductSlider'
-import formatter from '../helpers/formatter'
+import formatter, { formatterWithoutSymbol } from '../helpers/formatter'
 import { handleImageError } from '../helpers/imgHandler'
 import { useCart } from '../ContextAPI/Components/CartContext'
 import { useCookies } from 'react-cookie'
@@ -43,9 +43,9 @@ function SingleProduct() {
     const [productData, setProductData] = useState({})
     const [productConfigId, setProductConfigId] = useState("")
     const [relatedProducts, setRelatedProducts] = useState([])
-    const [colors,setColors] = useState([])
-    const [sizes,setSizes] = useState([])
-    const [material,setMaterials] = useState([])
+    const [colors, setColors] = useState([])
+    const [sizes, setSizes] = useState([])
+    const [material, setMaterials] = useState([])
     const [formData, setFormData] = useState({
         product_id: id,
         product_config_id: 2,
@@ -111,7 +111,7 @@ function SingleProduct() {
             } else {
                 Alert("Item quantity updated successfully");
             }
-            
+
             console.log('updddd', updatedCart)
             localStorage.setItem('cart', JSON.stringify(updatedCart));
             getUserCartsData()
@@ -132,11 +132,11 @@ function SingleProduct() {
             (!material || config.material?.name === material)
         );
         console.log('matchConfig', matchedConfig)
-        return setFormData({ ...formData, product_config_id: matchedConfig?._id ||  null})
+        return setFormData({ ...formData, product_config_id: matchedConfig?._id || null })
     }
 
-    
-    console.log('ccccccccccccccccccccccccccc',sizes)
+
+    console.log('ccccccccccccccccccccccccccc', sizes)
     function findMatchingVariants(color) {
         const findMatchingVariant = productData?.productConfig?.filter(variant =>
             (!color || variant.color.name === color)
@@ -171,11 +171,6 @@ function SingleProduct() {
             label: 'Additional Information',
             children: <Addtional_Info data={productData?.long_description} />,
         },
-        // {
-        //     key: '3',
-        //     label: 'Reviews',
-        //     children: <Reviews data={productData?.reviews} />,
-        // },
     ];
 
 
@@ -201,14 +196,10 @@ function SingleProduct() {
                         <Row>
                             <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                                 <div className='single_product_slider'>
-                                    {/* <Image src={single_product} alt='product image' className='single_product_image' /> */}
-
-                                    {/* {console.log('img', productData?.images?.map(p => p.image_url))}
-                                    <Image src={`${File_URL}/${productData?.images?.map(p => p.image_url)}` || product_1} alt='product image' className='single_product_image' /> */}
-
                                     <SingleProductSlider images={productData?.images || []} />
                                 </div>
                             </Col>
+
                             <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                                 <div>
                                     <h1 className='product_name'>{productData?.name}</h1>
@@ -216,18 +207,29 @@ function SingleProduct() {
                                         <Rate allowHalf defaultValue={2.5} />
                                         <p>(1 customer review)</p>
                                     </Flex>
-                                    <p className='price'>{formatter.format(productData.price || 0)}</p>
+
+
+                                    {
+                                        (!productData.discount || productData.discount == 0) ?
+                                            <p className='price'>{formatter.format(productData.price || 0)}</p>
+                                            :
+                                            <p className='price'>
+                                                <s>{formatter.format(productData.price || 0)}</s>
+                                                &nbsp; {formatterWithoutSymbol.format(productData?.price - ((productData.discount / 100) * productData?.price) || 0)}
+                                            </p>
+                                    }
+
 
                                     {/* <p className='price'>{productData?.stock_management}</p> */}
 
                                     <p className='product_desc'>{productData?.short_description}</p>
 
-                                    {   
+                                    {
                                         (productData?.productConfig)?.length > 0 &&
                                         <>
                                             <Colors data={productData} selectedColor={selectedColor} setselectedColor={setselectedColor} matchingVariant={matchingVariant} colors={colors} setColors={setColors} />
-                                            <Sizes data={productData} selectedSize={selectedSize} setselectedSize={setselectedSize} matchingVariant={matchingVariant}    selectedColor={selectedColor}    sizes={sizes}  setSizes={setSizes}    colors={colors} />
-                                            <Material data={productData} selectedmaterial={selectedmaterial} setselectedMaterial={setselectedMaterial} matchingVariant={matchingVariant}  setselectedSize={setselectedSize}  sizes={sizes}/>
+                                            <Sizes data={productData} selectedSize={selectedSize} setselectedSize={setselectedSize} matchingVariant={matchingVariant} selectedColor={selectedColor} sizes={sizes} setSizes={setSizes} colors={colors} />
+                                            <Material data={productData} selectedmaterial={selectedmaterial} setselectedMaterial={setselectedMaterial} matchingVariant={matchingVariant} setselectedSize={setselectedSize} sizes={sizes} />
                                         </>
                                     }
 
@@ -239,18 +241,12 @@ function SingleProduct() {
                                     </Flex>
 
                                     <div className='product_meta'>
-                                        <h5>Sku: <span className='span'>2</span></h5>
+                                        {
+                                            productData?.SKU &&
+                                            <h5>Sku: <span className='span'>{productData?.SKU}</span></h5>
+                                        }
                                         <h5>Category: <span className='span'><Link to={`/product-list?bestFor=${productData?.category_id?.slug}`}>{productData?.category_id?.category_name}</Link></span></h5>
-                                        {/* <h5>Tags:
-                                            <span className='span'>
-                                                <Link to="#">Crafts</Link>
-                                                <span>, </span>
-                                                <Link to="#">Food</Link>
-                                                <span>, </span>
-                                                <Link to="#">Homemade</Link>
-                                                <span>, </span>
-                                            </span>
-                                        </h5> */}
+
                                     </div>
                                 </div>
                             </Col>
@@ -262,37 +258,40 @@ function SingleProduct() {
                         </div>
 
 
-                        <div className="related_products_area">
-                            <h2>Related Products</h2>
+                        {
+                            relatedProducts.length > 0 &&
+                            <div className="related_products_area">
+                                <h2>Related Products</h2>
 
 
-                            <Row>
-                                {
+                                <Row>
+                                    {
 
-                                    relatedProducts?.map((e, i) => {
+                                        relatedProducts?.map((e, i) => {
 
-                                        return < Col xs={24} sm={12} md={12} lg={6} xl={6} key={i}>
+                                            return < Col xs={24} sm={12} md={12} lg={6} xl={6} key={i}>
 
-                                            <Link to={`/product/${e._id}`}>
-                                                <Card className='product_card' >
-                                                    <Image alt="example" src={`${File_URL}/${e.images[0]?.image_url}`} preview={false} onError={handleImageError} />
+                                                <Link to={`/product/${e._id}`}>
+                                                    <Card className='product_card' >
+                                                        <Image alt="example" src={`${File_URL}/${e.images[0]?.image_url}`} preview={false} onError={handleImageError} />
 
-                                                    <h4 className='product_name'>{e.name}</h4>
-                                                    <p className='product_desc'>{truncateDescription(e.short_description, 30)}</p>
-                                                    <p className='product_price'>${e.price}</p>
+                                                        <h4 className='product_name'>{e.name}</h4>
+                                                        <p className='product_desc'>{truncateDescription(e.short_description, 30)}</p>
+                                                        <p className='product_price'>${e.price}</p>
 
-                                                    <div className='add_to_cart_btn'>
-                                                        <My_Button text={"Add To Cart"} />
-                                                    </div>
-                                                </Card>
-                                            </Link>
-                                        </Col>
-                                    })
+                                                        <div className='add_to_cart_btn'>
+                                                            <My_Button text={"Add To Cart"} />
+                                                        </div>
+                                                    </Card>
+                                                </Link>
+                                            </Col>
+                                        })
 
-                                }
+                                    }
 
-                            </Row>
-                        </div>
+                                </Row>
+                            </div>
+                        }
 
                     </div>
                 </div>
