@@ -66,7 +66,6 @@ const productController = {
             const id = req.params.id;
 
             let updateData = {};
-
             if (req.body.category_id) {
                 updateData.category_id = req.body.category_id;
             }
@@ -89,7 +88,10 @@ const productController = {
                 updateData.status = req.body.status;
             }
             if (req.body.price) {
-                updateData.price = req.body.price;
+                updateData.price = Math.round(req.body.price);
+            }
+            if (req.body.SKU) {
+                updateData.SKU = req.body.SKU
             }
             if (req.body.total_quantity) {
                 updateData.total_quantity = req.body.total_quantity;
@@ -100,7 +102,8 @@ const productController = {
                 updateData.images = req.body.images.map(image => image._id);
                 console.log("imggg",updateData.images)
         }
-
+        
+        console.log('up',updateData)
             if (Object.keys(updateData).length > 0) {
                 const updatedProduct = await Product.findByIdAndUpdate(id, updateData);
 
@@ -231,7 +234,7 @@ const productController = {
     // delete product 
     async deleteProduct(req, res) {
         try {
-            const product_id = rq.params.id
+            const product_id = req.params.id
 
             const product = await Product.findByIdAndDelete(product_id)
             return res.status(200).send({
