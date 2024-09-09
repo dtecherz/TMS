@@ -304,7 +304,7 @@ const cartController = {
 
         // }
 
-        try {
+         try {
             const user_id = req.user.userId;
             const product_id = req.params.product_id;
             const product_config_id = req.body.product_config_id || null;
@@ -486,7 +486,7 @@ const cartController = {
             if (UserCartItems.length > 0) {
                 let subTotalPrice = 0;
                 let Total = 0
-                const updatedCartItems = UserCartItems.map(item => {
+                const updatedCartItems= UserCartItems.map(item => {
                     const basePrice = item.product_id.price;
                     const configPrice = item.product_config_id ? item.product_config_id.price : 0;
                     const singleItemPrice = (basePrice + configPrice) * item.quantity;

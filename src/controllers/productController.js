@@ -182,6 +182,7 @@ const productController = {
         try {
 
             const limit = parseInt(process.env.ProductLimitPerPage)
+            // const limit = 2
             const page = parseInt(req.query.page) || 1;
             console.log("page", page)
             let query = { status: "active" }
