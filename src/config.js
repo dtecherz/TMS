@@ -1,12 +1,12 @@
 // // Development Version
-// const API_URL = "http://localhost:4000"
-// const FrontAPI_URL = "http://localhost:3000"
+    const API_URL = "http://localhost:4000"
+    const FrontAPI_URL = "http://localhost:3000"
 
 
 
 // Production Version
-const API_URL = "https://api.themangosole.com"
-const FrontAPI_URL = "https://themangosole.com"
+// const API_URL = "https://api.themangosole.com"
+// const FrontAPI_URL = "https://themangosole.com"
 
 
 // For Both
