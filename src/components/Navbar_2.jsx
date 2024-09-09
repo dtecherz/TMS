@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { Image, Layout, Tooltip } from 'antd';
-import { LogoutOutlined ,ShoppingOutlined,ShoppingCartOutlined} from '@ant-design/icons'
+import { LogoutOutlined, ShoppingOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 
 
 
@@ -21,9 +21,9 @@ const { Header } = Layout;
 
 function Navbar_2(props) {
 
-    const {user ,} = useAuth()
-    const {carts} = useCart()
-    console.log('cartsssssss',carts)
+    const { user, } = useAuth()
+    const { carts } = useCart()
+    console.log('cartsssssss', carts)
     const [cookies, setCookie, removeCookie] = useCookies(['pk2']);
 
     const items1 = [
@@ -36,8 +36,8 @@ function Navbar_2(props) {
             label: <Link to={"/shop"}>Product List</Link>,
         },
     ];
-    
-    console.log('ppppppppp',cookies?.pk2)
+
+    console.log('ppppppppp', cookies?.pk2)
     useEffect(() => {
         localStorage.setItem("no-scroll", "no")
         document.body.classList.remove('no-scroll');
@@ -80,7 +80,7 @@ function Navbar_2(props) {
                     </div>
 
 
-                    <div className={`navbar_2_links overflow-hidden absolute z-10 md:static left-0 px-0 top-12 sm:top-14 transition-all duration-300 items-center justify-between h-max md:max-h-full ${!isToggled ? 'max-h-0' : 'max-h-[290px]'} w-full md:flex md:w-auto md:order-1`}>
+                    <div className={`navbar_2_links overflow-hidden absolute z-10 md:static left-0 px-0 top-20 sm:top-14 transition-all duration-300 items-center justify-between h-max md:max-h-full ${!isToggled ? 'max-h-0' : 'max-h-[290px]'} w-full md:flex md:w-auto md:order-1`}>
                         <ul className="overflow-hidden bg-[white] flex flex-col p-4 md:p-0 mt-4 font-medium md:border-none border-b border-[#a55e3f] md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0">
 
                             {
@@ -97,7 +97,7 @@ function Navbar_2(props) {
 
                             <li>
                                 <Link to={'/cart'} className="md:hidden block py-2 px-3 transition-all duration-300 focus:outline-none focus:ring-0 font-medium md:p-0 sm:px-4 sm:py-2">
-                                <ShoppingCartOutlined />
+                                    <ShoppingCartOutlined style={{ fontSize: "22px" }} />
                                 </Link>
                             </li>
 
@@ -106,45 +106,43 @@ function Navbar_2(props) {
 
 
                     <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-                            <div>
+                        <div>
 
-                        <Link to={'/cart'} className="hidden transition-all duration-300  focus:outline-none focus:ring-0 font-medium px-2 sm:px-4 sm:py-0 text-center md:flex justify-center items-center">
-                       
-                       
-                        <ShoppingCartOutlined   className='social_icons cart-icon' style={{fontSize: "22px"}}/>
-                       {carts.length > 0 && (
+                            <Link to={'/cart'} className="hidden transition-all duration-300  focus:outline-none focus:ring-0 font-medium px-2 sm:px-4 sm:py-0 text-center md:flex justify-center items-center">
 
-                           
-                           <span className='cart-number'>{carts.length}</span>
-                        )
-                       }
 
-                        
-                        </Link>
-                            </div>
-                            <Link to={'/my-orders'} className="hidden transition-all duration-300  focus:outline-none focus:ring-0 font-medium px-2 sm:px-4 sm:py-0 text-center md:flex justify-center items-center">
-                                {
-                                    (user?.role != "guest" && (cookies?.pk2 !== null || cookies.pk2 !== undefined)) ?
-                                    <ShoppingOutlined className='social_icons' style={{fontSize: "20px"}} />
-                                :
-
-                                <></>
-
+                                <ShoppingCartOutlined className='social_icons cart-icon' style={{ fontSize: "22px" }} />
+                                {carts.length > 0 && (
+                                    <span className='cart-number'>{carts.length}</span>
+                                )
                                 }
+
+
                             </Link>
+                        </div>
+                        <Link to={'/my-orders'} className="hidden transition-all duration-300  focus:outline-none focus:ring-0 font-medium px-2 sm:px-4 sm:py-0 text-center md:flex justify-center items-center">
+                            {
+                                (user?.role != "guest" && (cookies?.pk2 !== null || cookies.pk2 !== undefined)) ?
+                                    <ShoppingOutlined className='social_icons' style={{ fontSize: "20px" }} />
+                                    :
+
+                                    <></>
+
+                            }
+                        </Link>
                         <Tooltip title="Logout">
                             <Link to={'/sign-in'} className="hidden transition-all duration-300  focus:outline-none focus:ring-0 font-medium px-2 sm:px-4 sm:py-0 text-center md:flex justify-center items-center">
                                 {
                                     (user && (cookies?.pk2 !== null || cookies.pk2 !== undefined)) ?
-                                    <LogoutOutlined className='social_icons' style={{fontSize: "20px"}} />
-                                :
+                                        <LogoutOutlined className='social_icons' style={{ fontSize: "20px" }} />
+                                        :
 
-                                <></>
+                                        <></>
 
                                 }
                             </Link>
                         </Tooltip>
-                                
+
                         <button onClick={() => setisToggled(!isToggled)} type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center border border-[#a55e3f] bg-transparent rounded-none md:hidden focus:outline-none focus:border-[#a55e3f] focus:ring-0" aria-controls="navbar-sticky" aria-expanded="false">
                             <span className="sr-only">Open main menu</span>
                             <svg className="w-5 h-5 text-[#a55e3f]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
@@ -155,11 +153,6 @@ function Navbar_2(props) {
 
                 </div>
             </nav>
-
-
-
-
-
 
             <div className="navbar_2_border_bottom"></div>
 
