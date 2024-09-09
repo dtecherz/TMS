@@ -162,7 +162,6 @@ const MyOrders = () => {
                             <My_Button text={"Find"} htmlType="submit" customClass="login_btn" />
                         </Form>
 
-                        <small>New Here? &nbsp; <Link to="/sign-up" className='Link'> Create your Account </Link></small>
 
                     </div>
                     :

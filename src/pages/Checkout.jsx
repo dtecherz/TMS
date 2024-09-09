@@ -272,9 +272,47 @@ function Checkout() {
     };
     const [paymentMethod, setPaymentMethod] = useState("");
 
+
+    const getpaymentmethods = async () => {
+        try {
+            const response = await GetPaymentMethods()
+            setPaymentMethods(response.paymentMethods)
+           // Set default payment method
+        if (response.paymentMethods.length > 0) {
+            setPaymentMethod(response.paymentMethods[0]);
+            console.log(">>>>>>>>>>>>>>>>>>>>>MMMMMMMMMMMMMMMMMMMMMMMMMMM",paymentMethod)
+          
+        }
+        
+            setPaymentMethodData(response.paymentMethodDetails.filter(e => e.status == "active"))
+
+        } catch (error) {
+            console.log(error)
+            Alert(reponse.message, false)
+        }
+    }   
+    useEffect(() => {
+        if (paymentMethod && paymentMethod === "COD") {
+            const CODPaymentMethod = paymentMethodData.find(method => method.payment_type === "COD");
+    
+            if (CODPaymentMethod) {
+                setFormData((prevData) => ({
+                    ...prevData,
+                    payment_method: CODPaymentMethod._id
+                }));
+            }
+        } else if (paymentMethod) {
+            // If paymentMethod is not "COD", you can also set the payment method ID accordingly.
+            setFormData((prevData) => ({
+                ...prevData,
+                payment_method: paymentMethod._id
+            }));
+        }
+    }, [paymentMethod, paymentMethodData]);
+
     const onChangePaymentMethod = (e) => {
-        console.log('radio checked', e.target.value);
         setPaymentMethod(e.target.value);
+        console.log('radiochecked', e.target.value);
         if (e.target.value === "COD") {
             const CODPaymentMethod = paymentMethodData.find(method => method.payment_type === "COD");
             setFormData({ ...formData, payment_method: CODPaymentMethod._id })
@@ -592,18 +630,7 @@ function Checkout() {
 
 
 
-    const getpaymentmethods = async () => {
-        try {
-            const response = await GetPaymentMethods()
-            setPaymentMethods(response.paymentMethods)
-            setPaymentMethod(response.paymentMethods[0])
-            setPaymentMethodData(response.paymentMethodDetails.filter(e => e.status == "active"))
-
-        } catch (error) {
-            console.log(error)
-            Alert(reponse.message, false)
-        }
-    }
+   
 
     console.log('payyyy', paymentMethodData)
     const getCartData = async () => {
