@@ -1,7 +1,9 @@
-import { Space, Table, Tag } from 'antd';
+import { Button, Popconfirm, Space, Table, Tag } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { getProducts } from '../../ContextAPI/APIs/api';
+import { deleteProduct, getProducts } from '../../ContextAPI/APIs/api';
+import {HolderOutlined,QuestionCircleOutlined} from '@ant-design/icons'
+import { Alert } from '../../ContextAPI/Components/notify';
 
 function ProductList() {
     const location = useLocation();
@@ -19,6 +21,20 @@ function ProductList() {
             setProductLimitPerPage(res.ProductLimitPerPage);
         }
     };
+
+
+    const productDelete = async (id) =>{
+        console.log('idddd',id)
+        try {
+            const response = await deleteProduct(id)
+            if(response.success)  Alert(response.message,response.success)
+                GetProducts()
+
+        } catch (error) {
+            console.log(error)
+            Alert(error.message,false)
+        }
+    }
 
     useEffect(() => {
         GetProducts();
@@ -46,9 +62,14 @@ function ProductList() {
             key: 'totalQty',
         },
         {
-            title: 'Detail',
-            dataIndex: 'detail',
-            key: 'detail',
+            title: 'Edit',
+            dataIndex: 'edit',
+            key: 'edit',
+        },
+        {
+            title: 'Delete',
+            dataIndex: 'delete',
+            key: 'delete',
         },
     ];
 
@@ -60,7 +81,19 @@ function ProductList() {
             price: e.price,
             stockManagement: e.stock_management ? "Yes" : "No",
             totalQty: e.total_quantity,
-            detail: <Link to={`/product-detail/${e._id}`} className=''><button className='detail_btn'>Detail</button></Link>,
+            edit: <Link to={`/product-detail/${e._id}`} className=''><button className='detail_btn'>Edit</button></Link>,
+            delete: <Button  type="primary"  danger ghost>
+                <Popconfirm
+                                    title="Update the order status"
+                                    description="Are you sure you want to delete this product?"
+                                    icon={<QuestionCircleOutlined style={{ color: 'orange' }} />}
+                                    onConfirm={() => productDelete(e._id)}
+                                    okText="Yes"
+                                    cancelText="No"
+                                >
+                                    Delete
+                                </Popconfirm>
+            </Button>,
         };
     });
 

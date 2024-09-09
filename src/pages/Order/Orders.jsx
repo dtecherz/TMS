@@ -1,7 +1,7 @@
 import { Alert, Button, Dropdown, Menu, Popconfirm, Space, Table, Tag } from 'antd';
 import React, { useEffect, useState } from 'react'
 import { getAllOrders, updateOrderStatus } from '../../ContextAPI/APIs/api';
-import {HolderOutlined,QuestionCircleOutlined} from '@ant-design/icons'
+    import {HolderOutlined,QuestionCircleOutlined} from '@ant-design/icons'
 import { Link } from 'react-router-dom';
 
 function Orders() {

@@ -36,7 +36,15 @@
 
     const showModal = () => setIsModalOpen(true);
 
-    const handleOk = () => setIsModalOpen(false);
+    const handleOk = () => {
+      // Reset image selections to false after pressing OK
+      const deselectedImages = images.map(image => ({
+        ...image,
+        isSelected: false
+      }));
+      setImages(deselectedImages);
+      setIsModalOpen(false);  // Close the modal
+    };
 
     const handleCancel = () => setIsModalOpen(false);
 

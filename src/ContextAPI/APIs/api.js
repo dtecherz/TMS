@@ -193,9 +193,9 @@ export const updateProduct = async (id, body) => {
   }
 };
 
-export const deleteProduct = async (body) => {
+export const deleteProduct = async (id) => {
   try {
-    // return await CallAPI ('DELETE', `api/product/delete-product/${id}`)
+    return await CallAPI ('DELETE', `api/products/delete-product/${id}`)
   } catch (error) {
     throw error;
   }
