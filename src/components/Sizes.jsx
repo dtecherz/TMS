@@ -18,6 +18,8 @@ function Sizes({ data, selectedSize, setselectedSize, matchingVariant ,colors,se
             setselectedSize(sizes[0])
         }
     },[])
+
+
     return (
         <>
 

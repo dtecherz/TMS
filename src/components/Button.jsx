@@ -10,7 +10,7 @@ function My_Button(props) {
                         {props.text}
                     </Button>
                     :
-                    <Button type="link" block className={`btn ${props.customClass}`} htmlType={props.htmlType}    onClick={() => props.onClick()}>
+                    <Button type="link" block className={`btn ${props.customClass}`} htmlType={props.htmlType} onClick={() => props.onClick()}>
                         {props.text}
                     </Button>
             }

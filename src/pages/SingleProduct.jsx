@@ -27,7 +27,6 @@ import { useCookies } from 'react-cookie'
 function SingleProduct() {
 
 
-
     const { id } = useParams()
     const [cookies] = useCookies(['pk2'])
     console.log('pppp', cookies.pk2)
@@ -65,9 +64,6 @@ function SingleProduct() {
             Alert(response.message, false)
         }
     }
-
-
-
 
 
     const addItemInCart = async () => {

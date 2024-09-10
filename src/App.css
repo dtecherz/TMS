@@ -2210,6 +2210,7 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
 .tag {
   cursor: pointer;
   padding: 5px 10px;
+  text-transform: capitalize;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 5px;
