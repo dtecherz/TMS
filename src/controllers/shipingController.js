@@ -58,6 +58,78 @@ const shippingController = {
                 error:error.message
             })
         }
+    },
+
+
+
+    // delete shipping method 
+
+    async deleteShippingMethod (req,res){
+        try {
+            const shipping_id = req.params.id
+
+            const shippingMethod = await Shipping.findByIdAndDelete({_id:shipping_id})
+
+            if(!shippingMethod) return res.status(400).send({success:false,message:"no shipping method affected"})
+
+                return res.status(200).send({
+                    success:true,
+                    message:"shiping method deleted succesfully",
+                    shippingMethod:shippingMethod
+                })
+        } catch (error) {
+            console.log(error)
+            return res.status(400).send({
+                success:false,
+                message:"something went wrong while deleting this shipping method",
+                error:error.message
+            })
+        }
+    },
+
+
+
+    // update hipping method 
+
+
+    async updateShippingMethod(req,res){
+        try {
+            const shipping_id = req.params.id
+            const{name,charges,status} = req.body
+
+            const shippingMethod = await Shipping.findByIdAndUpdate(shipping_id,{name,charges,status})
+            if(!shippingMethod) return res.status(400).send({success:false,message:"error in updating "})
+                return res.status(200).send({success:true,message:"shipping method updated succesfully",shippingMethod:shippingMethod})
+        } catch (error) {
+            console.log(error)
+            return res.status(400).send({
+                success:false,
+                message:"something went wrong while updating this shipping method",
+                error:error.message
+            })
+        }
+    },
+
+
+
+
+    // get single shipping mthod 
+
+
+    async getSingleShippingMethod(req,res){
+        try {
+            const shipping_id= req.params.id
+            const shippingMethod = await Shipping.findOne({_id:shipping_id})
+            if(!shippingMethod) return res.status(400).send({success:false,message:"invalid shipping id"})
+                return res.status(200).send({success:true,message:"shipping mthod got succesfully",shippingMethod:shippingMethod})
+        } catch (error) {
+            console.log(error)
+            return res.status(400).send({
+                success:false,
+                message:"something went wrong while getting this shipping method",
+                error:error.message
+            })
+        }
     }
 }
 

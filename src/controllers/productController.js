@@ -100,10 +100,10 @@ const productController = {
             if (req.body.images) {
                 // Extract only the _id from each image object
                 updateData.images = req.body.images.map(image => image._id);
-                console.log("imggg",updateData.images)
-        }
-        
-        console.log('up',updateData)
+                console.log("imggg", updateData.images)
+            }
+
+            console.log('up', updateData)
             if (Object.keys(updateData).length > 0) {
                 const updatedProduct = await Product.findByIdAndUpdate(id, updateData);
 
@@ -136,12 +136,12 @@ const productController = {
     async getSingleProduct(req, res) {
         try {
             const product_id = req.params.id
-
+            console.log(';;;;;;;;;;;;;;;;;;;;;')
             // .populate({ path: 'images', select: 'image_url' })
 
             const product = await Product.findById(product_id)
                 .populate({ path: 'category_id', select: ['category_name', 'slug'] })
-                .populate({ path: 'images', select: ["image_url", "_id"] }) // "-" means don't include this field
+                .populate({ path: 'images', select: ["image_url", "_id"] })
                 .populate({
                     path: 'productConfig',
                     populate: [
@@ -150,6 +150,10 @@ const productController = {
                         { path: 'material', select: 'name' }
                     ]
                 });
+
+            if (!product) {
+                return res.status(404).send({ success: false, message: "Product not found" });
+            }
 
             // const relatedProducts = await Product.find({ category_id: product.category_id._id }).populate({ path: 'images', select: ["image_url", "-_id"] })
 

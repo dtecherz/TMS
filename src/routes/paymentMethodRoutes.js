@@ -10,5 +10,6 @@ router.post('/add-payment-method', verfiyToken,  paymentController.addPaymentMet
 router.get('/get-payment-method', paymentController.getPaymentMethods)
 router.put('/update-payment-method/:id',verfiyToken,paymentController.updateStatus)
 router.get('/get-single-payment-method/:id',verfiyToken,paymentController.getSinglePaymentMethod)
+router.delete('/delete-payment-method/:id',verfiyToken,paymentController.deletePaymentMethod)
 
 module.exports = router

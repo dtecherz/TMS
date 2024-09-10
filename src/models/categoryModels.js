@@ -1,21 +1,22 @@
 const mongoose = require('mongoose');
 
-slug = require('mongoose-slug-updater')
-    mongoose.plugin(slug)
+const slug = require('mongoose-slug-updater')
+mongoose.plugin(slug)
 
-var Schema = mongoose.Schema
 
- categorySchema = new mongoose.Schema({
+const categorySchema = new mongoose.Schema({
     parent_category_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'categories',
-        default: null
+        ref: 'categories'
     },
     category_name: {
         type: String,
         required: true
     },
-    slug: { type: String, slug: "category_name" },
+    slug: {
+        type: String,
+        slug: "category_name"
+    },
     status: {
         type: String,
         enum: ["active", "inactive"],
@@ -25,7 +26,7 @@ var Schema = mongoose.Schema
         type: Number,
         default: 0
     },
-    
+
 }, {
     timestamps: true // Automatically manage createdAt and updatedAt fields
 });

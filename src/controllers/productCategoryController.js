@@ -1,5 +1,5 @@
 const Category = require('../models/categoryModels')
-const  Product = require('../models/productModel')
+const Product = require('../models/productModel')
 
 const categoryController = {
 
@@ -46,23 +46,23 @@ const categoryController = {
         }
     },
 
-    async updateCategory(req, res) {
-        try {
-            const category_id = req.params.id
-            const { category_name, parent_category_id, status } = req.body
+        async updateCategory(req, res) {
+            try {
+                const category_id = req.params.id
+                const { category_name, parent_category_id, status } = req.body
+                console.log(';;;;',req.body)
+                const categoryUpdate = await Category.findByIdAndUpdate(category_id, { category_name, parent_category_id, status })
 
-            const categoryUpdate = await Category.findOneAndUpdate(category_id, { category_name, parent_category_id, status })
-
-            return res.status(200).send({ success: true, message: "category updated succesfully", category: categoryUpdate })
-        } catch (error) {
-            console.log(error);
-            return res.status(400).send({
-                success: false,
-                message: "Something went wrong while adding category",
-                error: error.message
-            });
-        }
-    },
+                return res.status(200).send({ success: true, message: "category updated succesfully", category: categoryUpdate })
+            } catch (error) {
+                console.log(error);
+                return res.status(400).send({
+                    success: false,
+                    message: "Something went wrong while adding category",
+                    error: error.message
+                });
+            }
+        },
 
 
 
@@ -93,14 +93,25 @@ const categoryController = {
 
     async getSingleCategory(req, res) {
         try {
+
+            console.log("------------------------------------------");
+            console.log("------------------------------------------");
+            console.log("------------------------------------------");
+            console.log("------------------------------------------");
+            console.log("------------------------------------------");
+            
+            
             const category_id = req.params.id
-            const Category = await Category.findById(category_id)
+            const category = await Category.findById(category_id)
+                .populate({path: 'parent_category_id', select: ["category_name"]});
+
+            console.log('catgeory', category)
 
             if (Category.length == 0) {
                 return res.status(400).send({ success: false, message: "category does not found" })
 
             }
-            return res.status(200).send({ success: true, message: "category got succesfully", category: Category })
+            return res.status(200).send({ success: true, message: "category got succesfully", category: category })
         } catch (error) {
             console.log(error);
             return res.status(400).send({
@@ -120,7 +131,7 @@ const categoryController = {
             };
 
 
-            const Categories = await Category.find(query).populate('parent_category_id')
+            const Categories = await Category.find(query).populate({path: 'parent_category_id', select: ["category_name"]})
             return res.status(200).send({ success: true, message: "categories got succesfully", categories: Categories })
 
         } catch (error) {
@@ -155,29 +166,29 @@ const categoryController = {
 
     // count product in single category 
 
-    async countProductInCategory(req,res){
+    async countProductInCategory(req, res) {
         try {
             const categoryProducts = await Product.aggregate([
                 {
-                  $group: {
-                    _id: "$category_id", count: { $sum: 1}
-                  }
+                    $group: {
+                        _id: "$category_id", count: { $sum: 1 }
+                    }
                 }
-              ])
+            ])
 
 
-              console.log("categoryProducts",categoryProducts)
-              return res.status(200).send({
-                success:true,
-                message:"categories with products count got successfully",
-                categories:categoryProducts
-              })
+            console.log("categoryProducts", categoryProducts)
+            return res.status(200).send({
+                success: true,
+                message: "categories with products count got successfully",
+                categories: categoryProducts
+            })
         } catch (error) {
             console.log(error)
             return res.status(400).send({
-                success:false,
-                message:"something went wrong while counting product on categories",
-                error:error.message
+                success: false,
+                message: "something went wrong while counting product on categories",
+                error: error.message
             })
         }
 

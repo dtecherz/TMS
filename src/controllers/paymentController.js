@@ -143,6 +143,29 @@ const paymentController = {
                 error: error.message
             })
         }
+    },
+
+
+    // delete payment method 
+
+    async deletePaymentMethod (req,res){
+        try {
+            const payment_id = req.params.id
+            const paymentMethod = await Payment.findByIdAndDelete({_id:payment_id})
+            if(!paymentMethod) return res.status(400).send({success:false,message:"No affected any payment method"})
+                return res.status(200).send({
+           success:true,
+           message:"payment method deleted succesfully",
+           paymentMethod:paymentMethod 
+                })
+        } catch (error) {
+            console.log(error)
+            return res.status(400).send({
+                success:false,
+                message:"something went wrong while deleting payment method",
+                error:error.message
+            })
+        }
     }
 
 
