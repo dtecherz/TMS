@@ -28,6 +28,8 @@ import PaymentMethods from './pages/Payment/PaymentMethods';
 import OrderTracking from './pages/Order/OrderTracking';
 import ShippingMethods from './pages/Shipping/ShippingMethods';
 import AddShippingMethod from './pages/Shipping/AddShippingMethod';
+import EditCategory from './pages/Category/EditCategory';
+import EditShippingMethods from './pages/Shipping/EditShippingMethods';
 
 
 
@@ -52,6 +54,7 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/users" element={<Users />} />
         <Route path="/category-list" element={<CategoryList />} />
+        <Route path="/edit-category/:id" element={<EditCategory />} />
         <Route path="/create-category" element={<CreateCategory />} />
         <Route path="/variation-list" element={<VariationsList />} />
         <Route path="/variation-option-list/:id" element={<VariationOptionList />} />
@@ -69,6 +72,7 @@ function App() {
         <Route path="/order-tracking/:id" element={<OrderTracking />} />
         <Route path="/shipping-methods" element={<ShippingMethods />} />
         <Route path="/add-shipping-method" element={<AddShippingMethod />} />
+        <Route path="/edit-shipping-method/:id" element={<EditShippingMethods />} />
       </Route>
     </Routes>
     </>

@@ -1,8 +1,11 @@
-import { Table, Tag } from 'antd'
+import { Button, Popconfirm, Table, Tag } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { GetCategories, GetShippingMethod } from '../../ContextAPI/APIs/api'
+import { deleteShippingMethod, GetCategories, GetShippingMethod } from '../../ContextAPI/APIs/api'
 import { Link } from 'react-router-dom'
 import formatDate from '../../helpers/dateFormater'
+import {HolderOutlined,QuestionCircleOutlined} from '@ant-design/icons'
+import { Alert } from '../../ContextAPI/Components/notify'
+
 
 const ShippingMethods = () => {
 
@@ -17,6 +20,20 @@ const ShippingMethods = () => {
     } catch (error) {
       console.log(error)
       Alert(error.message, false)
+    }
+  }
+
+
+  // deleet shipping method 
+
+  const shippingMethodDelete = async (id) =>{
+    try {
+      const response = await deleteShippingMethod(id)
+      if(response.success) Alert(response.message,response.success)
+        getAllShippingMethods()
+    } catch (error) {
+      console.log(error)
+      Alert(error.message,false)
     }
   }
 
@@ -54,6 +71,16 @@ const ShippingMethods = () => {
         </>
       ),
     },
+    {
+      title:"Edit",
+      dataIndex:"edit",
+      key:"edit"
+    },
+    {
+      title:"Delete",
+      dataIndex:"delete",
+      key:"delete"
+    }
    
    
   ];
@@ -66,6 +93,19 @@ const ShippingMethods = () => {
       name: e.name,
       charges: e.charges ,
       status: [e.status],
+      edit:<Link to={`/edit-shipping-method/${e._id}`}><button className='detail_btn'>Edit</button></Link>,
+      delete: <Button  type="primary"  danger ghost>
+            <Popconfirm
+                                title="Update the order status"
+                                description="Are you sure you want to delete this Category?"
+                                icon={<QuestionCircleOutlined style={{ color: 'orange' }} />}
+                                onConfirm={() => shippingMethodDelete(e._id)}
+                                okText="Yes"
+                                cancelText="No"
+                            >
+                                Delete
+                            </Popconfirm>
+        </Button>,
     
      
 

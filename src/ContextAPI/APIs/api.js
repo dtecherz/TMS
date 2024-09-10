@@ -144,6 +144,37 @@ export const addCategory = async (body) => {
   }
 };
 
+export const singleCategory = async (id)=>{
+  console.log('ooo',id)
+  try {
+    return await CallAPI("GET",`api/product-category/get-single/${id}`)
+  } catch (error) {
+    throw error
+  }
+}
+
+
+export const deleteCategory = async (id) =>{
+  try {
+    return await CallAPI("DELETE", `api/product-category/delete-category/${id}`)
+  } catch (error) {
+    throw error
+  }
+}
+
+
+
+export const updateCategory = async (id, body) => {
+  try {
+    return await CallAPI('PUT', `api/product-category/update-category/${id}`, body)
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+
+
 
 
 /** --------------- SUB-CATEGORY --------------- **/
@@ -154,6 +185,7 @@ export const addSubCategory = async (body) => {
     throw error;
   }
 };
+
 
 /** ------------------ COLORS ------------------ **/
 export const addColors = async (body) => {
@@ -701,6 +733,43 @@ export const addShippingMethods = async (body) => {
     throw error;
   }
 };
+
+// deleete shipping method 
+
+export const deleteShippingMethod = async (id) =>{
+  try {
+    return await CallAPI('DELETE',`api/shipping/delete-shipping-method/${id}`)
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+
+// update shipping mthod 
+
+
+export const updateShippingMethod = async (id,body) =>{
+  try {
+    
+    return await CallAPI('PUT',`api/shipping/update-shipping-method/${id}`,body)
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+
+
+// get single shipping method 
+
+export const getSingleShippingMethod = async (id) =>{
+  try {
+    return await CallAPI('GET',`api/shipping/get-single/${id}`)
+  } catch (error) {
+    throw error
+  }
+}
 
 
 

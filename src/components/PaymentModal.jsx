@@ -10,7 +10,9 @@ const PaymentModal = (props) => {
 
     const showModal = () => {
         setIsModalOpen(true);
-        props.onOpen()
+        if (props.onOpen) {
+            props.onOpen(); // Call the onOpen function if it's passed as a prop
+        }
     };
 
     const handleOk = () => {

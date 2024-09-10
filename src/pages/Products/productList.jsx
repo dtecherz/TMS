@@ -77,7 +77,7 @@ function ProductList() {
         return {
             key: i + 1,
             name: e.name,
-            category: e.category_id.category_name,
+            category: e.category_id?.category_name,
             price: e.price,
             stockManagement: e.stock_management ? "Yes" : "No",
             totalQty: e.total_quantity,

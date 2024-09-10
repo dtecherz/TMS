@@ -1,9 +1,11 @@
-import { Space, Table, Tag } from 'antd';
+import { Button, Popconfirm, Space, Table, Tag } from 'antd';
 import React, { useEffect, useState } from 'react'
 import { Alert } from '../../ContextAPI/Components/notify';
-import { GetCategories } from '../../ContextAPI/APIs/api';
+import { deleteCategory, GetCategories } from '../../ContextAPI/APIs/api';
 import formatDate from '../../helpers/dateFormater';
 import { Link } from 'react-router-dom';
+import {HolderOutlined,QuestionCircleOutlined} from '@ant-design/icons'
+
 
 function CategoryList() {
 
@@ -20,6 +22,19 @@ function CategoryList() {
         } catch (error) {
             console.log(error)
             Alert(error.message, false)
+        }
+    }
+
+
+    const catgoryDelete = async (id)=>{
+        try {
+            const response = await deleteCategory(id)
+            if(response.success) 
+                 Alert(response.message,response.success)
+           return  getAllCategories()
+        } catch (error) {
+            console.log(error)
+            Alert(error.message,false)
         }
     }
 
@@ -66,6 +81,16 @@ function CategoryList() {
             title: 'Created At',
             dataIndex: 'createdAt',
             key: 'createdAt',
+        },
+        {
+            title: 'Edit',
+            dataIndex: 'edit',
+            key: 'edit',
+        },
+        {
+            title: 'Delete',
+            dataIndex: 'delete',
+            key: 'delete',
         }
     ];
 
@@ -78,7 +103,21 @@ function CategoryList() {
             parentcategory: e.parent_category_id ? e.parent_category_id.category_name : "---",
             status: [e.status],
             createdAt: formatDate(e.createdAt),
-            pcount:e.pCount 
+            pcount:e.pCount ,
+            edit:<Link to={`/edit-category/${e._id}`}><button className='detail_btn'>Edit</button></Link>,
+            delete: <Button  type="primary"  danger ghost>
+            <Popconfirm
+                                title="Update the order status"
+                                description="Are you sure you want to delete this Category?"
+                                icon={<QuestionCircleOutlined style={{ color: 'orange' }} />}
+                                onConfirm={() => catgoryDelete(e._id)}
+                                okText="Yes"
+                                cancelText="No"
+                            >
+                                Delete
+                            </Popconfirm>
+        </Button>,
+
             
         }
     })
