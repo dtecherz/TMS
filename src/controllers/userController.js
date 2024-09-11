@@ -112,6 +112,8 @@ const userController = {
       const { guestUserId, email, password } = req.body;
 
       if (!guestUserId) {
+        console.log("email", req.body.email);
+        
         const user = await User.findOne({ email });
 
         if (!user) {
