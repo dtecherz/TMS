@@ -62,11 +62,11 @@ function ProductVariationList() {
         return {
             key: i + 1,
             productID: i + 1,
-            size: e.size.name,
-            color: e.color.name,
-            material: e.material ? e.material.name : "null",
-            stockQty: e.stock_quantity,
-            price: e.price,
+            size: e?.size?.name || "---",
+            color: e?.color?.name || "---",
+            material: e?.material ? e?.material?.name : "---",
+            stockQty: e?.stock_quantity,
+            price: e?.price,
         }
     })
 
