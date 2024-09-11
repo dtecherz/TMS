@@ -2,7 +2,8 @@ const bcrypt = require('bcrypt');
 const User = require('../models/userModel'); // Adjust the path to your model
 const Cart = require('../models/cartModel')
 const CartItem = require('../models/cartItemModel')
-const jwt = require('../middlware/jwt')
+const jwt = require('../middlware/jwt');
+const { addLog } = require('../services/logQueries');
 
 const userController = {
   async register(req, res) {
@@ -51,6 +52,13 @@ const userController = {
 
       // Save the user to the database
       const savedUser = await user.save();
+      const user_id = savedUser._id 
+
+      // add log 
+
+      await addLog(user_id, "register", { name, email });
+
+
 
       return res.status(200).send({
         success: true,
@@ -128,6 +136,12 @@ const userController = {
           userId: user._id,
           email: user.email,
         }, { expiresIn: '1h' });
+        let name = user.name
+        let email = user.email
+
+
+      await addLog(user._id, "login", { name, email });
+
 
         return res.status(200).send({
           success: true,
@@ -137,6 +151,13 @@ const userController = {
         });
       }
 
+
+
+
+      // for guest user id if avialable 
+
+
+      
       const user = await User.findOne({ email });
 
       if (!user) {

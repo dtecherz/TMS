@@ -5,7 +5,9 @@ const Cart = require('../models/cartModel')
 const CartItem = require('../models/cartItemModel')
 const OrderLine = require('../models/orderLineModel')
 const Payment = require('../models/paymentModel')
-const Shipping = require('../models/shippingModel')
+const Shipping = require('../models/shippingModel');
+const { addLog } = require('../services/logQueries');
+const LogModal = require('../models/LogModal');
 
 
 const orderController = {
@@ -42,8 +44,8 @@ const orderController = {
 
             const imagesData = [];
             let img
-            const user_id = req.user.userId
-            console.log('req.user',req.user)
+            const user_id = req.user.userId || "guestUser"
+            console.log('req.user', req.user)
             const email = req.user.email
             const delivery_charges = deliver_charges
             console.log("deliver_charges", delivery_charges)
@@ -119,7 +121,6 @@ const orderController = {
                 subTotalPrice += itemPrice;
             });
 
-
             console.log('cartItems', cartItems)
             console.log('total', subTotalPrice)
             const totalPrice = subTotalPrice + shipping_charges
@@ -142,9 +143,9 @@ const orderController = {
 
 
             const orders = await Order.countDocuments()
-            console.log('ordersss',orders)
+            console.log('ordersss', orders)
             const newOrder = new Order({
-                order_id:1000 +orders + 1,
+                order_id: 1000 + orders + 1,
                 user_id: user_id,
                 first_name: first_name,
                 last_name: last_name,
@@ -204,6 +205,8 @@ const orderController = {
             // Delete cart items
             const deleteCartItems = await CartItem.deleteMany({ cart_id: cart_id });
             console.log('Deleted cart items:', deleteCartItems);
+
+            await addLog(user_id , "Order", { order_id, Order_status });
 
             return res.status(200).send({
                 success: true,
@@ -410,24 +413,24 @@ const orderController = {
 
         try {
             console.log("function invoked");
-        
+
             // Parse cartItems if it's a string
             let cartItems = req.body.cartItems;
             if (typeof cartItems === "string") {
                 cartItems = JSON.parse(cartItems);
             }
-        
+
             // Ensure cartItems is an array
             if (!Array.isArray(cartItems)) {
                 return res.status(400).send({ success: false, message: "cartItems must be an array" });
             }
-        
+
             console.log("req.body---->", req.body);
             console.log('cartItems', cartItems);
-        
+
             const imagesData = [];
             let img;
-        
+
             // Validate required fields
             const {
                 first_name,
@@ -449,7 +452,7 @@ const orderController = {
                 payment_method,
                 sub_total
             } = req.body;
-        
+
             if (!first_name) return res.status(400).send({ success: false, message: "first name is required" });
             if (!last_name) return res.status(400).send({ success: false, message: "last_name is required" });
             if (!phone) return res.status(400).send({ success: false, message: "phone is required" });
@@ -462,21 +465,21 @@ const orderController = {
             if (!state) return res.status(400).send({ success: false, message: "state is required" });
             if (!payment_method) return res.status(400).send({ success: false, message: "payment method is required" });
             if (!shiping_method) return res.status(400).send({ success: false, message: "shipping method is required" });
-        
+
             if (Biling_addres_select === true) {
                 if (!billing_address) return res.status(400).send({ success: false, message: "billing_address  is required" });
                 if (!billing_region) return res.status(400).send({ success: false, message: "billing_region  is required" });
                 if (!billing_city) return res.status(400).send({ success: false, message: "billing_city  is required" });
                 if (!billing_postal_code) return res.status(400).send({ success: false, message: "billing_postal_code  is required" });
             }
-        
+
             const shippingMethod = await Shipping.findOne({ _id: shiping_method });
             if (!shippingMethod) return res.status(400).send({ success: false, message: "invalid shipping method " });
-        
+
             let shipping_charges = shippingMethod.charges;
             let subTotalPrice = sub_total; // Assuming `sub_total` is sent as part of the request body
             const totalPrice = subTotalPrice + shipping_charges;
-        
+
             const paymentMethod = await Payment.findOne({ _id: payment_method });
             if (paymentMethod.payment_type !== "COD" && !req.files.images) {
                 return res.status(400).send({ success: false, message: "payment invoice receipt is required" });
@@ -486,11 +489,11 @@ const orderController = {
                 });
                 img = imagesData.join(',');
             }
-        
+
             const orders = await Order.countDocuments()
 
             const newOrder = new Order({
-                order_id:1000+orders + 1,
+                order_id: 1000 + orders + 1,
                 first_name,
                 last_name,
                 email,
@@ -514,18 +517,18 @@ const orderController = {
                 billing_phone,
                 total: totalPrice
             });
-        
+
             await newOrder.save();
             console.log('neworder', newOrder);
-        
+
             const orderId = newOrder._id;
             let orderLineData = [];
-        
+
             cartItems.forEach((item) => {
                 const basePrice = item.product_id.price;
                 const configPrice = item.product_config_id ? item.product_config_id.price : 0;
                 const itemPrice = basePrice + configPrice;
-        
+
                 let singleOrderLine = {
                     order_id: orderId,
                     product_id: item.product_id._id,
@@ -535,16 +538,16 @@ const orderController = {
                 };
                 orderLineData.push(singleOrderLine);
             });
-        
+
             const newOrderLines = await OrderLine.insertMany(orderLineData);
             console.log('newOrderLines', newOrderLines);
-        
+
             return res.status(200).send({
                 success: true,
                 message: "order placed successfully",
                 orderData: newOrder
             });
-        
+
         }
 
 
@@ -618,6 +621,7 @@ const orderController = {
     // get single roder details with products 
 
     async getSingleOrderDetail(req, res) {
+        console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
         try {
             const order_id = req.params.id;
             const orderDetail = await OrderLine.find({ order_id: order_id })
@@ -651,11 +655,21 @@ const orderController = {
                 _id: orderDetail[0].order_id._id
             } : null;
 
+
+            console.log('orderdetail', orderDetail)
+            const orderId = orderDetail[0].order_id.order_id
+            console.log('orderId', orderId)
+            const orderLog = await LogModal.find({ "details.orderId": orderId })
+
+            console.log('iiiiiiiiiii', orderLog)
+
+    
             return res.status(200).send({
                 success: true,
                 message: "Order details retrieved successfully",
                 orderDetail: orderDetail,
-                orderInfo: orderInfo
+                orderInfo: orderInfo,
+                orderLog:orderLog
             });
         } catch (error) {
             console.log(error)
@@ -723,21 +737,63 @@ const orderController = {
     // update order status 
 
 
+    // async updateOrderStatus(req, res) {
+    //     try {
+    //         const user_id= req.user.userId
+    //         const order_id = req.params.id;
+    //         const Order_status = req.body.Order_status;
+    //         const order = await Order.findOneAndUpdate(
+    //             { _id: order_id },
+    //             { Order_status: Order_status },
+    //             { new: true } // This ensures the updated document is returned
+    //         );
+    //         if (!order) throw new Error('Order not found');
+    //         return res.status(200).send({
+    //             success: true,
+    //             message: "Order status updated successfully",
+    //             order: order
+    //         });
+    //         addLog(user_id,"Order",{_id,Order_status})
+
+    //     } catch (error) {
+    //         console.log(error);
+    //         return res.status(400).send({
+    //             success: false,
+    //             message: "Something went wrong while updating status",
+    //             error: error.message
+    //         });
+    //     }
+    // }
+
+
+
     async updateOrderStatus(req, res) {
         try {
+            const user_id = req.user.userId  || "guestUser";
             const order_id = req.params.id;
             const Order_status = req.body.Order_status;
+
+
+            const orders = await Order.findOne({ _id: order_id })
+
+            const orderId = orders.order_id || 1234
             const order = await Order.findOneAndUpdate(
                 { _id: order_id },
                 { Order_status: Order_status },
                 { new: true } // This ensures the updated document is returned
             );
+
             if (!order) throw new Error('Order not found');
+
+            // Call the log function here with appropriate details
+            await addLog(user_id, "Order", { orderId, Order_status });
+
             return res.status(200).send({
                 success: true,
                 message: "Order status updated successfully",
                 order: order
             });
+
         } catch (error) {
             console.log(error);
             return res.status(400).send({
@@ -747,6 +803,7 @@ const orderController = {
             });
         }
     }
+
 
 }
 
