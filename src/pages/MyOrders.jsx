@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Navbar_2 from '../components/Navbar_2';
 import Footer from '../components/Footer';
-import { Form, Input, Table } from 'antd';
+import { Form, Input, Table, Tag } from 'antd';
 import { getGuestUserOrders, getOrders } from '../ContextAPI/APIs/api';
 import { Alert } from '../ContextAPI/Components/notify';
 import { Link } from 'react-router-dom';
@@ -27,7 +27,7 @@ const MyOrders = () => {
             name: data.first_name,
             email: data.email,
             amount: data.total,
-            status: data.Order_status,
+            status: [data.Order_status],
             date: data.createdAt,
             detail: <Link to={`/order-tracking/${data._id}`} className='btn-detail'>Detail</Link>,
         };
@@ -58,6 +58,19 @@ const MyOrders = () => {
             title: 'Status',
             dataIndex: 'status',
             key: 'status',
+            render: (_, { status }) => (
+                <>
+                    {status.map((tag) => {
+                        let color = tag.length > 5 ? 'geekblue' : 'green';
+                        if (tag === 'loser') color = 'volcano';
+                        return (
+                            <Tag color={color} key={tag}>
+                                {tag.toUpperCase()}
+                            </Tag>
+                        );
+                    })}
+                </>
+            ),
         },
         {
             title: 'Date',

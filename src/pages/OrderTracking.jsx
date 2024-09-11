@@ -11,13 +11,16 @@ import { handleImageError } from '../helpers/imgHandler'
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Button, Popconfirm } from 'antd';
 import formatter from '../helpers/formatter'
+import moment from 'moment';
 
 function OrderTracking() {
 
     const [orderDetail, setOrderDetail] = useState([])
     const [order_total, setOrder_Total] = useState("")
     const [Order_status, setOrder_statue] = useState("")
-    const [orderId,setOrderId] = useState("")
+    const [orderId, setOrderId] = useState("")
+    const [delivered, setDeliverd] = useState("")
+    const [orderLog, setOrderLog] = useState([])
     const { id } = useParams()
 
     const orderDetailsWithProduct = async () => {
@@ -29,6 +32,10 @@ function OrderTracking() {
                 setOrder_Total(response.orderInfo.total)
                 setOrder_statue(response.orderInfo.Order_status)
                 setOrderId(response.orderDetail[0]?.order_id?.order_id)
+                setDeliverd(response.orderLog.filter(e => e.details.Order_status == "delivered"))
+                setOrderLog(response.orderLog.filter(e => e.details.Order_status != "delivered"))
+
+                console.log('ddd', Date.now('YYYY-MM-DD'))
             }
         } catch (error) {
             console.log(error)
@@ -58,6 +65,9 @@ function OrderTracking() {
     };
 
     console.log('orderdetail', orderId)
+    console.log('orderlog', orderLog)
+    console.log('deliver', delivered)
+
 
     useEffect(() => {
         orderDetailsWithProduct()
@@ -90,7 +100,7 @@ function OrderTracking() {
 
                                             <div>
                                                 <a href="#" className=" flex-1 font-medium font-[Alegreya] text-gray-900 hover:text-[#a55e3f] dark:text-white">
-                                                    {o?.product_id.short_description}
+                                                    {o?.product_id?.short_description}
                                                 </a>
                                                 <div className="config" style={{ color: "white" }}>
                                                     {o.product_config_id?.color && (
@@ -179,21 +189,26 @@ function OrderTracking() {
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
                                             </svg>
                                         </span>
-                                        <h4 className="!mb-0.5 text-base font-semibold text-gray-900 dark:text-white">Today</h4>
-                                        <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Products being delivered</p>
+                                        <h4 className="!mb-0.5 text-base font-semibold text-gray-900 dark:text-white">   {moment(delivered[0]?.createdAt).isSame(moment(), 'day')
+                                            ? "Today"
+                                            : moment(delivered[0]?.createdAt).format('MMMM D, YYYY h:mm A')}</h4>
+                                        <p className="text-sm font-normal text-gray-500 dark:text-gray-400">{delivered[0]?.details.Order_status}</p>
                                     </li>
+                                    {orderLog?.map((e, i) => {
 
-                                    <li className="mb-10 ms-6 text-primary-700 dark:text-primary-500">
-                                        <span className="absolute -start-3 flex h-6 w-6 items-center justify-center rounded-full bg-[#dbeafe] ring-8 ring-white dark:bg-primary-900 dark:ring-gray-800">
-                                            <svg className="h-4 w-4 text-[#a55e3f]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5" />
-                                            </svg>
-                                        </span>
-                                        <h4 className="!mb-0.5 font-semibold">23 Nov 2023, 15:15</h4>
-                                        <p className="text-sm">Products in the courier's warehouse</p>
-                                    </li>
+                                        return <li className="mb-10 ms-6 text-primary-700 dark:text-primary-500">
+                                            <span className="absolute -start-3 flex h-6 w-6 items-center justify-center rounded-full bg-[#dbeafe] ring-8 ring-white dark:bg-primary-900 dark:ring-gray-800">
+                                                <svg className="h-4 w-4 text-[#a55e3f]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5" />
+                                                </svg>
+                                            </span>
+                                            <h4 className="!mb-0.5 font-semibold">{moment(e?.createdAt).format('MMMM D, YYYY h:mm A')}</h4>
+                                            <p className="text-sm" style={{ color: "#ffff" }}>{e.details?.Order_status}</p>
+                                        </li>
+                                    })
+                                    }
 
-                                    <li className="mb-10 ms-6 text-primary-700 dark:text-primary-500">
+                                    {/* <li className="mb-10 ms-6 text-primary-700 dark:text-primary-500">
                                         <span className="absolute -start-3 flex h-6 w-6 items-center justify-center rounded-full bg-[#dbeafe] ring-8 ring-white dark:bg-primary-900 dark:ring-gray-800">
                                             <svg className="h-4 w-4 text-[#a55e3f]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5" />
@@ -223,12 +238,12 @@ function OrderTracking() {
                                             <h4 className="!mb-0.5 font-semibold">19 Nov 2023, 10:45</h4>
                                             <a href="#" className="text-sm font-medium hover:underline">Order placed - Receipt #647563</a>
                                         </div>
-                                    </li>
+                                    </li> */}
                                 </ol>
 
                                 <div className="gap-4 sm:flex sm:items-center ">
                                     {console.log('orderstatus', Order_status)}
-                                    {Order_status === "pending" ? (
+                                    {Order_status === "order-placed" ? (
                                         <Popconfirm
                                             className='pop_up'
                                             title="Cancel the order"

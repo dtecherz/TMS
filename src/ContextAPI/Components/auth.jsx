@@ -145,9 +145,9 @@ export const AuthProvider = ({ children }) => {
         removeCookie("pk2");
         // await delay(5000);  // Wait for 100ms to ensure the cookie is removed
         // setCookie('pk2',"")
-        // navigate('/sign-in');
+        navigate('/sign-in');
 
-        window.location.href = "/sign-in"
+        // window.location.href = "/sign-in"
         console.log("hiiii");
         console.log("hello");
     }
