@@ -64,6 +64,7 @@ const productController = {
     async updateProduct(req, res) {
         try {
             const id = req.params.id;
+            // const slug = req.params.slug
 
             let updateData = {};
             if (req.body.category_id) {
@@ -135,11 +136,12 @@ const productController = {
     // get single product 
     async getSingleProduct(req, res) {
         try {
-            const product_id = req.params.id
+            // const product_id = req.params.id
+            const slug = req.params.slug
             console.log(';;;;;;;;;;;;;;;;;;;;;')
             // .populate({ path: 'images', select: 'image_url' })
 
-            const product = await Product.findById(product_id)
+            const product = await Product.findOne({slug:slug})
                 .populate({ path: 'category_id', select: ['category_name', 'slug'] })
                 .populate({ path: 'images', select: ["image_url", "_id"] })
                 .populate({
@@ -150,17 +152,18 @@ const productController = {
                         { path: 'material', select: 'name' }
                     ]
                 });
-
+                
             if (!product) {
                 return res.status(404).send({ success: false, message: "Product not found" });
             }
-
+            const product_id = product._id
+            // console.log('ppp',product)
             // const relatedProducts = await Product.find({ category_id: product.category_id._id }).populate({ path: 'images', select: ["image_url", "-_id"] })
 
             // Fetch related products, excluding the current product
             const relatedProducts = await Product.find({
-                category_id: product.category_id._id,
-                _id: { $ne: product_id } // Exclude the current product
+                category_id: product.category_id?._id,
+                slug: { $ne: slug } // Exclude the current product
             }).populate({ path: 'images', select: ["image_url", "-_id"] });
             const getViewdproduct = await ViewsModel.findOne({ product_id: product_id })
 

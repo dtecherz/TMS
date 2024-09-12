@@ -11,5 +11,7 @@ router.post('/add-product-config',verfiyToken,productConfigController.addProduct
 router.get('/get-product-config/:product_id',verfiyToken,productConfigController.getsingleProductVariations)
 router.get('/get',verfiyToken,productConfigController.getAllproductVariations)
 
+router.put('/update-product-config/:id',verfiyToken,productConfigController.updateProductVariation)
+router.get('/get-single-variant/:id',verfiyToken,productConfigController.getSingleVariant)
 
 module.exports = router

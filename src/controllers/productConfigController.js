@@ -1,53 +1,14 @@
 
 const Product = require('../models/productModel')
-const productConfig = require('../models/productConfigModel')
+const productConfig = require('../models/productConfigModel');
+// const productConfigModel = require('../models/productConfigModel');
 
 const productConfigController={
         
 
     async addProductConfig(req,res){
-    //     try {
-    //        const productConfigData = req.body
-    //   let sumOfVariantQuantity = productConfigData.reduce((acc, res) => (acc + parseInt(res.stock_quantity, 10)), 0);
-           
-    //   const product = await Product.findOne({_id:productConfigData[0].product_id})
-    //   const totalQuantityOfProduct = product.total_quantity
+      
 
-    //   if(totalQuantityOfProduct != null){
-
-    //       if(sumOfVariantQuantity>totalQuantityOfProduct){
-    //           return res.status(400).send({ success: false, message: "Stock quantity limit exceeded 1" });
-              
-    //         }
-    //     }
-
-    //     const ProductConfigQuery = await productConfig.find({product_id:productConfigData[0].product_id})
-
-    //     if(ProductConfigQuery.length !== 0){
-
-    //         let quantityFromDatabase = ProductConfigQuery.reduce((acc, res) => (acc + parseInt(res.stock_quantity, 10)), 0);
-
-    //         if(totalQuantityOfProduct != null){
-    //             if((sumOfVariantQuantity + quantityFromDatabase) > totalQuantityOfProduct){
-    //                 return res.status(400).send({ success: false, message: "Stock quantity limit exceeded 2" });
-
-    //             }
-    //         }
-
-    //         const newProductConfig = new productConfig.insertMany(productConfigData)
-
-    //         console.log("newProductConfig",newProductConfig)
-            
-    //     }else{
-            
-    //         const newProductConfig = new productConfig.insertMany(productConfigData)
-            
-    //         console.log("newProductConfig",newProductConfig)
-    //         // await newProductConfig.save()
-    //     }
-
-
-    //     }
     try {
         const productConfigData = req.body;
         console.log('productConfig',productConfigData)
@@ -167,6 +128,82 @@ const productConfigController={
           success:false,
           messag:"something went wrong while getting product config",
           error:error.message
+        })
+      }
+    },
+
+
+
+
+    // update produuct variation / config 
+
+    async updateProductVariation(req,res){
+      try {
+        const product_config_id = req.params.id
+        const {size,color,material,price,stock_quantity} = req.body
+
+        const updateVariant = {}
+        if(size){
+          updateVariant.size=req.body.size
+        }
+        if(color){
+          updateVariant.color=req.body.color
+        }
+        if(material){
+          updateVariant.material=req.body.material
+        }
+        if(price){
+          updateVariant.price=req.body.price
+        }
+        if(stock_quantity){
+          updateVariant.stock_quantity=req.body.stock_quantity
+        }
+        
+        const productVariant = await productConfig.findByIdAndUpdate(product_config_id,updateVariant)
+
+        if(!productVariant){
+          return res.status(400).send({
+            success:false,
+            message:"no product variant found",
+
+          })
+        }
+
+        return res.status(200).send({
+          success: true,
+          message: "Updated successfully",
+          productVariant: productVariant
+      });
+
+      } catch (error) {
+        console.log(error)
+        return res.status(400).send({
+          success:false,
+          message:"something went wrong while updating",
+          error:error.messag
+        })
+      }
+    },
+
+
+
+    // get single variant 
+
+    async getSingleVariant(req,res){
+      try {
+        const product_config_id= req.params.id
+        
+        const productVariant = await productConfig.findOne({_id:product_config_id})
+        if(!productVariant) return res.status(400).send({success:false,message:"invalid product variant id"})
+
+          return res.status(200).send({success:true,message:"variant got succesfully",variant:productVariant})
+      
+      } catch (error) {
+        console.log(error)
+        return res.status(400).send({
+          success:false,
+          message:"soemthign went wrong while getting",
+          error:error.messag
         })
       }
     }

@@ -40,6 +40,7 @@ const orderController = {
             // const imagesData = req.files.images.map(image => ({
             //     invoice_recipt: `${req.userId}/${image.filename}`
             // }));
+            const Order_status= "order-placed"
             console.log("SSASS", req.body);
 
             const imagesData = [];
@@ -76,21 +77,23 @@ const orderController = {
 
             // get cart of user from cart model 
 
+            console.log('useris',user_id)
             const cart = await Cart.findOne({ user_id: user_id })
             if (cart.length == 0) {
                 throw "no user cart found"
             }
+            console.log('cart',cart)
 
             //  getting cart id of user 
 
             const cart_id = cart._id
 
-
+            console.log('idrrrrrr')
             // now check cart items of user based on cart id which we have foud above 
 
             // const cartItems = await CartItem.find({cart_id:cart_id}).populate('product_id').populate('product_config_id')
 
-            const cartItems = await CartItem.find({ cart_id })
+            const cartItems = await CartItem.find({ cart_id:cart_id })
                 .populate({
                     path: 'product_id',
                     select: 'name price category short_description images'
@@ -100,8 +103,10 @@ const orderController = {
                     select: "stock_quantity price"
                 });
 
+                console.log('cartItemssss',cartItems)
             if (cartItems.length == 0 || cartItems.length < 0) {
                 throw "no item found in cart"
+                console.log('yahan')
             }
 
             // get shippiong method 
@@ -143,9 +148,10 @@ const orderController = {
 
 
             const orders = await Order.countDocuments()
+            const orderNum = 1000 + orders + 1
             console.log('ordersss', orders)
             const newOrder = new Order({
-                order_id: 1000 + orders + 1,
+                order_id: orderNum,
                 user_id: user_id,
                 first_name: first_name,
                 last_name: last_name,
@@ -189,6 +195,7 @@ const orderController = {
 
                 let singleOrderLine = {
                     order_id: orderId,
+                    OrderId:orderNum,
                     product_id: item.product_id._id,
                     product_config_id: item.product_config_id ? item.product_config_id._id : null,
                     quantity: item.quantity,
@@ -206,7 +213,7 @@ const orderController = {
             const deleteCartItems = await CartItem.deleteMany({ cart_id: cart_id });
             console.log('Deleted cart items:', deleteCartItems);
 
-            await addLog(user_id , "Order", { order_id, Order_status });
+            await addLog(user_id , "Order", { orderId, Order_status });
 
             return res.status(200).send({
                 success: true,
@@ -235,181 +242,7 @@ const orderController = {
     // guest shop oder place 
 
     async GuestshopOrder(req, res) {
-        // try {
-        //     console.log("function invoked");
 
-        //     console.log(req.files);
-        //     const {
-        //         first_name,
-        //         last_name,
-        //         phone,
-        //         email,
-        //         address,
-        //         city,
-        //         postal_code,
-        //         region,
-        //         state,
-        //         Biling_addres_select,
-        //         billing_region,
-        //         billing_address,
-        //         billing_city,
-        //         billing_postal_code,
-        //         billing_phone,
-        //         shiping_method,
-        //         // for payment method 
-        //         payment_method,
-        //         sub_total,
-
-
-
-
-        //         user_type,
-        //         cartItems,
-        //     } = req.body;
-        //     console.log('dddddd',typeof cartItems)
-        //     // const imagesData = req.files.images.map(image => ({
-        //     //     invoice_recipt: `${req.userId}/${image.filename}`
-        //     // }));
-        //     console.log("req.body---->", req.body);
-        //     console.log('cartItems', cartItems)
-
-        //     const imagesData = [];
-        //     let img
-        //     console.log('ffff', first_name)
-        //     // const user_id = req.user.userId
-        //     // const email = req.user.email 
-        //     const delivery_charges = deliver_charges
-        //     console.log("deliver_charges", delivery_charges)
-        //     if (!first_name) return res.status(400).send({ success: false, message: "first name is required" })
-        //     if (!last_name) return res.status(400).send({ success: false, message: "last_name is required" })
-        //     if (!phone) return res.status(400).send({ success: false, message: "phone is required" })
-        //     if (phone.length < 11 || phone.length > 13) return res.status(400).send({ success: false, message: "invalid phone number" })
-        //     if (!email) return res.status(400).send({ success: false, message: "email is required" })
-        //     if (!address) return res.status(400).send({ success: false, message: "address is required" })
-        //     if (!city) return res.status(400).send({ success: false, message: "city is required" })
-        //     if (!postal_code) return res.status(400).send({ success: false, message: "postal code is required" })
-        //     if (!region) return res.status(400).send({ success: false, message: "region is required" })
-        //     if (!state) return res.status(400).send({ success: false, message: "state is required" })
-        //     if (!payment_method || payment_method === null || payment_method === undefined) return res.status(400).send({ success: false, message: "payment method is required" })
-        //     if (!shiping_method || shiping_method === null) return res.status(400).send({ success: false, message: "shipping method is required" })
-        //     // if(!sub_total || sub_total === null)  return res.status(400).send({success:false,message:"sub total is required"}) 
-
-
-        //     if (Biling_addres_select === true) {
-        //         if (!billing_address) return res.status(400).send({ success: false, message: "billing_address  is required" })
-        //         if (!billing_region) return res.status(400).send({ success: false, message: "billing_region  is required" })
-        //         if (!billing_city) return res.status(400).send({ success: false, message: "billing_city  is required" })
-        //         if (!billing_postal_code) return res.status(400).send({ success: false, message: "billing_postal_code  is required" })
-        //     }
-
-
-
-
-
-
-        //     // get shippiong method 
-
-        //     const shippingMethod = await Shipping.findOne({ _id: shiping_method })
-        //     if (!shippingMethod) return res.status(400).send({ success: false, message: "invalid shipping method " })
-
-        //     let shipping_charges = shippingMethod.charges
-        //     console.log('shiping-charges', shipping_charges)
-
-        //     let subTotalPrice = 0;
-
-
-
-
-        //     // console.log('cartItems', cartItems)
-        //     console.log('total', subTotalPrice)
-        //     const totalPrice = subTotalPrice + shipping_charges
-
-        //     const paymentMethod = await Payment.findOne({ _id: payment_method })
-        //     console.log("paymentMethod", paymentMethod)
-        //     console.log("paymentMethod", paymentMethod.payment_type)
-
-        //     if (paymentMethod.payment_type !== "COD" && !req.files.images) {
-        //         return res.status(400).send({ success: false, message: "payment invoice receipt is required" })
-
-        //     } else if (paymentMethod.payment_type !== "COD" && req.files.images) {
-        //         req.files.images.forEach(image => {
-        //             imagesData.push([`${req.userId}/${image.filename}`]);
-        //         });
-        //         console.log('imagesdata', imagesData)
-        //         img = imagesData.join(',')
-
-        //     }
-
-
-
-        //     const newOrder = new Order({
-        //         // user_id: user_id,
-        //         first_name: first_name,
-        //         last_name: last_name,
-        //         email: email,
-        //         phone: phone,
-        //         city: city,
-        //         user_type: "guest",
-        //         address: address,
-        //         postal_code: postal_code,
-        //         region: region,
-        //         state: state,
-        //         sub_total: subTotalPrice,
-        //         invoice_recipt: img,
-        //         delivery_charges: delivery_charges,
-        //         payment_method: payment_method,
-        //         shiping_method: shiping_method,
-        //         Biling_addres_select: Biling_addres_select,
-        //         billing_region: billing_region,
-        //         billing_address: billing_address,
-        //         billing_city: billing_city,
-        //         billing_postal_code: billing_postal_code,
-        //         billing_phone: billing_phone,
-        //         total: totalPrice
-
-        //     })
-
-        //     await newOrder.save()
-        //     console.log('neworder', newOrder)
-
-
-        //     // insert data in order line to get the detail of ebery single product 
-        //     const orderId = newOrder._id
-
-        //     let orderLIneData = []
-
-        //     cartItems.forEach((item) => {
-
-        //         const basePrice = item.product_id.price;
-        //         const configPrice = item.product_config_id ? item.product_config_id.price : 0;
-        //         const itemPrice = (basePrice + configPrice);
-
-
-        //         let singleOrderLine = {
-        //             order_id: orderId,
-        //             product_id: item.product_id._id,
-        //             product_config_id: item.product_config_id ? item.product_config_id._id : null,
-        //             quantity: item.quantity,
-        //             price: itemPrice
-        //         };
-        //         console.log('singleorderline', singleOrderLine)
-        //         orderLIneData.push(singleOrderLine)
-        //     })
-
-        //     console.log('orderline data', orderLIneData)
-        //     // Save order lines
-        //     const newOrderLines = await OrderLine.insertMany(orderLIneData);
-        //     console.log('newOrdwrline', newOrderLines)
-
-
-        //     return res.status(200).send({
-        //         success: true,
-        //         message: "order placed sucesfully",
-        //         orderData: newOrder
-        //     })
-
-
-        // }
 
         try {
             console.log("function invoked");
@@ -452,7 +285,8 @@ const orderController = {
                 payment_method,
                 sub_total
             } = req.body;
-
+            const  user_id = "guestUser"
+            const Order_status = "order-placed"
             if (!first_name) return res.status(400).send({ success: false, message: "first name is required" });
             if (!last_name) return res.status(400).send({ success: false, message: "last_name is required" });
             if (!phone) return res.status(400).send({ success: false, message: "phone is required" });
@@ -491,9 +325,9 @@ const orderController = {
             }
 
             const orders = await Order.countDocuments()
-
+            let orderNumber = 1000 + orders +1
             const newOrder = new Order({
-                order_id: 1000 + orders + 1,
+                order_id: orderNumber,
                 first_name,
                 last_name,
                 email,
@@ -531,6 +365,7 @@ const orderController = {
 
                 let singleOrderLine = {
                     order_id: orderId,
+                    OrderId:orderNumber,
                     product_id: item.product_id._id,
                     product_config_id: item.product_config_id ? item.product_config_id._id : null,
                     quantity: item.quantity,
@@ -541,6 +376,9 @@ const orderController = {
 
             const newOrderLines = await OrderLine.insertMany(orderLineData);
             console.log('newOrderLines', newOrderLines);
+
+            await addLog(user_id , "Order", { orderId, Order_status });
+
 
             return res.status(200).send({
                 success: true,
@@ -624,7 +462,11 @@ const orderController = {
         console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
         try {
             const order_id = req.params.id;
-            const orderDetail = await OrderLine.find({ order_id: order_id })
+            console.log('iddd',order_id)
+            console.log("------------>",typeof order_id);
+            
+
+            const orderDetail = await OrderLine.find({ OrderId: order_id })
                 .populate({
                     path: 'product_id',
                     select: "_id name price short_description images",
@@ -647,6 +489,7 @@ const orderController = {
                     ]
                 });
             ;
+            console.log('orderdetail', orderDetail)
 
             // Assuming all order lines belong to the same order, we can take the total and Order_status from the first order line
             const orderInfo = orderDetail.length > 0 ? {
@@ -656,12 +499,11 @@ const orderController = {
             } : null;
 
 
-            console.log('orderdetail', orderDetail)
-            const orderId = orderDetail[0].order_id.order_id
+            const orderId = orderDetail[0]?.order_id?.order_id
             console.log('orderId', orderId)
             const orderLog = await LogModal.find({ "details.orderId": orderId })
 
-            console.log('iiiiiiiiiii', orderLog)
+            // console.log('iiiiiiiiiii', orderLog)
 
     
             return res.status(200).send({

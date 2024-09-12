@@ -78,208 +78,58 @@ const userController = {
 
 
   async login(req, res) {
-    // try {
-    //     const {email,password} = req.body;
-    //     const user = await User.findOne({email})
-    //     console.log("user",user)
-
-    //     if(!user){
-    //         return res.status(400).send({
-    //             success:false,
-    //             message: "email does not exist",
-    //         })
-
-    //     }
-    //     // compare passwordd 
-    // const isPassword = await bcrypt.compare(password, user.password);
-    // if(!isPassword){
-    //     return res.status(400).send({
-    //         success:false,
-    //         message:"wrong password"
-    //     })
-    // }
-    //     const token = jwt.sign({userId: user._id , email: user.email})
-
-
-    //     return res.status(200).send({
-    //       success:true,
-    //       message:"Login succesfully",
-    //       user,
-    //       token
-    //     })
-    // }
+  
     try {
-      const { guestUserId, email, password } = req.body;
+      const { guestUserId, email, password } = req.body;  // Ensure email is destructured properly
 
       if (!guestUserId) {
-        console.log("email", req.body.email);
-        
-        const user = await User.findOne({ email });
+          console.log("email", email);  // Access email directly from destructured req.body
 
-        if (!user) {
-          return res.status(400).send({
-            success: false,
-            message: "invalid email",
-          });
-        }
-
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
-          return res.status(400).send({
-            success: false,
-            message: "Wrong password",
-          });
-        }
-
-        delete user._doc.password;
-        delete user._doc.OTP;
-
-        const token = jwt.sign({
-          userId: user._id,
-          email: user.email,
-        }, { expiresIn: '1h' });
-        let name = user.name
-        let email = user.email
-
-
-      await addLog(user._id, "login", { name, email });
-
-
-        return res.status(200).send({
-          success: true,
-          message: "Logged in successfully",
-          token: token,
-          user: user,
-        });
-      }
-
-
-
-
-      // for guest user id if avialable 
-
-
-      
-      const user = await User.findOne({ email });
-
-      if (!user) {
-        return res.status(400).send({
-          success: false,
-          message: "invalid email",
-        });
-      }
-
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-      if (!isPasswordValid) {
-        return res.status(400).send({
-          success: false,
-          message: "Wrong password",
-        });
-      }
-
-      const userId = user._id;
-      const userEmail = user.email;
-      delete user._doc.password;
-      delete user._doc.OTP;
-
-      const token = jwt.sign({
-        userId: userId,
-        email: userEmail,
-      }, { expiresIn: '1h' });
-
-      const guestUserCart = await Cart.findOne({ user_id: guestUserId });
-      console.log('guest cart', guestUserCart)
-
-      if (guestUserCart !== null || guestUserCart) {
-        const guestUserCartId = guestUserCart._id;
-        console.log('guestUserCartId', guestUserCartId)
-        const guestUserCartItems = await CartItem.find({ cart_id: guestUserCartId });
-        console.log('guestUserCartItems', guestUserCartItems)
-
-        if (guestUserCartItems.length > 0) {
-
-          const logingUserCart = await Cart.findOne({ user_id: userId });
-
-          if (logingUserCart || logingUserCart !== null) {
-            const logingUserCartId = logingUserCart._id;
-            const logingUserCartItems = await CartItem.find({ cart_id: logingUserCartId });
-
-            if (logingUserCartItems.length > 0  || logingUserCartItems.length !== 0) {
-              for (let loginUserCartItem of logingUserCartItems) {
-                const matchingLoginCartItem = guestUserCartItems.find(guestCartItem =>
-
-
-                 ( (guestCartItem.product_id.toString() === loginUserCartItem.product_id.toString()) &&
-               ( guestCartItem.product_config_id.toString() === loginUserCartItem.product_config_id.toString()))
-                );
-                  console.log("yahn arha h >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",matchingLoginCartItem)
-                  if (matchingLoginCartItem) {
-                  console.log("yahn arha h <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
-                  const updatedQty = loginUserCartItem.quantity + matchingLoginCartItem.quantity;
-                  console.log('updatedqty',updatedQty)
-                  await CartItem.findOneAndUpdate({ _id: loginUserCartItem._id }, { quantity: updatedQty });
-                  console.log('cartItem',CartItem)
-                }
-                if(!matchingLoginCartItem || matchingLoginCartItem == null){
-                  await CartItem.findOneAndUpdate({cart_id:guestUserCartId},{cart_id:loginUserCartItem})
-                }
-              }
-                console.log("guestUserId",guestUserId, "guestUserCartId",guestUserCartId)
-              await User.deleteOne({ _id: guestUserId });
-              await Cart.deleteOne({ user_id: guestUserId })
-              await CartItem.deleteMany({ cart_id: guestUserCartId })
-
-              return res.status(200).send({
-                success: true,
-                message: "Logged in successfully",
-                token: token,
-                user: user,
+          const user = await User.findOne({ email: email });
+          if (!user) {
+              return res.status(400).send({
+                  success: false,
+                  message: "Invalid email",
               });
-            } else {
-              await CartItem.updateMany({ cart_id: guestUserCartId }, { cart_id: logingUserCartId });
-              await User.deleteOne({ _id: guestUserId });
-              await Cart.deleteOne({ user_id: guestUserId })
-              await CartItem.deleteMany({ cart_id: guestUserCartId })
-              return res.status(200).send({
-                success: true,
-                message: "Logged in successfully",
-                token: token,
-                user: user,
-              });
-            }
-          } else {
-            await Cart.findOneAndUpdate({ user_id: guestUserId }, { user_id: userId });
-            await User.deleteOne({ _id: guestUserId });
+          }
 
-            return res.status(200).send({
+          const isPasswordValid = await bcrypt.compare(password, user.password);
+          if (!isPasswordValid) {
+              return res.status(400).send({
+                  success: false,
+                  message: "Wrong password",
+              });
+          }
+
+          // Sanitize user object (remove password and OTP)
+          const sanitizedUser = {
+              _id: user._id,
+              name: user.name,
+              email: user.email,
+          };
+
+          // Generate JWT token
+          const token = jwt.sign(
+              {
+                  userId: user._id,
+                  email: user.email,
+              },
+              process.env.JWT_SECRET_KEY, // Ensure you have a secret key
+              { expiresIn: '1h' } // Token expiration
+          );
+
+          await addLog(user._id, "login", { name: user.name, email: user.email });
+
+          return res.status(200).send({
               success: true,
               message: "Logged in successfully",
               token: token,
-              user: user,
-            });
-          }
-        } else {
-          await User.deleteOne({ _id: guestUserId });
-          await Cart.deleteOne({ user_id: guestUserId })
-          return res.status(200).send({
-            success: true,
-            message: "Logged in successfully",
-            token: token,
-            user: user,
+              user: sanitizedUser,  // Send sanitized user object
           });
-        }
-      } else {
-        await User.deleteOne({ _id: guestUserId });
-
-        return res.status(200).send({
-          success: true,
-          message: "Logged in successfully",
-          token: token,
-          user: user,
-        });
       }
     }
     catch (error) {
+      console.log(error)
       return res.status(500).json({ message: "internal server error", error: error.message })
     }
 

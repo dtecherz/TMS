@@ -9,7 +9,7 @@ router.get('/get',productController.getAllProducts)
 router.put('/update-product/:id',productController.updateProduct)
 router.delete('/delete-product/:id',productController.deleteProduct)
 router.get('/get-sorted-products',productController.sortProduct)
-router.get('/get-single/:id',productController.getSingleProduct)
+router.get('/get-single/:slug',productController.getSingleProduct)
 
 
 

@@ -26,6 +26,10 @@ const orderLineSchema = new mongoose.Schema({
         ref: "productConfig",
         default: null
 
+    },
+    OrderId:{
+        type:Number,
+        required:true
     }
 
 }, {

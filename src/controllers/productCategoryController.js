@@ -47,7 +47,11 @@ const categoryController = {
     },
 
         async updateCategory(req, res) {
+
+            
             try {
+
+                console.log(";;;;;;;;;;;;;;;;;;;;;")
                 const category_id = req.params.id
                 const { category_name, parent_category_id, status } = req.body
                 console.log(';;;;',req.body)
@@ -101,8 +105,9 @@ const categoryController = {
             console.log("------------------------------------------");
             
             
-            const category_id = req.params.id
-            const category = await Category.findById(category_id)
+            // const category_id = req.params.id
+            const slug = req.params.slug
+            const category = await Category.findOne({slug:slug})
                 .populate({path: 'parent_category_id', select: ["category_name"]});
 
             console.log('catgeory', category)
