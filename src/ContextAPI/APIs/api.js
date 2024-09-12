@@ -96,9 +96,9 @@ export const getSearchProduct = async (name = "") => {
 };
 
 
-export const getSingleProduct = async (id) => {
+export const getSingleProduct = async (slug) => {
   try {
-    return await CallAPI("GET", `api/products/get-single/${id}`);
+    return await CallAPI("GET", `api/products/get-single/${slug}`);
   } catch (error) {
     throw error;
   }

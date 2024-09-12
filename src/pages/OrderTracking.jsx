@@ -91,8 +91,8 @@ function OrderTracking() {
                                 return <div className="space-y-4 p-6" key={i}>
                                     <div className="flex items-center gap-6">
                                         <a href="#" className="h-14 w-14 shrink-0">
-                                            {console.log('productidimage', o.product_id?.images[0])}
-                                            {console.log('Product Config:', o.product_config_id)}
+                                            {/* {console.log('productidimage', o.product_id?.images[0])}
+                                            {console.log('Product Config:', o.product_config_id)} */}
                                             <Image className="h-full w-full dark:hidde" src={`${File_URL}/${o.product_id?.images[0]?.image_url}`} alt="imac image" onError={handleImageError} />
                                         </a>
 

@@ -193,7 +193,9 @@ function Checkout() {
             }
             const guestEmail = localStorage.setItem('email', JSON.stringify(formData.email))
             localStorage.removeItem('cart')
-            if (response.success) navigate('/thankyou');
+            if (response.success){
+                Alert(response.message,response.success)
+                navigate('/thankyou');}
             else Alert(response.message, response.success);
 
         } catch (error) {

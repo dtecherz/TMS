@@ -28,19 +28,20 @@ const MyOrders = () => {
             email: data.email,
             amount: data.total,
             // status: [data.Order_status],
-            status:
-                <Tag className='uppercase'
-                    color={`${data.Order_status == "pending" ? "processing" :
-                        data.Order_status == "cancelled" ? "error" :
-                            data.Order_status == "reject" ? "error" :
-                                data.Order_status == "accept" ? "success" :
-                                    data.Order_status == "completed" ? "success" :
-                                        data.Order_status == "dispatched" ? "warning" :
-                                            data.Order_status == "delivery" ? "orange" : "default"}`}>
-                    {data.Order_status}
-                </Tag>,
+            status: [data.Order_status],
+            // status:
+            //     <Tag className='uppercase'
+            //         color={`${data.Order_status == "pending" ? "processing" :
+            //             data.Order_status == "cancelled" ? "error" :
+            //                 data.Order_status == "reject" ? "error" :
+            //                     data.Order_status == "accept" ? "success" :
+            //                         data.Order_status == "completed" ? "success" :
+            //                             data.Order_status == "dispatched" ? "warning" :
+            //                                 data.Order_status == "delivery" ? "orange" : "default"}`}>
+            //         {data.Order_status}
+            //     </Tag>,
             date: data.createdAt,
-            detail: <Link to={`/order-tracking/${data._id}`} className='btn-detail'>Detail</Link>,
+            detail: <Link to={`/order-tracking/${data.order_id}`} className='btn-detail'>Detail</Link>,
         };
     });
 
@@ -71,7 +72,7 @@ const MyOrders = () => {
             key: 'status',
             render: (_, { status }) => (
                 <>
-                    {status.map((tag) => {
+                    {status?.map((tag) => {
                         let color = tag.length > 5 ? 'geekblue' : 'green';
                         if (tag === 'loser') color = 'volcano';
                         return (

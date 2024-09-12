@@ -130,18 +130,19 @@ function Navbar_2(props) {
 
                                 }
                             </Link>
-                        <Tooltip title="Logout">
-                            <Link to={'/sign-in'} className="hidden transition-all duration-300  focus:outline-none focus:ring-0 font-medium px-2 sm:px-4 sm:py-0 text-center md:flex justify-center items-center">
                                 {
                                     (user && (cookies?.pk2 !== null || cookies.pk2 !== undefined)) ?
-                                    <LogoutOutlined className='social_icons' style={{fontSize: "20px"}} />
-                                :
-
-                                <></>
-
-                                }
+                        <Tooltip title="Logout">
+                            <Link to={'/sign-in'} className="hidden transition-all duration-300  focus:outline-none focus:ring-0 font-medium px-2 sm:px-4 sm:py-0 text-center md:flex justify-center items-center">
+                                    <LogoutOutlined className='social_icons' style={{fontSize: "20px"}}  onClick={()=>SignOut()} />
+                                
                             </Link>
                         </Tooltip>
+                        :
+
+                        <></>
+
+                        }
                                 
                         <button onClick={() => setisToggled(!isToggled)} type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center border border-[#a55e3f] bg-transparent rounded-none md:hidden focus:outline-none focus:border-[#a55e3f] focus:ring-0" aria-controls="navbar-sticky" aria-expanded="false">
                             <span className="sr-only">Open main menu</span>

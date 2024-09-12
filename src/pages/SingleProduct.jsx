@@ -27,7 +27,7 @@ import { useCookies } from 'react-cookie'
 function SingleProduct() {
 
 
-    const { id } = useParams()
+    const { slug} = useParams()
     const [cookies] = useCookies(['pk2'])
     console.log('pppp', cookies.pk2)
     //   alert(cookies.pk2)
@@ -46,8 +46,8 @@ function SingleProduct() {
     const [sizes, setSizes] = useState([])
     const [material, setMaterials] = useState([])
     const [formData, setFormData] = useState({
-        product_id: id,
-        product_config_id: 2,
+        product_id: "",
+        product_config_id: "",
         quantity: 1
     })
 
@@ -56,9 +56,10 @@ function SingleProduct() {
     const getSingleProductData = async () => {
 
         try {
-            const response = await getSingleProduct(id)
+            const response = await getSingleProduct(slug)
             if (response.success) setProductData(response.productData)
             setRelatedProducts(response.relatedProducts.slice(0, 4))
+        setFormData({...formData,product_id:response.productData._id})
         } catch (error) {
             console.log(error)
             Alert(response.message, false)
@@ -70,7 +71,7 @@ function SingleProduct() {
         const token = cookies.pk2;
         if (token) {
             try {
-                const response = await addToCart(id, formData);
+                const response = await addToCart(formData.product_id, formData);
                 if (response.success) {
                     getUserCartsData();
                 }
@@ -144,7 +145,7 @@ function SingleProduct() {
 
     useEffect(() => {
         getSingleProductData();
-    }, [id]);
+    }, [slug]);
 
     useEffect(() => {
         findMatchingVariants(selectedColor)
@@ -267,7 +268,7 @@ function SingleProduct() {
 
                                             return < Col xs={24} sm={12} md={12} lg={6} xl={6} key={i}>
 
-                                                <Link to={`/product/${e._id}`}>
+                                                <Link to={`/product/${e?.slug}`}>
                                                     <Card className='product_card' >
                                                         <Image alt="example" src={`${File_URL}/${e.images[0]?.image_url}`} preview={false} onError={handleImageError} />
 

@@ -93,7 +93,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/home-2" element={<Home_2 />} />
           <Route path="/shop" element={<ProductList />} />
-          <Route path="/product/:id" element={<SingleProduct />} />
+          <Route path="/product/:slug" element={<SingleProduct />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-tracking/:id" element={<OrderTracking />} />

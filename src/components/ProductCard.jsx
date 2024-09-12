@@ -14,7 +14,7 @@ function ProductCard({ data }) {
 
     return (
         <>
-            <Link to={`/product/${data?._id}`}>
+            <Link to={`/product/${data?.slug}`}>
                 <Card className='product_card h-full' >
                     <Image alt="example" src={`${File_URL}/${data?.images[0]?.image_url}` || product_1} preview={false} onError={handleImageError} className='product_image' />
                     <h4 className='product_name'>{data?.name || "Europe Street beat"}</h4>
