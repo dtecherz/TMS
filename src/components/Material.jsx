@@ -4,8 +4,16 @@ function Material({ data ,selectedmaterial,setselectedMaterial,matchingVariant,s
 
     // const [selectedmaterial, setselectedMaterial] = useState('')
 
-    let material = data?.productConfig?.map((p) => p.materail).map(s => s?.name)
+    // let material = data?.productConfig?.map((p) => p.materail).map(s => s?.name)
+    // let materials = [...new Set(material)]
+    
+    let material = data?.productConfig
+    ?.map((p) => p?.material)
+    .filter((material) => material !== null)
+    .map(s => s.name)
+    
     let materials = [...new Set(material)]
+
     console.log("materials", materials)
 
     useEffect(()=>{
@@ -15,6 +23,10 @@ function Material({ data ,selectedmaterial,setselectedMaterial,matchingVariant,s
             setselectedMaterial(sizes[0])
         }
     },[])
+ 
+ 
+    if (materials.length == 0) return
+ 
     return (
         <>
 

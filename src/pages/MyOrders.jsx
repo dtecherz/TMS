@@ -23,11 +23,22 @@ const MyOrders = () => {
 
     const dataSource = myOrders.map((data, i) => {
         return {
-            id: i + page * 5,
+            id: (i + 1) + page * 5,
             name: data.first_name,
             email: data.email,
             amount: data.total,
-            status: [data.Order_status],
+            // status: [data.Order_status],
+            status:
+                <Tag className='uppercase'
+                    color={`${data.Order_status == "pending" ? "processing" :
+                        data.Order_status == "cancelled" ? "error" :
+                            data.Order_status == "reject" ? "error" :
+                                data.Order_status == "accept" ? "success" :
+                                    data.Order_status == "completed" ? "success" :
+                                        data.Order_status == "dispatched" ? "warning" :
+                                            data.Order_status == "delivery" ? "orange" : "default"}`}>
+                    {data.Order_status}
+                </Tag>,
             date: data.createdAt,
             detail: <Link to={`/order-tracking/${data._id}`} className='btn-detail'>Detail</Link>,
         };
@@ -35,7 +46,7 @@ const MyOrders = () => {
 
     const columns = [
         {
-            title: 'ID',
+            title: '#',
             dataIndex: 'id',
             key: 'id',
         },
@@ -93,8 +104,8 @@ const MyOrders = () => {
 
                 response = await getOrders(page + 1);
             } else {
-                console.log('lllllll',Localemail)
-                if(Localemail ){
+                console.log('lllllll', Localemail)
+                if (Localemail) {
                     emailRef.current = Localemail
                 }
 
@@ -131,56 +142,54 @@ const MyOrders = () => {
 
                 <div className="container">
                     {
-                        !Localemail ?
-                    <div className="login_card">
+                        !Localemail &&
+                        <div className="login_card">
 
-                        <h2>Find Your Orders By Email</h2>
+                            <h2>Find Your Orders By Email</h2>
 
-                        <Form
-                            name="basic"
-                            layout='vertical'
-                            labelCol={{
-                                span: 24,
-                            }}
-                            wrapperCol={{
-                                span: 24,
-                            }}
-                            style={{
-                                maxWidth: "100%",
-                            }}
-                            initialValues={{
-                                remember: true,
-                            }}
-                            onFinish={getUserOrders}
-                            // onFinishFailed={onFinishFailed}
-                            autoComplete="off"
-                        >
-                            <Form.Item
-                                label=""
-                                name="Email"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Please input your email!',
-                                    },
-                                ]}
+                            <Form
+                                name="basic"
+                                layout='vertical'
+                                labelCol={{
+                                    span: 24,
+                                }}
+                                wrapperCol={{
+                                    span: 24,
+                                }}
+                                style={{
+                                    maxWidth: "100%",
+                                }}
+                                initialValues={{
+                                    remember: true,
+                                }}
+                                onFinish={getUserOrders}
+                                // onFinishFailed={onFinishFailed}
+                                autoComplete="off"
                             >
-                                <Input className='form_input' placeholder='Email' value={emailRef} onChange={(e) => emailRef.current = e.target.value} />
-                            </Form.Item>
+                                <Form.Item
+                                    label=""
+                                    name="Email"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Please input your email!',
+                                        },
+                                    ]}
+                                >
+                                    <Input className='form_input' placeholder='Email' value={emailRef} onChange={(e) => emailRef.current = e.target.value} />
+                                </Form.Item>
 
-                            
-
-                            
-
-                            <My_Button text={"Find"} htmlType="submit" customClass="login_btn" />
-                        </Form>
 
 
-                    </div>
-                    :
-                    <></>
 
-                            }
+
+                                <My_Button text={"Find"} htmlType="submit" customClass="login_btn" />
+                            </Form>
+
+
+                        </div>
+                    }
+
                     <div className="my_orders">
 
                         <Table dataSource={dataSource} columns={columns} pagination={true} scroll={{ x: 'max-content' }} className='table' />

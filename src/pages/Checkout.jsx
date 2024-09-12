@@ -100,7 +100,6 @@ function Checkout() {
     }
 
 
-
     // const OrderPlace = async () => {
     //     const token = cookies?.pk2
 
@@ -204,7 +203,6 @@ function Checkout() {
     };
 
 
-
     const subscriberAdd = async () => {
         try {
             const response = await addSubscriber({ email: formData.email })
@@ -239,10 +237,10 @@ function Checkout() {
     };
 
     const onPaymentMethod = (e) => {
-
         setPaymentValue(e.target.value)
         console.log('ee', e.target.value)
     }
+
     const onChange = (e) => {
         setValue(e.target.value);
         console.log('eee', e.target.value)
@@ -270,6 +268,8 @@ function Checkout() {
             });
         }
     };
+
+
     const [paymentMethod, setPaymentMethod] = useState("");
 
 
@@ -277,24 +277,25 @@ function Checkout() {
         try {
             const response = await GetPaymentMethods()
             setPaymentMethods(response.paymentMethods)
-           // Set default payment method
-        if (response.paymentMethods.length > 0) {
-            setPaymentMethod(response.paymentMethods[0]);
-            console.log(">>>>>>>>>>>>>>>>>>>>>MMMMMMMMMMMMMMMMMMMMMMMMMMM",paymentMethod)
-          
-        }
-        
+            // Set default payment method
+            if (response.paymentMethods.length > 0) {
+                setPaymentMethod(response.paymentMethods[0]);
+                console.log(">>>>>>>>>>>>>>>>>>>>>MMMMMMMMMMMMMMMMMMMMMMMMMMM", paymentMethod)
+
+            }
+
             setPaymentMethodData(response.paymentMethodDetails.filter(e => e.status == "active"))
 
         } catch (error) {
             console.log(error)
             Alert(reponse.message, false)
         }
-    }   
+    }
+
     useEffect(() => {
         if (paymentMethod && paymentMethod === "COD") {
             const CODPaymentMethod = paymentMethodData.find(method => method.payment_type === "COD");
-    
+
             if (CODPaymentMethod) {
                 setFormData((prevData) => ({
                     ...prevData,
@@ -323,7 +324,7 @@ function Checkout() {
 
     const handleFileUpload = (e, id) => {
         const file = e.target.files[0];
-    
+
         if (file) {
             // Combine all updates into one setFormData call
             setFormData((prevData) => ({
@@ -331,17 +332,16 @@ function Checkout() {
                 invoice_recipt: file,
                 payment_method: id
             }));
-            
+
             // Update payment value as well
             setPaymentValue(id);
-    
+
             console.log("File uploaded: ", file);
             console.log("Payment method selected: ", id);
         } else {
             console.log("No file selected");
         }
     };
-
 
 
     const DigtalWalletsData = paymentMethodData
@@ -370,7 +370,7 @@ function Checkout() {
                         //         setFormData({ ...formData, payment_method: p._id });
                         //     }
                         // }}
-                        onChange={(e)=>handleFileUpload(e,p._id)}
+                        onChange={(e) => handleFileUpload(e, p._id)}
                     />
                 </div>
             ),
@@ -398,7 +398,7 @@ function Checkout() {
                         placeholder="images"
                         name="images"
                         className="form_input"
-                        onChange={(e)=>handleFileUpload(e,p._id)}
+                        onChange={(e) => handleFileUpload(e, p._id)}
                     />
 
                 </div>
@@ -628,11 +628,8 @@ function Checkout() {
     ];
 
 
-
-
-   
-
     console.log('payyyy', paymentMethodData)
+
     const getCartData = async () => {
         const res = await getUserCartsData()
 
@@ -651,9 +648,9 @@ function Checkout() {
         getpaymentmethods()
         getCartData()
     }, [])
+
     useEffect(() => {
         shippingMethodsData()
-
     }, [])
 
 

@@ -4,8 +4,15 @@ function Sizes({ data, selectedSize, setselectedSize, matchingVariant ,colors,se
 
     // const [selectedSize, setselectedSize] = useState('')
     console.log('ssssss',colors)
-    let size = data?.productConfig?.map((p) => p.size).map(s => s.name)
+    // let size = data?.productConfig?.map((p) => p?.size).map(s => s.name)
+    
+    let size = data?.productConfig
+    ?.map((p) => p?.size)
+    .filter((size) => size !== null)
+    .map(s => s.name)
+    
     let sizes = [...new Set(size)]
+
 
     console.log('selectedSize', selectedSize)
     console.log('matchingVariant', matchingVariant)
@@ -18,6 +25,10 @@ function Sizes({ data, selectedSize, setselectedSize, matchingVariant ,colors,se
             setselectedSize(sizes[0])
         }
     },[])
+
+
+    if (sizes.length == 0) return
+
     return (
         <>
 

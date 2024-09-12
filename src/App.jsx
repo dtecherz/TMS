@@ -29,9 +29,9 @@ import GuestOrderTracking from './pages/GuestOrderTracking'
 
 function App() {
 
-const {getUserCartsData,carts}  = useCart()
-console.log('cartssssss',carts)
-  const { GetLoginUSer, user,GuestLoginData  } = useAuth();
+  const { getUserCartsData, carts } = useCart()
+  console.log('cartssssss', carts)
+  const { GetLoginUSer, user, GuestLoginData } = useAuth();
   const [cookies, setCookie, removeCookie] = useCookies(['pk2']);
   axios.defaults.headers["authorization"] = `Bearer ${cookies.pk2 || null}`;
   axios.defaults.headers["ngrok-skip-browser-warning"] = `1211`;
@@ -50,23 +50,23 @@ console.log('cartssssss',carts)
     }
   }, [isMenuOpen]);
 
-  
+
   useEffect(() => {
-    
-      if (window.location.host === "localhost:5173") {
-        return () => {
-          // GuestLoginData(formData);
-        };
-      } else {
+
+    if (window.location.host === "localhost:5173") {
+      return () => {
         // GuestLoginData(formData);
-      }
-    
-      getUserCartsData()
+      };
+    } else {
+      // GuestLoginData(formData);
+    }
+
+    getUserCartsData()
   }, []);
 
-console.log('ppppppppp',cookies.pk2)
+  console.log('ppppppppp', cookies.pk2)
 
-  
+
   useEffect(() => {
     if (user == null && cookies.pk2 !== undefined) {
       GetLoginUSer();
@@ -78,7 +78,12 @@ console.log('ppppppppp',cookies.pk2)
       getUserCartsData()
     }
   }, [carts]);
-  
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth' // Optional: for a smooth scrolling effect
+  });
 
   return (
     <>

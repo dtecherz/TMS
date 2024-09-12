@@ -6,26 +6,26 @@ import { Alert } from '../ContextAPI/Components/notify';
 import { useAuth } from '../ContextAPI/Components/auth';
 
 function Signin() {
-    
+
     const navigate = useNavigate()
-    const {Login,GetLoginUSer,user} = useAuth();
-    
+    const { Login, GetLoginUSer, user } = useAuth();
+
     const [formData, setFormData] = useState({
-    
+
         email: "",
         password: "",
-        guestUserId:""
-      
+        guestUserId: ""
+
     });
 
 
-    useEffect(()=>{
-        if(user != undefined){
-         console.log("ffffffffffffff",user);
-         setFormData({...formData, guestUserId:user?.id})
-     
+    useEffect(() => {
+        if (user != undefined) {
+            console.log("ffffffffffffff", user);
+            setFormData({ ...formData, guestUserId: user?.id })
+
         }
-         },[user])
+    }, [user])
 
     const handleSubmit = async () => {
         const updatedFormData = { ...formData, guestUserId: user?._id || "" };
@@ -77,7 +77,7 @@ function Signin() {
                                     },
                                 ]}
                             >
-                                <Input className='form_input' placeholder='Email' value={formData.email}  onChange={(e) => setFormData({...formData, email: e.target.value})} />
+                                <Input className='form_input' placeholder='Email' value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
                             </Form.Item>
 
                             <Form.Item
@@ -90,7 +90,7 @@ function Signin() {
                                     },
                                 ]}
                             >
-                                <Input.Password className='form_input' placeholder='Password' value = {formData.password}  onChange={(e) => setFormData({...formData, password: e.target.value})} />
+                                <Input.Password className='form_input' placeholder='Password' value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} />
                             </Form.Item>
 
                             <Form.Item

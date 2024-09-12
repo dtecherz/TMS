@@ -14,7 +14,7 @@ const ThankYouPage = () => {
   return (
     <>
 
-      <Navbar_2 />
+      <Navbar_2 customClass={"py-6"} />
 
       <section className='thankyou_page min-h-[85vh] flex justify-center items-center text-center'>
         <div className="container ">

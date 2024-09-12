@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react'
 
-function Colors({ data, selectedColor, setselectedColor, matchingVariant ,setColors}) {
+function Colors({ data, selectedColor, setselectedColor, matchingVariant, setColors }) {
 
     // const [selectedColor, setselectedColor] = useState()
 
-    let color = data?.productConfig?.map((p) => p.color).map(s => s.name)
-    let colors = [...new Set(color)]
+    console.log("data?.productConfig", data?.productConfig);
 
+
+    let color = data?.productConfig
+        ?.map((p) => p?.color)
+        .filter((color) => color !== null)
+        .map(s => s.name)
+
+    console.log("colorcolorcolor", color);
+    let colors = [...new Set(color)]
     
+
     console.log('colors', colors)
     console.log('selectedColor', selectedColor)
     console.log('matchingVariant', matchingVariant)
@@ -20,6 +28,9 @@ function Colors({ data, selectedColor, setselectedColor, matchingVariant ,setCol
             setselectedColor(colors[0]); // Set the first color by default
         }
     }, []);
+
+    if (colors.length == 0) return
+
     return (
         <>
             <div className="colors">

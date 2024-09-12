@@ -13,6 +13,7 @@ import testimonial_3 from "../assets/testimonials-3.png"
 import Testimonial_Slider from '../components/Testimonial_Slider'
 import { InstagramEmbed } from 'react-social-media-embed'
 import Footer from '../components/Footer'
+import { Link } from 'react-router-dom'
 
 const imgStyle = {
     display: 'block',
@@ -31,7 +32,9 @@ function Home() {
                             <h2>Elevate Your Style with Timeless Elegance</h2>
                             <p>Discover our premium tan leather handbag—where style meets functionality. Shop now for handcrafted bags and slippers that add a chic touch to any outfit.</p>
 
-                            <My_Button text={"View More"} />
+                            <Link to="/shop?bestFor=bags">
+                                <My_Button text={"View More"} />
+                            </Link>
 
                         </div>
                     </div>
@@ -46,10 +49,12 @@ function Home() {
                         <div className='section_content '>
                             <div className="content_box">
                                 <div className='col_1 card'>
-                                    <h1 className='title'>THE FINEST OF HANDMADE</h1>
-                                    <p className='desc'>Lorem ipsum dolor sit amet a con sectetur adipisicing elit se do eius mod tempor incididunt ut labore et dolore magna aliqua ut enim minim veniam quis ost rud exercitation ullamc laboris nisi ut aliquip ex ea commo.</p>
+                                    <h1 className='title'>Elegant Leather Bags & Heels</h1>
+                                    <p className='desc'>Discover premium leather handbags and stylish heels designed for modern fashion lovers. Elevate your look with timeless accessories that blend sophistication and functionality, perfect for every occasion. Shop now for exclusive designs that complete your wardrobe.</p>
 
-                                    <My_Button text={"View More"} />
+                                    <Link to="/shop?bestFor=bags&bestFor=shoes">
+                                        <My_Button text={"View More"} />
+                                    </Link>
 
                                     <div className="col_1_border_right"></div>
                                 </div>
@@ -81,9 +86,11 @@ function Home() {
                             <Col xs={24} sm={24} md={12} lg={12} >
                                 <div className='section_content'>
                                     <h2>CHILDREN CREATIVE WORKSHOPS</h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elitse tsed do eius mod tempor incididu nt ut labor dolore senast magna se aliqua ut enim minims veniam om.</p>
+                                    <p>Elevate your style with this luxurious quilted leather handbag, featuring a sleek design for an elegant touch. Perfectly versatile, it’s a chic accessory for any occasion, blending sophistication with modern flair.</p>
 
-                                    <My_Button text={"View More"} />
+                                    <Link to="/shop?bestFor=bags">
+                                        <My_Button text={"View More"} />
+                                    </Link>
 
                                 </div>
                             </Col>

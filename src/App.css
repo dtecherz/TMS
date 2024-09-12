@@ -249,13 +249,13 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
   /* padding: 3px; */
   position: absolute;
   top: 55px;
-  height: 18px;
-  width: 18px;
+  height: 20px;
+  width: 20px;
   margin-left: 20px;
-  justify-content: center;
   text-align: center;
-  align-items: center;
   display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 10px;
   /* left: 10px; */
 }
@@ -568,8 +568,8 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
 }
 
 .smart_product_area .content_box .col_1_border_right {
-  border-right: 12px solid #605d21;
-  border-image-source: url(data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20x%3D%220%22%20y%3D%220%22%20width%3D%2270%22%20height%3D%2268%22%20viewBox%3D%220%200%2034.996%2033.996%22%20enable-background%3D%22new%200%200%2034.996%2033.996%22%20shape-rendering%3D%22geometricPrecision%22%3E%3Cpolygon%20fill%3D%22%23605d21%22%20points%3D%2217.498,0%2029.753,5.833%2034.996,16.998%2029.67,28.333%2017.498,33.996%205.086,28.417%200,16.998%205.003,5.833%22/%3E%3C/svg%3E);
+  border-right: 12px solid var(--themeGrayTextColor);
+  border-image-source: url('data:image/svg+xml;utf8,<svg%20xmlns%3D"http://www.w3.org/2000/svg"%20x%3D"0"%20y%3D"0"%20width%3D"70"%20height%3D"68"%20viewBox%3D"0%200%2034.996%2033.996"%20enable-background%3D"new%200%200%2034.996%2033.996"%20shape-rendering%3D"geometricPrecision"><polygon%20fill%3D"#58595b"%20points%3D"17.498,0%2029.753,5.833%2034.996,16.998%2029.67,28.333%2017.498,33.996%205.086,28.417%200,16.998%205.003,5.833"/></svg>');
   border-image-slice: 17%;
   border-image-repeat: round;
 
@@ -2023,7 +2023,8 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
     padding: 50px 0% 50px 0% !important;
   }
 
-  .workshops_area .section_content h2 {
+  .workshops_area .section_content h2,
+  .testimonials_area .section_content h1 {
     font-size: 37px !important;
     line-height: 40px !important;
   }
@@ -2209,6 +2210,7 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
 .tag {
   cursor: pointer;
   padding: 5px 10px;
+  text-transform: capitalize;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 5px;
