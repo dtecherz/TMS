@@ -54,14 +54,14 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/users" element={<Users />} />
         <Route path="/category-list" element={<CategoryList />} />
-        <Route path="/edit-category/:id" element={<EditCategory />} />
+        <Route path="/edit-category/:slug" element={<EditCategory />} />
         <Route path="/create-category" element={<CreateCategory />} />
         <Route path="/variation-list" element={<VariationsList />} />
         <Route path="/variation-option-list/:id" element={<VariationOptionList />} />
         <Route path="/product-list" element={<ProductList />} />
         <Route path="/add-product" element={<AddProduct />} />
         <Route path="/create-product" element={<CreateProduct />} />
-        <Route path="/product-detail/:id" element={<ProductDetail />} />
+        <Route path="/product-detail/:slug" element={<ProductDetail />} />
         <Route path="/create-product-variant/:id" element={<AddProductVariation />} />
         <Route path="/product-variation-list" element={<ProductVariationList />} />
         <Route path="/orders" element={<Orders />} />

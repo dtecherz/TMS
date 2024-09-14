@@ -16,6 +16,7 @@ function AddProduct({ onProductCreate }) {
 
     const [categories, setCategories] = useState([]);
     const [img, setImg] = useState("")
+    const [stock,setStock] = useState(false)
     const [formData, setFormData] = useState({
         name: "",
         short_description: "",
@@ -28,14 +29,23 @@ function AddProduct({ onProductCreate }) {
         total_quantity: 0,
         images: []
     });
-
     const creatProduct = async () => {
         try {
             console.log(formData);
             const response = await addProduct(formData);
             if (response.success) Alert(response.message, response.success);
-            onProductCreate('id', response.data._id);
-
+            
+            // Get product ID and name (slug)
+            const productId = response.data._id;
+            const productSlug = response.data.slug;
+            const productStock = response.data.stock_management
+    
+            console.log('Product ID:', productId);
+            console.log('Product Slug:', productSlug,productStock);
+    
+            // Call the onProductCreate function with both id and slug
+            onProductCreate('id', productId, productSlug,productStock);
+    
         } catch (error) {
             console.log(error);
             Alert(error.message, false);

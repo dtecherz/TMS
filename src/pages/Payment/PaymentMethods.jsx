@@ -63,6 +63,7 @@ function PaymentMethods() {
             const response = await UpdatePaymentMethod(paymentMethodId, values); // Use paymentMethodId here
             if (response.success) Alert(response.message, response.success);
             getPaymentMethod(paymentMethodId)
+            getPyamentMathodsData()
         } catch (error) {
             console.log(error);
             Alert(error.message, false);
@@ -100,14 +101,14 @@ function PaymentMethods() {
         try {
             const response = await getSinglePaymentMethod(id);
             if (response.success) {
-                const paymentData = response.paymentMethod;
+                const SinglepaymentData = response.paymentMethod;
                 // Set form values here
                 form.setFieldsValue({
-                    Title: paymentData.Title,
-                    payment_type: paymentData.payment_type,
-                    Account_Details: paymentData.Account_Details,
+                    Title: SinglepaymentData.Title,
+                    payment_type: SinglepaymentData.payment_type,
+                    Account_Details: SinglepaymentData.Account_Details,
                 });
-                setData(paymentData);
+                // setData(paymentData);
 
                 setPaymentMethodId(id); // Set the id for later use
             }
@@ -129,26 +130,7 @@ function PaymentMethods() {
             Alert(error.message, false)
         }
     }
-    const getVriationOption = async () => {
-        try {
-            const response = await getAllVariationBasisOnVariant(id)
-            if (response.success) setVariationOption(response.variationOptions)
-        } catch (error) {
-            console.log(error)
-            Alert(error.message, false)
-        }
-    }
-
-    const VariationOption = async () => {
-        try {
-            const response = await addVaraitionOption({ name: name, variation_id: props.variation_id })
-            if (response.success) Alert(response.message, response.success)
-            props.getVriationOption()
-        } catch (error) {
-            console.log(error)
-            Alert(error.message, false)
-        }
-    }
+   
 
     const confirm = (e) => {
         console.log(e);
@@ -160,15 +142,21 @@ function PaymentMethods() {
     };
 
 
-    const handleTextEditor = (e, ) => {
+    const handleTextEditor = (e) => {
         console.log('eee', e)
-        form.setFieldValue({ Account_Details: e })
+            
         setData({ ...data, Account_Details: e })
+    }
+    
+    const handleText = (e) =>{
+        form.setFieldValue({ Account_Details: e })
+
     }
 
 
     const handleOpenModal = (id) => {
         setPaymentMethodId(id);
+        console.log('11111111111111111111')
         getPaymentMethod(id);
 
     };
@@ -211,7 +199,7 @@ function PaymentMethods() {
 
                 <div className='flex justify-between items-center mb-8'>
                     <h2 className='mb-0'>Payment Method</h2>
-                    <PaymentModal btnText={"Create Payment"} title={"Create Payment"} variation_id={id} getVriationOption={getVriationOption}>
+                    <PaymentModal btnText={"Create Payment"} title={"Create Payment"} >
 
                         <Form
                             name="basic"
@@ -362,7 +350,7 @@ function PaymentMethods() {
                                                     name="Account_Details"
                                                     rules={[{ required: true, message: 'Please input the account details!' }]}
                                                 >
-                                                    <RichTextEditor value={form.getFieldValue('Account_Details')} handleTextEditor={handleTextEditor} />
+                                                    <RichTextEditor value={form.getFieldValue('Account_Details')} handleTextEditor={handleText} />
                                                 </Form.Item>
 
                                                 <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
@@ -379,95 +367,6 @@ function PaymentMethods() {
 
 
 
-                    {/* <Col xs={24} sm={12} md={12} lg={12} xl={8} className='col px-2'>
-                        <div className="payment_card">
-                            <div className='flex justify-between items-center mb-4'>
-                                <h3 className='text-[1.2rem] font-bold'>Easypaisa</h3>
-                                <div className='flex gap-4 relative'>
-                                    <Switch
-                                        checkedChildren={<CheckOutlined />}
-                                        unCheckedChildren={<CloseOutlined />}
-                                        defaultChecked
-                                    />
-                                    <Popconfirm
-                                        title="Delete the Payment"
-                                        description="Are you sure to delete this Payment?"
-                                        onConfirm={confirm}
-                                        onCancel={cancel}
-                                        okText="Yes"
-                                        cancelText="No"
-                                    >
-                                        <DeleteOutlined className='text-[1rem] text-red-600 cursor-pointer' />
-                                    </Popconfirm>
-                                </div>
-                            </div>
-
-                            <div className='mb-4'>
-                                <h4 className='text-[1rem] font-bold mb-1'>Payment Type</h4>
-                                <p>Digital Wallet</p>
-                            </div>
-
-                            <div className='mb-4'>
-                                <h4 className='text-[1rem] font-bold'>Description</h4>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis cupiditate, facere delectus sint pariatur ab illo suscipit consequatur cumque hic adipisci iure autem quasi ullam ex molestias dignissimos nam. Provident!</p>
-                            </div>
-
-                            <div>
-                                <PaymentModal btnText={"Update"} title={"Update Payment"} customClasses="w-full" variation_id={id} getVriationOption={getVriationOption}>
-
-                                    <Form
-                                        name="basic"
-                                        layout='horizontal'
-                                        labelCol={{ span: 24 }}
-                                        wrapperCol={{ span: 24 }}
-                                        style={{ maxWidth: "100%" }}
-                                        initialValues={{ remember: true }}
-                                        onFinish={VariationOption}
-                                        onFinishFailed={(errorInfo) => console.log('Failed:', errorInfo)}
-                                        autoComplete="off"
-                                    >
-                                        <Form.Item
-                                            label="Name"
-                                            name="name"
-                                            rules={[{ required: true, message: 'Please input your product name!' }]}
-                                        >
-                                            <Input
-                                                type='text'
-                                                placeholder='Enter Payment Method'
-                                                className='form_input'
-                                                value={name}
-                                                onChange={(e) => setName(e.target.value)}
-                                            />
-                                        </Form.Item>
-
-                                        <Form.Item label="Payment Type" name="payment_type">
-                                            <Select
-                                                defaultValue={false}
-                                            // value={formData.stock_management}
-                                            // onChange={(value) => setFormData({ ...formData, stock_management: value })}
-                                            >
-                                                <Select.Option value={true}>Cash On Delivery</Select.Option>
-                                                <Select.Option value={true}>Digital Wallet</Select.Option>
-                                                <Select.Option value={true}>Bank Transfer</Select.Option>
-                                                <Select.Option value={true}>Payment Gateway</Select.Option>
-                                            </Select>
-                                        </Form.Item>
-
-
-                                        <Form.Item label="Description" name="description">
-                                            <RichTextEditor />
-                                        </Form.Item>
-
-                                        <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-                                            Update
-                                        </Button>
-                                    </Form>
-
-
-                                </PaymentModal>
-                            </div>
-                        </div>
-                    </Col> */}
                 </Row>
             </section>
         </>

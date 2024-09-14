@@ -1,8 +1,9 @@
-import { Alert, Button, Dropdown, Menu, Popconfirm, Space, Table, Tag } from 'antd';
+import {  Button, Dropdown, Menu, Popconfirm, Space, Table, Tag } from 'antd';
 import React, { useEffect, useState } from 'react'
 import { getAllOrders, updateOrderStatus } from '../../ContextAPI/APIs/api';
     import {HolderOutlined,QuestionCircleOutlined} from '@ant-design/icons'
 import { Link } from 'react-router-dom';
+import { Alert } from '../../ContextAPI/Components/notify';
 
 function Orders() {
 
@@ -11,20 +12,9 @@ function Orders() {
     const [orderLimitperPage, setOrderLimitPerPage] = useState("");
     const [page, setPage] = useState(1);
 
-    const orderStatusUpdate = async (id, Order_status) => {
-        console.log('id',id,'status',Order_status)
-        const body = { Order_status: Order_status };
-        try {
-            const response = await updateOrderStatus(id, body);
-            if (response.success) Alert(response.message, response.success);
-            GetAllOrdersData()
-        } catch (error) {
-            console.log(error);
-            Alert(error.message, false);
-        }
-    };
-
+    
     const GetAllOrdersData = async () => {
+        console.log('123445555555555555')
         try {
             const response = await getAllOrders(page);
             setOrders(response.orders);
@@ -35,6 +25,23 @@ function Orders() {
             Alert(error.message, false);
         }
     };
+    
+    const orderStatusUpdate = async (id, Order_status) => {
+        console.log('id',id,'status',Order_status)
+        const body = { Order_status: Order_status };
+        try {
+            const response = await updateOrderStatus(id, body);
+            if (response.success)
+                { 
+                    Alert(response.message, response.success);
+            GetAllOrdersData()
+        }
+        } catch (error) {
+            console.log(error);
+            Alert(error.message, false);
+        }
+    };
+
 
     useEffect(() => {
         GetAllOrdersData();
@@ -84,19 +91,19 @@ function Orders() {
                 <Dropdown
                     overlay={(
                         <Menu>
-                            <Menu.Item key="pending">
+                            <Menu.Item key="order-placed" disabled={o.Order_status === 'order-placed'} >
                                 <Popconfirm
                                     title="Update the order status"
                                     description="Are you sure you want to set the status to pending?"
                                     icon={<QuestionCircleOutlined style={{ color: 'orange' }} />}
-                                    onConfirm={() => orderStatusUpdate(o._id, 'pending')}
+                                    onConfirm={() => orderStatusUpdate(o._id, 'order-placed')}
                                     okText="Yes"
                                     cancelText="No"
                                 >
-                                    Pending
+                                    Order Placed
                                 </Popconfirm>
                             </Menu.Item>
-                            <Menu.Item key="processing">
+                            <Menu.Item key="accepted"   disabled={o.Order_status === 'accepted'}>
                                 <Popconfirm
                                     title="Update the order status"
                                     description="Are you sure you want to set the status to processing?"
@@ -105,10 +112,22 @@ function Orders() {
                                     okText="Yes"
                                     cancelText="No"
                                 >
-                                    Processing
+                                    Accepted
                                 </Popconfirm>
                             </Menu.Item>
-                            <Menu.Item key="delivered">
+                            <Menu.Item key="dispatch"   disabled={o.Order_status === 'dispatch'}>
+                                <Popconfirm
+                                    title="Update the order status"
+                                    description="Are you sure you want to set the status to dispatch?"
+                                    icon={<QuestionCircleOutlined style={{ color: 'orange' }} />}
+                                    onConfirm={() => orderStatusUpdate(o._id, 'dispatch')}
+                                    okText="Yes"
+                                    cancelText="No"
+                                >
+                                    Dispatch
+                                </Popconfirm>
+                            </Menu.Item>
+                            <Menu.Item key="delivered"   disabled={o.Order_status === 'delivered'}>
                                 <Popconfirm
                                     title="Update the order status"
                                     description="Are you sure you want to set the status to delivered?"
@@ -120,7 +139,7 @@ function Orders() {
                                     Delivered
                                 </Popconfirm>
                             </Menu.Item>
-                            <Menu.Item key="completed">
+                            <Menu.Item key="completed"  disabled={o.Order_status === 'completed'}>
                                 <Popconfirm
                                     title="Update the order status"
                                     description="Are you sure you want to set the status to completed?"
@@ -132,7 +151,20 @@ function Orders() {
                                     Completed
                                 </Popconfirm>
                             </Menu.Item>
-                            <Menu.Item key="cancelled">
+
+                            <Menu.Item key="rejected"  disabled={o.Order_status === 'rejected'}>
+                                <Popconfirm
+                                    title="Update the order status"
+                                    description="Are you sure you want to set the status to rejected?"
+                                    icon={<QuestionCircleOutlined style={{ color: 'orange' }} />}
+                                    onConfirm={() => orderStatusUpdate(o._id, 'rejected')}
+                                    okText="Yes"
+                                    cancelText="No"
+                                >
+                                    Rejected
+                                </Popconfirm>
+                            </Menu.Item>
+                            <Menu.Item key="cancelled"  disabled={o.Order_status === 'cancelled'}>
                                 <Popconfirm
                                     title="Cancel the order"
                                     description="Are you sure you want to cancel this order?"

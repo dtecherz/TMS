@@ -144,10 +144,10 @@ export const addCategory = async (body) => {
   }
 };
 
-export const singleCategory = async (id)=>{
-  console.log('ooo',id)
+export const singleCategory = async (slug)=>{
+  console.log('ooo')
   try {
-    return await CallAPI("GET",`api/product-category/get-single/${id}`)
+    return await CallAPI("GET",`api/product-category/get-single/${slug}`)
   } catch (error) {
     throw error
   }
@@ -212,6 +212,37 @@ export const addProductVariant = async (body) => {
     throw error;
   }
 };
+
+
+// update product variant 
+
+
+export const updateProductVariant = async (id,body) =>{
+  try {
+    return await CallAPI("PUT",`api/product-config/update-product-config/${id}`,body)
+  } catch (error) {
+    throw error
+  }
+}
+export const deleteProductVariant = async (id) =>{
+  try {
+    return await CallAPI("DELETE",`api/product-config/delete-variant/${id}`)
+  } catch (error) {
+    throw error
+  }
+}
+
+
+
+export const getSingleVariant = async (id) =>{
+  try {
+    return await CallAPI("GET",`api/product-config/get-single-variant/${id}`)
+    
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
 
 
 

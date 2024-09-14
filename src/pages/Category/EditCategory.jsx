@@ -5,9 +5,10 @@ import { GetCategories, singleCategory, updateCategory } from '../../ContextAPI/
 import { useParams } from 'react-router-dom'
 
 const EditCategory = () => {
-    const { id } = useParams()
+    const { slug } = useParams()
     const [form] = Form.useForm()
     const [categories, setCategories] = useState([])
+    const [id,setId] = useState("")
 
     const getAllCategories = async () => {
         try {
@@ -25,14 +26,16 @@ const EditCategory = () => {
 
     const getSingleCategory = async () => {
         try {
-            const response = await singleCategory(id)
+            const response = await singleCategory(slug)
             if (response.success) {
                 const categoryData = response.category
+                console.log('ccc',categoryData)
                 form.setFieldsValue({
                     category_name: categoryData.category_name,
-                    parent_category_id: categoryData.parent_category_id._id || '', // Set default to empty if no parent
+                    parent_category_id: categoryData?.parent_category_id?._id || null, // Set default to empty if no parent
                     status:categoryData.status
                 })
+                setId(categoryData._id)
             } else {
                 Alert(response.message, false)
             }
@@ -60,11 +63,11 @@ const EditCategory = () => {
     }
 
     useEffect(() => {
-        if (id) {
+        if (slug) {
             getSingleCategory()
         }
         getAllCategories()
-    }, [id])
+    }, [slug])
 
     return (
         <section className='create_area'>
@@ -94,9 +97,10 @@ const EditCategory = () => {
                     <Form.Item label="Parent Category" name="parent_category_id">
 
                         <Select>
+                            <Select.Option value={null}>None</Select.Option>
                             {categories.map(e => (
                                 <Select.Option key={e._id} value={e._id}>
-                                    {e.category_name}
+                                    {e?.category_name || null}
                                 </Select.Option>
                             ))}
                         </Select>
