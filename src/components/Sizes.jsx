@@ -55,7 +55,7 @@ function Sizes({ data, selectedSize, setselectedSize, matchingVariant ,colors,se
         <div className="flex flex-wrap gap-3">
             {sizes.length > 0 && sizes.map((size, index) => {
                 // Check if size exists in matchingVariant
-                const isEnabled = matchingVariant ? matchingVariant?.some(variant => variant.size.name === size) : true;
+                const isEnabled = matchingVariant ? matchingVariant?.some(variant => variant?.size?.name === size) : true;
                 return (
                     <span
                         key={index}

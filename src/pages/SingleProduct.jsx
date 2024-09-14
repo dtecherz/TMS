@@ -45,6 +45,7 @@ function SingleProduct() {
     const [colors, setColors] = useState([])
     const [sizes, setSizes] = useState([])
     const [material, setMaterials] = useState([])
+    const [price,setPrcie] = useState("")
     const [formData, setFormData] = useState({
         product_id: "",
         product_config_id: "",
@@ -66,7 +67,7 @@ function SingleProduct() {
         }
     }
 
-
+    console.log('productData',productData)
     const addItemInCart = async () => {
         const token = cookies.pk2;
         if (token) {
@@ -121,24 +122,51 @@ function SingleProduct() {
 
         setFormData({ ...formData, quantity: val })
     }
-
+    
     function findMatchingProductConfig(color, size, material) {
-        const matchedConfig = productData?.productConfig?.find(config =>
-            (!color || config.color?.name === color) &&
-            (null || config.size?.name === size) &&
-            (!material || config.material?.name === material)
-        );
-        console.log('matchConfig', matchedConfig)
-        return setFormData({ ...formData, product_config_id: matchedConfig?._id || null })
+        console.log('Finding matching config with Color:', color, ', Size:', size, ', Material:', material);
+    
+        // Check if productData and productConfig are available
+        if (!productData || !productData.productConfig) {
+            console.log("No product data or product configurations available.");
+            return;
+        }
+    
+        const matchedConfig = productData.productConfig.find(config => {
+            console.log("Checking config:", config);
+            
+            // Ensure that each condition is checked correctly
+            return (
+                (!color || config.color?.name === color) &&
+                (!size || config.size?.name === size) &&
+                (!material || config.material?.name === material)
+            );
+        });
+    
+        console.log('Matched Config:', matchedConfig);
+    
+        // Update price only if matchedConfig is found
+        if (matchedConfig) {
+            setPrcie(productData?.price + matchedConfig?.price);
+            setFormData({ ...formData, product_config_id: matchedConfig?._id || null });
+        } else {
+            setPrcie(productData?.price); // Fallback price if no matching config
+            setFormData({ ...formData, product_config_id: null });
+        }
+    
+        console.log('Price:', price);
     }
+    
 
 
     console.log('ccccccccccccccccccccccccccc', sizes)
     function findMatchingVariants(color) {
         const findMatchingVariant = productData?.productConfig?.filter(variant =>
-            (!color || variant.color.name === color)
+            (!color || variant?.color?.name === color)
         );
         console.log('findMatchingVariant', findMatchingVariant)
+        //  setFormData({ ...formData, product_config_id: findMatchingVariant?._id || null })
+
         return setMatchingVariant(findMatchingVariant)
     }
 
@@ -146,15 +174,19 @@ function SingleProduct() {
     useEffect(() => {
         getSingleProductData();
     }, [slug]);
-
     useEffect(() => {
         findMatchingVariants(selectedColor)
-        findMatchingProductConfig(selectedColor, selectedSize, selectedmaterial);
     }, [selectedColor, selectedSize, selectedmaterial]);
+    
+
+    useEffect(()=>{
+        console.log('selectedColor4545',selectedColor)
+        findMatchingProductConfig(selectedColor, selectedSize, selectedmaterial);
+    },[selectedColor,selectedSize,selectedmaterial,productConfigId,productData])
 
     useEffect(() => {
         console.log('Product Config ID:', productConfigId);
-    }, [productConfigId]);
+    }, [productData]);
 
 
     const items = [
@@ -211,8 +243,8 @@ function SingleProduct() {
                                             <p className='price'>{formatter.format(productData.price || 0)}</p>
                                             :
                                             <p className='price'>
-                                                <s>{formatter.format(productData.price || 0)}</s>
-                                                &nbsp; {formatterWithoutSymbol.format(productData?.price - ((productData.discount / 100) * productData?.price) || 0)}
+                                                <s>{formatter.format(price || 0)}</s>
+                                                &nbsp; {formatterWithoutSymbol.format(price - ((productData.discount / 100) * price) || 0)}
                                             </p>
                                     }
 
@@ -242,7 +274,7 @@ function SingleProduct() {
                                             productData?.SKU &&
                                             <h5>Sku: <span className='span'>{productData?.SKU}</span></h5>
                                         }
-                                        <h5>Category: <span className='span'><Link to={`/product-list?bestFor=${productData?.category_id?.slug}`}>{productData?.category_id?.category_name}</Link></span></h5>
+                                        <h5>Category: <span className='span'><Link to={`/shop?bestFor=${productData?.category_id?.slug}`}>{productData?.category_id?.category_name}</Link></span></h5>
 
                                     </div>
                                 </div>

@@ -8,7 +8,7 @@ export default function ProductSearch() {
     const [options, setOptions] = useState([]);
     const [anotherOption, setAnotherOption] = useState([]);
     let debounceTimer;
-
+    console.log('opt',options)
     const debounce = (func, delay) => {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(func, delay);
@@ -30,7 +30,8 @@ export default function ProductSearch() {
 
     const onSelect = (data) => {
         const product = options.find(e => e.name === data);
-        if (product?._id) navigate(`/product/${product._id}`);
+        console.log('////',product)
+        if (product?._id) navigate(`/product/${product.slug}`);
     };
 
     return (

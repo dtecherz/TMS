@@ -79,13 +79,20 @@ function NavMenu() {
                           
                             <li><Link to="/cart">Cart</Link></li>
 
-                            {(user?.role != "guest" && (cookies?.pk2 !== null || cookies.pk2 !== undefined)) ? 
+                            {/* {(user?.role != "guest" && (cookies?.pk2 !== null || cookies.pk2 !== undefined)) ? 
 
                             // <li><Link to="/sign-in">Sign In</Link></li>
                             <></>
                             :
                             
+                        } */}
+                        {
+                            (user && (cookies.pk2 == null || cookies.pk2 == undefined))
+                            ?
                             <li><Link to="/sign-in">Sign In</Link></li>
+                            :
+                            <></>
+
                         }
                             {(user?.role != "guest" && (cookies?.pk2 !== null || cookies.pk2 !== undefined))
                                 ?

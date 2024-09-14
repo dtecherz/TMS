@@ -5,6 +5,8 @@ function Colors({ data, selectedColor, setselectedColor, matchingVariant, setCol
     // const [selectedColor, setselectedColor] = useState()
 
     console.log("data?.productConfig", data?.productConfig);
+    console.log('ssssss',123)
+
 
 
     let color = data?.productConfig
@@ -21,6 +23,7 @@ function Colors({ data, selectedColor, setselectedColor, matchingVariant, setCol
     console.log('matchingVariant', matchingVariant)
 
 
+    // setselectedColor(colors[0]); // Set the first color by default
     // Set the default selected color to the first item in colors
     useEffect(() => {
         if (colors.length > 0 && !selectedColor) {
