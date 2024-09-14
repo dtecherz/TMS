@@ -17,13 +17,14 @@ const productController = {
                 SKU: req.body.SKU,
                 price: req.body.price,
                 discount: req.body.discount,
-                total_quantity: req.body.total_quantity || null,
+                total_quantity: req.body.total_quantity || 0,
                 images: req.body.images // Assuming image ID is provided in the request body
             };
 
             if (!productData.name) return res.status(400).send({ success: false, message: "product name is required" })
             if (!productData.category_id) return res.status(400).send({ success: false, message: "category is required" })
             if (!productData.price) return res.status(400).send({ success: false, message: "product price is required" })
+            if (!productData.short_description) return res.status(400).send({ success: false, message: "product short_description is required" })
 
             // Check if the product already exists
             const existingProduct = await Product.findOne({ name: productData.name });

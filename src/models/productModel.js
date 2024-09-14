@@ -23,8 +23,8 @@ productSchema = new mongoose.Schema({
     },
     long_description: {
         type: String,
-        required: true,
-        default:null
+        // required: true,
+        default:"string"
     },
     status: {
         type: String,

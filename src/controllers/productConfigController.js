@@ -141,7 +141,7 @@ const productConfigController={
       try {
         const product_config_id = req.params.id
         const {size,color,material,price,stock_quantity} = req.body
-
+        console.log('req.body',req.body)
         const updateVariant = {}
         if(size){
           updateVariant.size=req.body.size
@@ -206,7 +206,28 @@ const productConfigController={
           error:error.messag
         })
       }
-    }
+    },
+
+
+
+    // delete product variant 
+
+
+    async deleteVariant(req,res){
+      try {
+        const product_config_id= req.params.id;
+        const productrVariant = await productConfig.findByIdAndDelete({_id:product_config_id})
+
+        if(!productrVariant) return res.status(400).send({success:false,message:"error while deleting"})
+          return res.status(200).send({success:true,message:"product variant deketed succesfully",variant:productrVariant})
+      } catch (error) {
+        console.log(error)
+        return res.status(400).send({
+          success:false,message:"something went wrong while deleting ",
+          error:error.messag
+        })
+      }
+    },
 
 
 }

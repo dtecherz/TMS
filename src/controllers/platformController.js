@@ -35,7 +35,7 @@ const platformController = {
 
             if (typeof search == "undefined" || !search || search == "" || search == " " || search == null) throw "search query is empty";
 
-            let products = await productModel.find({ name: { $regex: search.trim(), $options: 'i' }, status: "active" }, { name: 1 }).limit(10);
+            let products = await productModel.find({ name: { $regex: search.trim(), $options: 'i' }, status: "active" }, { name: 1,slug:1 }).limit(10);
 
 
             return res.status(200).send({ success: true, products })

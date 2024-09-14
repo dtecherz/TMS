@@ -13,5 +13,6 @@ router.get('/get',verfiyToken,productConfigController.getAllproductVariations)
 
 router.put('/update-product-config/:id',verfiyToken,productConfigController.updateProductVariation)
 router.get('/get-single-variant/:id',verfiyToken,productConfigController.getSingleVariant)
+router.delete('/delete-variant/:id',verfiyToken,productConfigController.deleteVariant)
 
 module.exports = router
