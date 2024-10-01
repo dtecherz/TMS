@@ -11,7 +11,7 @@ import insta_img from "../assets/insta-img.jpg"
 
 const style = {
     // background: '#0092ff',
-    padding: '8px 0',
+    padding: '8px 20px',
 };
 
 function Footer() {
@@ -36,13 +36,13 @@ function Footer() {
                             <Col xs={24} sm={12} md={12} lg={6} xl={6}>
                                 <div style={style}>
                                     <div>
-                                        <h5>About Us</h5>
+                                        <h5>Links</h5>
 
                                         <ul>
-                                            <li><Link to="#">About Me</Link></li>
-                                            <li><Link to="#">About Me</Link></li>
-                                            <li><Link to="#">About Me</Link></li>
-                                            <li><Link to="#">About Me</Link></li>
+                                            <li><Link to="/shop?bestFor=shoes">Shoes</Link></li>
+                                            <li><Link to="/shop?bestFor=bags">Bags</Link></li>
+                                            <li><Link to="/shop?bestFor=clutch">Cluthch</Link></li>
+                                            <li><Link to="/hop?bestFor=women-s-sandal-s">Sandals </Link></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -82,16 +82,16 @@ function Footer() {
                                                     <TikTokOutlined className='social_icons' />
                                                 </a>
                                             </div>
-                                            <div>
+                                            {/* <div>
                                                 <a href="#">
                                                     <FacebookOutlined className='social_icons' />
                                                 </a>
-                                            </div>
-                                            <div>
+                                            </div> */}
+                                            {/* <div>
                                                 <a href="#">
                                                     <XOutlined className='social_icons' />
                                                 </a>
-                                            </div>
+                                            </div> */}
                                         </Flex>
                                     </div>
                                 </div>

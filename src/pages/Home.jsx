@@ -85,8 +85,8 @@ function Home() {
                             </Col>
                             <Col xs={24} sm={24} md={12} lg={12} >
                                 <div className='section_content'>
-                                    <h2>CHILDREN CREATIVE WORKSHOPS</h2>
-                                    <p>Elevate your style with this luxurious quilted leather handbag, featuring a sleek design for an elegant touch. Perfectly versatile, it’s a chic accessory for any occasion, blending sophistication with modern flair.</p>
+                                    <h2>Timeless Leather Elegance</h2>
+                                    <p>Discover the perfect blend of sophistication and functionality with our luxurious leather handbag. Designed for the modern woman, this versatile piece elevates any outfit, from casual daytime looks to evening elegance..</p>
 
                                     <Link to="/shop?bestFor=bags">
                                         <My_Button text={"View More"} />
@@ -139,7 +139,7 @@ function Home() {
                 </div>
             </section> */}
 
-            <section className='testimonials_area'>
+            {/* <section className='testimonials_area'>
 
                 <div className='section_inner'>
                     <div className='container'>
@@ -152,7 +152,7 @@ function Home() {
                     </div>
                 </div>
 
-            </section>
+            </section> */}
 
             <Footer />
         </>

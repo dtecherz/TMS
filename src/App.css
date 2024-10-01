@@ -259,6 +259,24 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
   font-size: 10px;
   /* left: 10px; */
 }
+.navbar_2 .cart-number1{
+  background-color: var(--themeBrownColor);
+  color: white;
+  border-radius: 100px;
+  /* padding: 2px 3px; */
+  /* padding: 3px; */
+  position: absolute;
+  top: 115px;
+  height: 20px;
+  width: 20px;
+  margin-left: 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  left: 20px;
+}
 
 .cart-icon {
   position: relative;
@@ -719,7 +737,7 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
 .workshops_area {
   /* background-image: url(./assets/bg4.webp); */
   /* background-image: url(./assets/workshop-bg.jpg); */
-  background-color: #F8F1EB;
+  background-color: #ede5df;
   background-position: 50% 0px;
   background-attachment: fixed;
   background-repeat: no-repeat;
@@ -1658,7 +1676,7 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
 }
 
 .footer .footer_inner {
-  padding: 140px 0px;
+  padding: 70px 0px;
 }
 
 .footer .ant-col {
@@ -1668,11 +1686,14 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
 .footer .logo {
   width: 80px;
   height: auto;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem;
+  
+  
+  */
 }
 
 .footer p {
-  margin: 10px 0 16px 0;
+  margin: 0px 0 16px 0;
   font-family: Lato, sans-serif;
   font-size: 15px;
   font-weight: 300;
@@ -2268,3 +2289,8 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
   font-size: 18px;
   padding: 5px;
 }
+
+
+.ant-tabs-ink-bar {
+  border-bottom: 2px solid var(--themeBrownColor);
+} 

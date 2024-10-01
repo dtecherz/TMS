@@ -27,7 +27,7 @@ import { useCookies } from 'react-cookie'
 function SingleProduct() {
 
 
-    const { slug} = useParams()
+    const { slug } = useParams()
     const [cookies] = useCookies(['pk2'])
     console.log('pppp', cookies.pk2)
     //   alert(cookies.pk2)
@@ -45,7 +45,7 @@ function SingleProduct() {
     const [colors, setColors] = useState([])
     const [sizes, setSizes] = useState([])
     const [material, setMaterials] = useState([])
-    const [price,setPrcie] = useState("")
+    const [price, setPrcie] = useState("")
     const [formData, setFormData] = useState({
         product_id: "",
         product_config_id: "",
@@ -60,14 +60,14 @@ function SingleProduct() {
             const response = await getSingleProduct(slug)
             if (response.success) setProductData(response.productData)
             setRelatedProducts(response.relatedProducts.slice(0, 4))
-        setFormData({...formData,product_id:response.productData._id})
+            setFormData({ ...formData, product_id: response.productData._id })
         } catch (error) {
             console.log(error)
             Alert(response.message, false)
         }
     }
 
-    console.log('productData',productData)
+    console.log('productData', productData)
     const addItemInCart = async () => {
         const token = cookies.pk2;
         if (token) {
@@ -122,19 +122,19 @@ function SingleProduct() {
 
         setFormData({ ...formData, quantity: val })
     }
-    
+
     function findMatchingProductConfig(color, size, material) {
         console.log('Finding matching config with Color:', color, ', Size:', size, ', Material:', material);
-    
+
         // Check if productData and productConfig are available
         if (!productData || !productData.productConfig) {
             console.log("No product data or product configurations available.");
             return;
         }
-    
+
         const matchedConfig = productData.productConfig.find(config => {
             console.log("Checking config:", config);
-            
+
             // Ensure that each condition is checked correctly
             return (
                 (!color || config.color?.name === color) &&
@@ -142,9 +142,9 @@ function SingleProduct() {
                 (!material || config.material?.name === material)
             );
         });
-    
+
         console.log('Matched Config:', matchedConfig);
-    
+
         // Update price only if matchedConfig is found
         if (matchedConfig) {
             setPrcie(productData?.price + matchedConfig?.price);
@@ -153,10 +153,10 @@ function SingleProduct() {
             setPrcie(productData?.price); // Fallback price if no matching config
             setFormData({ ...formData, product_config_id: null });
         }
-    
+
         console.log('Price:', price);
     }
-    
+
 
 
     console.log('ccccccccccccccccccccccccccc', sizes)
@@ -177,12 +177,12 @@ function SingleProduct() {
     useEffect(() => {
         findMatchingVariants(selectedColor)
     }, [selectedColor, selectedSize, selectedmaterial]);
-    
 
-    useEffect(()=>{
-        console.log('selectedColor4545',selectedColor)
+
+    useEffect(() => {
+        console.log('selectedColor4545', selectedColor)
         findMatchingProductConfig(selectedColor, selectedSize, selectedmaterial);
-    },[selectedColor,selectedSize,selectedmaterial,productConfigId,productData])
+    }, [selectedColor, selectedSize, selectedmaterial, productConfigId, productData])
 
     useEffect(() => {
         console.log('Product Config ID:', productConfigId);
@@ -195,12 +195,21 @@ function SingleProduct() {
             label: 'Description',
             children: <Description data={productData?.short_description} />,
         },
-        {
-            key: '2',
+        // {
+        //     key: '2',
+        //     label: 'Additional Information',
+        //     children: <Addtional_Info data={productData?.long_description} />,
+        // },
+    ];
+    if (productData?.long_description) {
+        items.push({
+            key: 2,
             label: 'Additional Information',
             children: <Addtional_Info data={productData?.long_description} />,
-        },
-    ];
+        })
+    }
+
+
 
 
     // Define the truncateDescription function
@@ -283,7 +292,8 @@ function SingleProduct() {
 
 
                         <div className="product_desc_area">
-                            <Tabs defaultActiveKey="1" items={items} />
+                                <Tabs defaultActiveKey="1" items={items}
+                                />
                         </div>
 
 

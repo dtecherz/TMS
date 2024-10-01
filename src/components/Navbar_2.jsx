@@ -96,9 +96,39 @@ function Navbar_2(props) {
                             }
 
                             <li>
+                                <div className='flex'>
+                                    
                                 <Link to={'/cart'} className="md:hidden block py-2 px-3 transition-all duration-300 focus:outline-none focus:ring-0 font-medium md:p-0 sm:px-4 sm:py-2">
                                     <ShoppingCartOutlined style={{ fontSize: "22px" }} />
+                                    {carts.length > 0 && (
+                                    <span className='cart-number1'>{carts.length}</span>
+                                )
+                                }
                                 </Link>
+                                {
+                                    (user && (cookies?.pk2 !== null || cookies.pk2 !== undefined)) ?
+                        <Tooltip title="Logout">
+                            <Link to={'/sign-in'} className=" md:hidden block py-2 px-3 transition-all duration-300 focus:outline-none focus:ring-0 font-medium md:p-0 sm:px-4 sm:py-2">
+                                    <LogoutOutlined className='social_icons' style={{fontSize: "20px"}}  onClick={()=>SignOut()} />
+                                
+                            </Link>
+                        </Tooltip>
+                        :
+
+                        <></>
+
+                        }
+                        <Link to={'/my-orders'} className=" md:hidden block py-2 px-3 transition-all duration-300 focus:outline-none focus:ring-0 font-medium md:p-0 sm:px-4 sm:py-2">
+                            {
+                                (user?.role != "guest" && (cookies?.pk2 !== null || cookies.pk2 !== undefined)) ?
+                                    <ShoppingOutlined className='social_icons' style={{ fontSize: "20px" }} />
+                                    :
+
+                                    <></>
+
+                                }
+                            </Link>
+                                </div>
                             </li>
 
                         </ul>

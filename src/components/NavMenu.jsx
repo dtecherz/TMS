@@ -87,7 +87,8 @@ function NavMenu() {
                             
                         } */}
                         {
-                            (user && (cookies.pk2 == null || cookies.pk2 == undefined))
+                            // console.log('???',cookies.pk2 == undefined)
+                            (cookies.pk2 == null || cookies.pk2 == undefined)
                             ?
                             <li><Link to="/sign-in">Sign In</Link></li>
                             :

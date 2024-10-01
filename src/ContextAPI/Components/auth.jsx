@@ -143,7 +143,10 @@ export const AuthProvider = ({ children }) => {
 
     async function SignOut() {
         removeCookie("pk2", { path: '/' });  // Ensure the path matches when the cookie was set
-    navigate('/sign-in');
+        setTimeout(() => {
+            navigate('/sign-in');  // Redirect to sign-in page
+            console.log("Redirecting to sign-in");
+        }, 100); // 100ms delay to allow time for cookie removal
 
         // window.location.href = "/sign-in"
         console.log("hiiii");
