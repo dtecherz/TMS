@@ -1,12 +1,22 @@
 const mongoose = require('mongoose')
 
+slug = require('mongoose-slug-updater')
+mongoose.plugin(slug)
 
-const collectionSchema = new mongoose.Schema({
+
+ collectionSchema = new mongoose.Schema({
     name:{
         type:String,
         required:true,
     },
-    products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
+    slug: { type: String, slug: "name" },
+
+    products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
+    status:{
+        type:String,
+        enum:["active","inactive"],
+        default:"active"
+    }
 },{
     timestamps:true
 })

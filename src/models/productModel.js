@@ -4,7 +4,7 @@ const Category = require('./categoryModels')
 slug = require('mongoose-slug-updater')
     mongoose.plugin(slug)
 
-var Schema = mongoose.Schema
+// var Schema = mongoose.Schema
 
 productSchema = new mongoose.Schema({
     name: {

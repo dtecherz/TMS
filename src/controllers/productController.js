@@ -293,6 +293,29 @@ const productController = {
                 error: error.message
             })
         }
+    },
+
+
+
+
+    // get all products for collection side 
+
+
+    async getAllProductsName(req,res){
+        try {
+           const products = await Product.find()
+           return res.status(200).send({
+            success:true,
+            message:"product got succesfully",
+            products:products
+           }) 
+        } catch (error) {
+            console.log(error)
+            return res.status(400).send({
+                success:false,
+            message:"something went wrong while ggetting products",
+        error:error.message            })
+        }
     }
 
 }

@@ -13,5 +13,10 @@ router.get('/get-single/:slug',productController.getSingleProduct)
 
 
 
+// get for collection 
+
+router.get('/get-prod',productController.getAllProductsName)
+
+
 
 module.exports = router

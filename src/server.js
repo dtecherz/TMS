@@ -55,6 +55,7 @@ const paymentRoutes = require('./routes/paymentMethodRoutes')
 const platformRoutes = require('./routes/platformRoutes')
 const subscriberRoutes = require('./routes/subscriberRoutes')
 const shippingRoutes = require('./routes/shippingRoutes')
+const collectionRoutes = require('./routes/collectionRoutes')
 
 
 app.use('/api/user', userRoutes)
@@ -70,6 +71,7 @@ app.use('/api/payment', paymentRoutes)
 app.use('/api/platform', platformRoutes)
 app.use('/api/subscriber', subscriberRoutes)
 app.use('/api/shipping', shippingRoutes)
+app.use('/api/collection',collectionRoutes)
 
 
 app.listen(PORT, () => {
