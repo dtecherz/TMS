@@ -30,6 +30,9 @@ import ShippingMethods from './pages/Shipping/ShippingMethods';
 import AddShippingMethod from './pages/Shipping/AddShippingMethod';
 import EditCategory from './pages/Category/EditCategory';
 import EditShippingMethods from './pages/Shipping/EditShippingMethods';
+import CollectionList from './components/Collection/CollectionList';
+import CreateCollection from './components/Collection/CreateCollection';
+import EditCollection from './components/Collection/EditCollection';
 
 
 
@@ -73,6 +76,9 @@ function App() {
         <Route path="/shipping-methods" element={<ShippingMethods />} />
         <Route path="/add-shipping-method" element={<AddShippingMethod />} />
         <Route path="/edit-shipping-method/:id" element={<EditShippingMethods />} />
+        <Route path="/collection-list" element={<CollectionList />} />
+        <Route path="/create-collection" element={<CreateCollection />} />
+        <Route path="/edit-collection/:slug" element={<EditCollection />} />
       </Route>
     </Routes>
     </>

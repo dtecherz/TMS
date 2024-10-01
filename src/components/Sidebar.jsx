@@ -76,14 +76,18 @@ function Sidebar({ collapsed }) {
         getItem(<Link to={"/users"}>Users</Link>, '1', <UserOutlined />),
         getItem('Category', 'sub1', <ProductOutlined />, [
             getItem(<Link to={"/category-list"}>Category List</Link>, '3'),
-            getItem(<Link to={"/create-category"}>Create Category</Link>, '4'),
+            // getItem(<Link to={"/create-category"}>Create Category</Link>, '4'),
             getItem(<Link to={"/edit-category/:id"}>Edit Category</Link>, '5'), // Moved to position 5
         ]),
         getItem(<Link to={"/variation-list"}>Variation</Link>, '6', <VideoCameraOutlined />), // Changed index from 5 to 6
         getItem('Products', 'sub2', <ProductOutlined />, [
             getItem(<Link to={"/product-list"}>Products List</Link>, '7'), // Updated from 6 to 7
-            getItem(<Link to={"/create-product"}>Create Product</Link>, '8'), // Updated from 7 to 8
+            // getItem(<Link to={"/create-product"}>Create Product</Link>, '8'), // Updated from 7 to 8
         ]),
+        getItem('Collections', 'sub5',<ProductOutlined />,[
+
+            getItem(<Link  to = {'/collection-list'}>Collection List  </Link>, '19')
+        ]  ),
         getItem(<Link to={"/product-variation-list"}>Products Variations</Link>, '9', <FileOutlined />), // Updated from 8 to 9
         getItem(<Link to={"/orders"}>Orders</Link>, '10', <ShoppingOutlined />), // Updated from 9 to 10
         // getItem(<Link to={"/addresses"}>Addresses</Link>, '10', <FileOutlined />),
@@ -96,8 +100,8 @@ function Sidebar({ collapsed }) {
         getItem(<span onClick={() => SignOut()}>Logout</span>, '15', <UserDeleteOutlined />),
         getItem('Shipping Methods', 'sub4', <ProductOutlined />, [
             getItem(<Link to={"/shipping-methods"}>Shipping List</Link>, '16'),
-            getItem(<Link to={"/add-shipping-method"}>Create Shipping</Link>, '17'),
-            getItem(<Link to={"/edit-shipping-method/:id"}>Create Shipping</Link>, '18'),
+            // getItem(<Link to={"/add-shipping-method"}>Create Shipping</Link>, '17'),
+            // getItem(<Link to={"/edit-shipping-method/:id"}>Edit Shipping</Link>, '18'),
         ]),
     ];
     
@@ -107,11 +111,11 @@ function Sidebar({ collapsed }) {
         // Customize according to your routes
         if (path.startsWith('/users')) return '1';
         if (path.startsWith('/category-list')) return '3';
-        if (path.startsWith('/create-category')) return '4';
+        // if (path.startsWith('/create-category')) return '4';
         if (path.startsWith('/edit-category/:id')) return '5'; // Updated to '5' for Edit Category
         if (path.startsWith('/variation-list')) return '6'; // Updated from '5' to '6'
         if (path.startsWith('/product-list')) return '7'; // Updated from '6' to '7'
-        if (path.startsWith('/create-product')) return '8'; // Updated from '7' to '8'
+        // if (path.startsWith('/create-product')) return '8'; // Updated from '7' to '8'
         if (path.startsWith('/product-variation-list')) return '9'; // Updated from '8' to '9'
         if (path.startsWith('/orders')) return '10'; // Updated from '9' to '10'
         if (path.startsWith('/addresses')) return '10';
@@ -120,8 +124,9 @@ function Sidebar({ collapsed }) {
         if (path.startsWith('/upload-images')) return '13';
         if (path.startsWith('/add-payment-method')) return '14';
         if (path.startsWith('/shipping-methods')) return '16';
-        if (path.startsWith('/add-shipping-method')) return '17';
-        if (path.startsWith('/edit-shipping-method/:id')) return '18';
+        if (path.startsWith('/collection-list')) return '19';
+        // if (path.startsWith('/add-shipping-method')) return '17';
+        // if (path.startsWith('/edit-shipping-method/:id')) return '18';
         return '';
     };
     

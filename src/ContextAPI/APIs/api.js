@@ -716,7 +716,7 @@ export const getSinglePaymentMethod = async (id) =>{
 
 export const deletePaymentMethod = async (id) => {
   try {
-    return await CallAPI("POST", `api/payments/delete-payment-method/${id}`)
+    return await CallAPI("DELETE", `api/payment/delete-payment-method/${id}`)
   } catch (error) {
     throw error
   }
@@ -836,6 +836,54 @@ export const getAllUsers = async (page) => {
     throw error;
   }
 };
+
+
+
+
+// collection 
+
+
+export const addCollection = async (body) =>{
+  try {
+    return await CallAPI("POST", `api/collection/add-collection`,body)
+  } catch (error) {
+    throw error
+  }
+}
+
+
+
+// get all collections 
+
+export const getCollections = async () =>{
+  try {
+    return await CallAPI('GET',`api/collection/get`)
+  } catch (error) {
+    throw error
+  }
+}
+
+
+// get single collection 
+
+export const getOneColection = async (slug) =>{
+  try {
+    return await CallAPI("GET", `api/collection/get-single/${slug}`)
+  } catch (error) {
+    throw error
+  }
+}
+
+
+// get products 
+
+export const getProductName = async ()=>{
+  try{
+    return await CallAPI("GET",`api/products/get-prod`)
+  }catch{
+    throw error
+  }
+}
 
 
 

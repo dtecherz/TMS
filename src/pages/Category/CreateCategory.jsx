@@ -2,9 +2,10 @@ import { Button, Card, Form, Input, Select } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { addCategory, GetCategories } from '../../ContextAPI/APIs/api';
 import { Alert } from '../../ContextAPI/Components/notify';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const CreateCategory = () => {
-
+    const navigate = useNavigate()
     const [categories, setCategories] = useState([]);
 
     const [formData, setFormData] = useState({
@@ -30,7 +31,9 @@ const CreateCategory = () => {
         try {
             const response = await addCategory(formData)
             if (response.success) Alert(response.message, response.success)
-            getAllCategories()
+            // getAllCategories()
+            navigate('/category-list')
+            
         } catch (error) {
             console.log(error)
             Alert(error.message, false)
@@ -76,7 +79,10 @@ const CreateCategory = () => {
                                 onChange={(e) => setFormData({ ...formData, category_name: e.target.value })}
                             />
                         </Form.Item>
-                        <Form.Item label="Parent Category" name="category_id">
+                        {console.log('category',categories.length)}
+                        {categories.length !== 0 ?
+
+                            <Form.Item label="Parent Category(if any)" name="category_id">
                             <Select
                                 showSearch
                                 optionFilterProp="label"
@@ -85,8 +91,11 @@ const CreateCategory = () => {
                                 onSearch={onSearch}
                                 onChange={(value) => setFormData({ ...formData, parent_category_id: value })}
                                 options={[{ value: '', label: 'None', }, ...categories.map((e, i) => { return { value: e._id, label: e.category_name } })]}
-                            />
+                                />
                         </Form.Item>
+                        :
+                        <></>
+                            }
 
                         <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
                             Create

@@ -49,14 +49,20 @@ export const AuthProvider = ({ children }) => {
             // if(response.user.status != "active") return Alert("Your account is Blocked", "error")            
 
             if (response.success) {
-                Alert(response.message)
-                setUser(response.user)
-                setCookie('pk2', response.token, {
-                    path: '/',
-                    maxAge: 6000000,
-                });
+             
+                console.log('rrrrr',response)
+                if(response.user.role !== "admin"){
+                    return  Alert("Only admin can access this",false)
+                }else{
+                    Alert(response.message,true)
+                    setUser(response.user)
+                    setCookie('pk2', response.token, {
+                        path: '/',
+                        maxAge: 6000000,
+                    });
 
-                return navigate("/users")
+                    return navigate("/users")
+                }
             }
 
         } catch (error) {

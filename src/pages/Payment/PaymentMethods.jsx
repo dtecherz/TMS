@@ -6,7 +6,7 @@ import { Button, Col, Flex, Form, Input, Popconfirm, Row, Select, Switch } from 
 
 import { CheckOutlined, CloseOutlined, DeleteOutlined } from "@ant-design/icons"
 import { RichTextEditor } from '../../components/richTextEditor'
-import { addPaymentMethod, addVaraitionOption, GetPaymentMethods, getSinglePaymentMethod, UpdatePaymentMethod } from '../../ContextAPI/APIs/api'
+import { addPaymentMethod, addVaraitionOption, deletePaymentMethod, GetPaymentMethods, getSinglePaymentMethod, UpdatePaymentMethod } from '../../ContextAPI/APIs/api'
 import { Alert } from '../../ContextAPI/Components/notify'
 
 function PaymentMethods() {
@@ -53,6 +53,7 @@ function PaymentMethods() {
 
 
     const paymentMethodUpdate = async () => {
+  
         if (!paymentMethodId) {
             Alert("No payment method selected", false);
             return;
@@ -132,9 +133,18 @@ function PaymentMethods() {
     }
    
 
-    const confirm = (e) => {
-        console.log(e);
-        message.success('Click on Yes');
+    const confirm = async  (id) => {
+        console.log(id);
+        try {
+            
+            const response = await deletePaymentMethod(id)
+            if(response.success){
+                Alert(response.message,response.success)
+                getPyamentMathodsData()
+            }
+        } catch (error) {
+                Alert(error.message,false)
+        }
     };
     const cancel = (e) => {
         console.log(e);
@@ -148,10 +158,10 @@ function PaymentMethods() {
         setData({ ...data, Account_Details: e })
     }
     
-    const handleText = (e) =>{
-        form.setFieldValue({ Account_Details: e })
-
-    }
+    const handleText = (value) => {
+        console.log('RichTextEditor onChange:', value);
+        form.setFieldsValue({ Account_Details: value }); // Correctly update the form field
+    };
 
 
     const handleOpenModal = (id) => {
@@ -173,7 +183,7 @@ function PaymentMethods() {
 
     // const [swS,setswS] = useState(false)
     const handleSwitch = async (id, status) => {
-        console.log("status", status);
+        console.log("status", status,id);
 
         let p = {}
         if (status == "active") {
@@ -187,7 +197,7 @@ function PaymentMethods() {
         console.log("ppppp", p);
         // return 
 
-        await paymentMethodUpdate(id, p)
+        await UpdatePaymentMethod(id, p)
 
         await getPyamentMathodsData()
     }
@@ -279,7 +289,7 @@ function PaymentMethods() {
                                             <Popconfirm
                                                 title="Delete the Payment"
                                                 description="Are you sure to delete this Payment?"
-                                                onConfirm={confirm}
+                                                onConfirm={()=>confirm(p._id)}
                                                 onCancel={cancel}
                                                 okText="Yes"
                                                 cancelText="No"
