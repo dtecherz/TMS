@@ -86,7 +86,11 @@ const collectionController = {
             const slug = req.params.slug
             const id = req.params.id
 
-            const collection = await Collection.findOne({slug:slug}).populate('products')
+            const collection = await Collection.findOne({ slug: slug })
+            .populate({
+                path: 'products', // Populate the products
+                populate: { path: 'images', select: ['image_url', '_id'] } // Within products, populate images
+            });
             if(!collection) return res.status(400).send({success:false,message:"no collection found"})
 
                 return res.status(200).send({
