@@ -16,7 +16,7 @@
 
         useEffect(() => {
             if (id) {
-                setActiveKey('2');
+                // setActiveKey('2');
             }
         }, [id]);
 
@@ -43,8 +43,8 @@
             setActiveKey('2');
         };
 
-        const isTab1Disabled = activeKey === '2';
-        const isTab2Disabled = activeKey === '1';
+        // const isTab1Disabled = activeKey === '2';
+        // const isTab2Disabled = activeKey === '1';
 
         const items = [
             {
@@ -71,7 +71,7 @@
                             <Tabs.TabPane
                                 key={item.key}
                                 tab={item.label}
-                                disabled={item.key === '1' ? isTab1Disabled : isTab2Disabled}
+                                // disabled={item.key === '1' ? isTab1Disabled : isTab2Disabled}
                             >
                                 {item.children}
                             </Tabs.TabPane>

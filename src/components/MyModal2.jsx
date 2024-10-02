@@ -43,7 +43,7 @@ const MyModal2 = (props) => {
       <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}   footer={null}>
       
       
-            <h2>Add New Variation Optin</h2>
+            <h2>Add New Variation Option</h2>
 
             <Form
                 name="basic"

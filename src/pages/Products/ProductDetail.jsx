@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, Input, Popconfirm, Row, Select } from 'antd'
+import { Button, Card, Col, Form, Input, Popconfirm, Row, Select, Table } from 'antd'
 import { HolderOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 
 import React, { useEffect, useRef, useState } from 'react'
@@ -280,6 +280,176 @@ function ProductDetail() {
         }
     }, [hasChanges]);
 
+
+
+    const dataSource = productVariationData.map(item => {
+        return {
+          key: item._id, // Use the product's ID as the key
+          size: item.size ? item.size.name : '--', // Extract size name
+          color: item.color ? item.color.name : '--',
+          material:item.material ? item.material.name : "--" ,// Extract color name
+          price: item.price,
+          stock_quantity: item.stock_quantity,
+          edit:<VariantModal
+          btnText={"Edit"}
+          title={"Edit"}
+          customClasses="w-full"
+          onOpen={() => {
+              setVariationData({
+                  size: variation.size?._id || "",
+                  color: variation.color?._id || "",
+                  material: variation.material?._id || "",
+                  price: variation.price || "",
+                  stock_quantity: variation.stock_quantity || ""
+              });
+              singlevariant(variation._id); // Fetch additional data if needed
+          }}
+          getProductData={getProductData}
+      >
+          <form>
+              <div>
+                  <label>Sizes</label>
+                  <Select
+                      value={variationData.size}  // Controlled component
+                      onChange={(value) => setVariationData({ ...variationData, size: value })}
+                      placeholder="Select size"
+                  >
+                      {variationOption?.Size?.length > 0 ? (
+                          variationOption?.Size.map((e) => (
+                              <Select.Option key={e._id} value={e._id}>
+                                  {e.name}
+                              </Select.Option>
+                          ))
+                      ) : (
+                          <Select.Option value={null}>No Option Found</Select.Option>
+                      )}
+                  </Select>
+              </div>
+
+              <div>
+                  <label>Colors</label>
+                  <Select
+                      value={variationData.color}  // Controlled component
+                      onChange={(value) => setVariationData({ ...variationData, color: value })}
+                      placeholder="Select color"
+                  >
+                      {variationOption?.Color?.length > 0 ? (
+                          variationOption?.Color.map((e) => (
+                              <Select.Option key={e._id} value={e._id}>
+                                  {e.name}
+                              </Select.Option>
+                          ))
+                      ) : (
+                          <Select.Option value={null}>No Option Found</Select.Option>
+                      )}
+                  </Select>
+              </div>
+
+              <div>
+                  <label>Materials</label>
+                  <Select
+                      value={variationData.material}  // Controlled component
+                      onChange={(value) => setVariationData({ ...variationData, material: value })}
+                      placeholder="Select material"
+                  >
+                      {variationOption?.Material?.length > 0 ? (
+                          variationOption?.Material.map((e) => (
+                              <Select.Option key={e._id} value={e._id}>
+                                  {e.name}
+                              </Select.Option>
+                          ))
+                      ) : (
+                          <Select.Option value={null}>No Option Found</Select.Option>
+                      )}
+                  </Select>
+              </div>
+
+              <div>
+                  <label>Price</label>
+                  <Input
+                      type="text"
+                      value={variationData.price}  // Controlled component
+                      onChange={(e) => setVariationData({ ...variationData, price: e.target.value })}
+                      placeholder="Enter Price"
+                  />
+              </div>
+
+              <div>
+                  <label>Stock Quantity</label>
+                  <Input
+                      type="text"
+                      value={variationData.stock_quantity}  // Controlled component
+                      onChange={(e) => setVariationData({ ...variationData, stock_quantity: e.target.value })}
+                      placeholder="Enter Stock Quantity"
+                  />
+              </div>
+
+              <button
+                  type="primary"
+                  htmlType="submit"
+                  style={{ width: "50%", color: "white", background: "blue" }}
+                  onClick={(e) => handleSubmit(e)}
+              >
+                  Update
+              </button>
+          </form>
+      </VariantModal>,
+      delete:  <Button type="primary" danger ghost>
+      <Popconfirm
+          title="Update the order status"
+          description="Are you sure you want to delete this product variant?"
+          icon={<QuestionCircleOutlined style={{ color: 'orange' }} />}
+          onConfirm={() => deleteVariant(variation._id)}
+          okText="Yes"
+          cancelText="No"
+      >
+          Delete
+      </Popconfirm>
+  </Button>
+        
+    };
+      });
+        
+      const column = productVariationData.map(config => {
+        return Object.keys(config).filter(key => config[key] !== null && typeof config[key] === 'object');
+    });
+    
+    // Use a Set to filter out duplicate keys
+    const uniqueKeys = new Set(column.flat());
+    
+    // Dynamically create table headings based on the unique keys
+    const tableHeading = Array.from(uniqueKeys).map(key => {
+        return {
+            title: key.charAt(0).toUpperCase() + key.slice(1),  // Capitalize the key for the title
+            dataIndex: key,  // Access nested 'name' in object fields like size and color
+            key: key,
+        };
+    });
+
+
+          tableHeading.push(
+            {
+              title: 'Price',
+              dataIndex: 'price',
+              key: 'price',
+            },
+            {
+              title: 'Stock Quantity',
+              dataIndex: 'stock_quantity',
+              key: 'stock_quantity',
+            },
+            {
+                title:'Action',
+                dataIndex:'edit',
+                key:'edit'
+            },
+            {
+                title:"Delete",
+                dataIndex:'delete',
+                key:'delete'
+            }
+          );
+
     return (
         <section className='create_area'>
             <Card className='add_product_card'>
@@ -458,7 +628,7 @@ function ProductDetail() {
                 </Form>
 
                 <h2>Product Variations</h2>
-                <div>
+                {/* <div>
                     {productVariationData.map((variation, index) => (
                         <div key={variation._id} className='flex gap-5'>
                             <p><strong>Variation {index + 1}:</strong></p> ||
@@ -585,6 +755,14 @@ function ProductDetail() {
                             </Button>
                         </div>
                     ))}
+
+                </div> */}
+
+
+                <div className='my-5'>
+
+
+                <Table dataSource={dataSource} columns={tableHeading} />;
 
                 </div>
             </Card>
