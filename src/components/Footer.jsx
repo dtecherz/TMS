@@ -41,7 +41,7 @@ function Footer() {
                                         <ul>
                                             <li><Link to="/shop?bestFor=shoes">Shoes</Link></li>
                                             <li><Link to="/shop?bestFor=bags">Bags</Link></li>
-                                            <li><Link to="/shop?bestFor=clutch">Cluthch</Link></li>
+                                            <li><Link to="/shop?bestFor=clutch">Clutch</Link></li>
                                             <li><Link to="/hop?bestFor=women-s-sandal-s">Sandals </Link></li>
                                         </ul>
                                     </div>

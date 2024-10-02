@@ -704,6 +704,17 @@ export const GetShippingMethod = async () => {
 }
 
 
+// ocollection 
+
+export const getOneColection = async (slug) =>{
+  try {
+    return await CallAPI("GET", `api/collection/get-single/${slug}`)
+  } catch (error) {
+    throw error
+  }
+}
+
+
 
 
 
