@@ -6,7 +6,7 @@ import { Button, Card, Form, Input, Select } from 'antd'
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons"
 import VariationModal from './VariationModal'
 
-const AddProductVariation = ({ productId, stock }) => {
+const AddProductVariation = ({ productId, stock ,getProductData}) => {
 
     const location = useLocation();
 
@@ -17,8 +17,8 @@ const AddProductVariation = ({ productId, stock }) => {
     const [form] = Form.useForm();
 
 
-    const [variationName, setVariationName] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [variationName, setVariationName] = useState([])
     const [VarName, setVarName] = useState("")
 
     // variation name function for shoing variaiton options 
@@ -51,6 +51,8 @@ const AddProductVariation = ({ productId, stock }) => {
     console.log('idddddddddd', id)
     const [formData, setFormData] = useState([])
 
+
+    
     const [initialData, setInitialData] = useState({
         product_id: productId,
         size: null,
@@ -90,6 +92,7 @@ const AddProductVariation = ({ productId, stock }) => {
                 price: "",
             });
             setFormData([]);
+            getProductData()
         } catch (error) {
             console.log(error);
             Alert(error.message, false);
@@ -158,7 +161,7 @@ const AddProductVariation = ({ productId, stock }) => {
                         <h2>Add Product Variant</h2>
                         <VariationModal
                             btnText={<PlusOutlined style={{ fontSize: "16px", marginBottom: "0px" }} />}
-                            title={"Edit Payment Method"}
+                            title={"Add Variation to Create"}
                             customClasses="w-full"
                             isModalOpen={isModalOpen}
                             setIsModalOpen={setIsModalOpen} 
