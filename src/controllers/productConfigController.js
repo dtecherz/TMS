@@ -158,6 +158,40 @@ const productConfigController={
         if(stock_quantity){
           updateVariant.stock_quantity=req.body.stock_quantity
         }
+
+        const prouctConfig = await productConfig.findOne({_id:product_config_id})
+        let product_id = prouctConfig.product_id
+
+        let sumOfVariantQuantity = updateVariant.stock_quantity;
+    
+
+        // get product whih=ch variants are creating 
+
+        const product = await Product.findOne({ _id: product_id });
+        if (!product) {
+          return res.status(404).send({ success: false, message: "Product not found" });
+        }
+    
+        const totalQuantityOfProduct = product.total_quantity;
+    
+        if (totalQuantityOfProduct != null) {
+          if (sumOfVariantQuantity > totalQuantityOfProduct) {
+            return res.status(400).send({ success: false, message: "Stock quantity limit exceeded 1" });
+          }
+        }
+
+
+        const productConfigQuery = await productConfig.find({ product_id: product_id });
+    
+        if (productConfigQuery.length !== 0) {
+          let quantityFromDatabase = productConfigQuery.reduce((acc, res) => (acc + parseInt(res.stock_quantity, 10)), 0);
+    
+          if (totalQuantityOfProduct != null) {
+            if ((sumOfVariantQuantity + quantityFromDatabase) > totalQuantityOfProduct) {
+              return res.status(400).send({ success: false, message: "Stock quantity limit exceeded 2" });
+            }
+          }
+        }
         
         const productVariant = await productConfig.findByIdAndUpdate(product_config_id,updateVariant)
 
