@@ -190,11 +190,11 @@ function SingleProduct() {
 
 
     const items = [
-        {
-            key: '1',
-            label: 'Description',
-            children: <Description data={productData?.short_description} />,
-        },
+        // {
+        //     key: '1',
+        //     label: 'Description',
+        //     children: <Description data={productData?.short_description} />,
+        // },
         // {
         //     key: '2',
         //     label: 'Additional Information',
@@ -203,7 +203,7 @@ function SingleProduct() {
     ];
     if (productData?.long_description) {
         items.push({
-            key: 2,
+            key: 1,
             label: 'Additional Information',
             children: <Addtional_Info data={productData?.long_description} />,
         })
@@ -261,7 +261,7 @@ function SingleProduct() {
                                     {/* <p className='price'>{productData?.stock_management}</p> */}
 
                                     <p className='product_desc'>{productData?.short_description}</p>
-
+                                        {/* {console.log('length',productData.short_description.length)} */}
                                     {
                                         (productData?.productConfig)?.length > 0 &&
                                         <>

@@ -65,8 +65,8 @@ function Testimonial_Slider() {
 
                     <div>
                         <div className="testimonial_card">
-                            <h4>Functional design</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor dunt ut te dolore magna aliqua ut enim minim veni</p>
+                            <h4>Saim Rafi</h4>
+                            <p>"Amazing products and fast delivery! The sneakers I bought are super comfortable, and the prices are unbeatable. </p>
                             <div className="testimonial_card_border"></div>
                         </div>
                         <div className='testimonial_author_desc'>
@@ -77,8 +77,8 @@ function Testimonial_Slider() {
                     </div>
                     <div>
                         <div className="testimonial_card">
-                            <h4>Functional design</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor dunt ut te dolore magna aliqua ut enim minim veni</p>
+                            <h4>Usama Khan</h4>
+                            <p>I’m thrilled with my new jacket! Great quality. The  shopping experience was smooth, and the customer support was very helpful</p>
                             <div className="testimonial_card_border"></div>
                         </div>
                         <div className='testimonial_author_desc'>
@@ -89,8 +89,8 @@ function Testimonial_Slider() {
                     </div>
                     <div>
                         <div className="testimonial_card">
-                            <h4>Functional design</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor dunt ut te dolore magna aliqua ut enim minim veni</p>
+                            <h4>Hassan Tanoli</h4>
+                            <p>Bought a gift for my sister, and she loved it! The packaging was beautiful, and delivery was right on time. Will be back for more!</p>
                             <div className="testimonial_card_border"></div>
                         </div>
                         <div className='testimonial_author_desc'>
@@ -101,8 +101,8 @@ function Testimonial_Slider() {
                     </div>
                     <div>
                         <div className="testimonial_card">
-                            <h4>Functional design</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor dunt ut te dolore magna aliqua ut enim minim veni</p>
+                            <h4>Ahsan Khan</h4>
+                            <p>Great service and fantastic product selection. My new headphones arrived quickly and work perfectly. Highly recommend this store</p>
                             <div className="testimonial_card_border"></div>
                         </div>
                         <div className='testimonial_author_desc'>

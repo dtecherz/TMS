@@ -42,7 +42,7 @@ function Footer() {
                                             <li><Link to="/shop?bestFor=shoes">Shoes</Link></li>
                                             <li><Link to="/shop?bestFor=bags">Bags</Link></li>
                                             <li><Link to="/shop?bestFor=clutch">Clutch</Link></li>
-                                            <li><Link to="/hop?bestFor=women-s-sandal-s">Sandals </Link></li>
+                                            <li><Link to="/shop?bestFor=women-s-sandal-s">Sandals </Link></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -77,16 +77,16 @@ function Footer() {
                                                     <InstagramOutlined className='social_icons' />
                                                 </a>
                                             </div>
-                                            <div>
+                                            {/* <div>
                                                 <a href="#">
                                                     <TikTokOutlined className='social_icons' />
                                                 </a>
-                                            </div>
-                                            {/* <div>
+                                            </div> */}
+                                            <div>
                                                 <a href="#">
                                                     <FacebookOutlined className='social_icons' />
                                                 </a>
-                                            </div> */}
+                                            </div>
                                             {/* <div>
                                                 <a href="#">
                                                     <XOutlined className='social_icons' />

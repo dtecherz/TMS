@@ -33,17 +33,17 @@ function Home() {
         console.log('>>>>>>>>>>>>>>>>>>>>>>>')
         try {
             const response = await getOneColection(slug);
-            console.log('reeee',response.collection.products)
+            console.log('reeee', response.collection.products)
             if (response.success) {
-                setColection(response.collection.products.slice(0,4))
+                setColection(response.collection.products.slice(0, 4))
             }
         } catch (error) {
             console.log(error);
         }
     };
 
-     // Define the truncateDescription function
-     const truncateDescription = (description, maxLength) => {
+    // Define the truncateDescription function
+    const truncateDescription = (description, maxLength) => {
         if (description.length > maxLength) {
             return `${description.substring(0, maxLength)}...`;
         }
@@ -174,7 +174,51 @@ function Home() {
                 </div>
             </section> */}
 
-            {/* <section className='testimonials_area'>
+            
+
+            {console.log("ccccccccccccccccccccccc", colection)}
+
+            <section className='py-5  collection_area' style={{ background: "#e5e0cc75" }}>
+                <div className='container '>
+                    {
+
+                        colection?.length > 0 &&
+                        <div className="related_products_area">
+                            <h2 className='Heading' style={{ textAlign: "center" }}>Summer Collection Products</h2>
+
+
+                            <Row>
+                                {
+
+                                    colection?.map((e, i) => {
+
+                                        return < Col xs={24} sm={12} md={12} lg={6} xl={6} key={i}>
+
+                                            <Link to={`/product/${e?.slug}`}>
+                                                <Card className='product_card' >
+                                                    <Image alt="example" src={`${File_URL}/${e.images[0]?.image_url}`} preview={false} onError={handleImageError} />
+
+                                                    <h4 className='product_name'>{e.name}</h4>
+                                                    <p className='product_desc'>{truncateDescription(e.short_description, 30)}</p>
+                                                    <p className='product_price'>${e.price}</p>
+
+                                                    <div className='add_to_cart_btn'>
+                                                        <My_Button text={"Add To Cart"} />
+                                                    </div>
+                                                </Card>
+                                            </Link>
+                                        </Col>
+                                    })
+
+                                }
+
+                            </Row>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <section className='testimonials_area'>
 
                 <div className='section_inner'>
                     <div className='container'>
@@ -187,51 +231,7 @@ function Home() {
                     </div>
                 </div>
 
-            </section> */}
-
-                {console.log("ccccccccccccccccccccccc",colection)}
-
-                <section className='py-5  collection_area'  style={{background:"#e5e0cc75"}}>
-                    <div className='container '>
-                    {
-                
-                colection?.length > 0 &&
-                <div className="related_products_area">
-                    <h2 className='Heading'   style={{textAlign:"center"}}>Summer Collection Products</h2>
-
-
-                    <Row>
-                        {
-                            
-                            colection?.map((e, i) => {
-
-                                return < Col xs={24} sm={12} md={12} lg={6} xl={6} key={i}>
-
-                                    <Link to={`/product/${e?.slug}`}>
-                                        <Card className='product_card' >
-                                            <Image alt="example" src={`${File_URL}/${e.images[0]?.image_url}`} preview={false} onError={handleImageError} />
-
-                                            <h4 className='product_name'>{e.name}</h4>
-                                            <p className='product_desc'>{truncateDescription(e.short_description, 30)}</p>
-                                            <p className='product_price'>${e.price}</p>
-
-                                            <div className='add_to_cart_btn'>
-                                                <My_Button text={"Add To Cart"} />
-                                            </div>
-                                        </Card>
-                                    </Link>
-                                </Col>
-                            })
-
-                        }
-
-                    </Row>
-                </div>
-            }
-                    </div>
-                </section>
-
-           
+            </section>
 
             <Footer />
         </>
