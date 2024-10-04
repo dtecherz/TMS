@@ -2,6 +2,7 @@ const categoriesModel = require("../models/categoryModels");
 const productModel = require("../models/productModel");
 const SocialLinks = require('../models/LinksModel')
 
+
 const platformController = {
 
     async productListPage(req, res) {
@@ -102,7 +103,28 @@ const platformController = {
                 error: error.message
             })
         }
+    },
+
+
+
+    // platform setup api 
+
+    async platformSetup(req,res){
+        try {
+            
+        } catch (error) {
+            console.log(error)
+            return res.status(400).send({
+                success:false,
+                message:"something went wrong ehile setting u platform",
+                error:error.message
+
+            })
+        }
     }
+
+
+
 
 }
 
