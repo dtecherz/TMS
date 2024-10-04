@@ -13,7 +13,7 @@ import { Alert } from '../../ContextAPI/Components/notify'
 import { addProductVariant, deleteProductVariant, getAllVariationBasisOnVariantName, GetCategories, getSingleProduct, getSingleVariant, updateProduct, updateProductVariant } from '../../ContextAPI/APIs/api'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { RichTextEditor } from '../../components/richTextEditor';
-import { File_URL } from '../../config'
+import { ClientAPI_URL, File_URL } from '../../config'
 import { DeleteOutlined } from '@ant-design/icons'
 import MyModal from '../../components/Modal'
 import VariantModal from '../../components/setting_components/VariantModal'
@@ -36,8 +36,7 @@ function ProductDetail() {
     const navigate = useNavigate()
 
     const redirect = () => {
-        // navigate(`http://localhost:5173/product/${slug}`)
-        window.open(`http://localhost:5173/product/${slug}`)
+        window.open(`${ClientAPI_URL}/product/${slug}`)
     }
     const [variationData, setVariationData] = useState({
         color: null,
