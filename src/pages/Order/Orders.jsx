@@ -184,7 +184,7 @@ function Orders() {
                     <Button icon={<HolderOutlined />} />
                 </Dropdown>
             ),
-            detail: <Link to={`/order-tracking/${o._id}`}> Order Details</Link>
+            detail: <Link to={`/order-tracking/${o.order_id}`}> Order Details</Link>
         };
     });
 

@@ -82,7 +82,7 @@ function Sidebar({ collapsed }) {
         getItem(<Link to={"/variation-list"}>Variation</Link>, '6', <VideoCameraOutlined />), // Changed index from 5 to 6
         getItem('Products', 'sub2', <ProductOutlined />, [
             getItem(<Link to={"/product-list"}>Products List</Link>, '7'), // Updated from 6 to 7
-            // getItem(<Link to={"/create-product"}>Create Product</Link>, '8'), // Updated from 7 to 8
+            getItem(<Link to={"/create-product"}>Create Product</Link>, '8'), // Updated from 7 to 8
         ]),
         getItem('Collections', 'sub5',<ProductOutlined />,[
 
@@ -115,7 +115,7 @@ function Sidebar({ collapsed }) {
         if (path.startsWith('/edit-category/:id')) return '5'; // Updated to '5' for Edit Category
         if (path.startsWith('/variation-list')) return '6'; // Updated from '5' to '6'
         if (path.startsWith('/product-list')) return '7'; // Updated from '6' to '7'
-        // if (path.startsWith('/create-product')) return '8'; // Updated from '7' to '8'
+        if (path.startsWith('/create-product')) return '8'; // Updated from '7' to '8'
         if (path.startsWith('/product-variation-list')) return '9'; // Updated from '8' to '9'
         if (path.startsWith('/orders')) return '10'; // Updated from '9' to '10'
         if (path.startsWith('/addresses')) return '10';

@@ -480,6 +480,17 @@ export const addImages = async (body) => {
 
 
 
+  //  embed image or video 
+
+  export const embedImageVideo = async (body)=>{
+    try {
+      return await CallAPI("POST",  `api/gallery/embed`,body)
+    } catch (error) {
+      throw error
+    }
+  }
+
+
 // get images 
 
 

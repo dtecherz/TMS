@@ -237,13 +237,33 @@
 
 
 import React, { useState } from 'react';
-import { Upload, Button, message, Image, Row, Col, Popconfirm } from 'antd';
+import { Upload, Button, message, Image, Row, Col, Popconfirm, Form, Input, Select } from 'antd';
 import { UploadOutlined, DeleteOutlined } from '@ant-design/icons';
-import { addImages } from '../../ContextAPI/APIs/api';
+import { addImages, embedImageVideo } from '../../ContextAPI/APIs/api';
+import { Alert } from '../../ContextAPI/Components/notify';
 
 const UploadImages = () => {
+  const [external, setExternal] = useState(false)
   const [fileList, setFileList] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
+  const [formData, setFormData] = useState({
+    image_url: "",
+    source: ""
+  })
+
+
+
+  const fileEmbed = async () =>{
+    try {
+      const response = await embedImageVideo(formData)
+      if(response.success){
+        Alert(response.message ,response.success)
+      }
+    } catch (error) {
+      console.log(error)
+      Alert(error.message,false)
+    }
+  }
 
   const handleChange = (info) => {
     if (info.file.status === 'done') {
@@ -321,8 +341,64 @@ const UploadImages = () => {
 
 
           </Upload.Dragger>
-          
+        
           <Button type="primary" style={{ marginTop: 16 }} onClick={handleUpload}> Upload </Button>
+          <Button type="primary" style={{ marginTop: 16 }} onClick={()=>setExternal(true)}> Embed </Button>
+          
+          {
+            external === true ?
+            <Form
+            name="basic"
+            layout='horizontal'
+            labelCol={{ span: 24 }}
+            wrapperCol={{ span: 24 }}
+            style={{ maxWidth: "100%" }}
+            initialValues={{ remember: true }}
+            onFinish={fileEmbed}
+            onFinishFailed={(errorInfo) => console.log('Failed:', errorInfo)}
+            autoComplete="off"
+          >
+            <Form.Item
+              label="URL"
+              name="name"
+              rules={[{ required: true, message: 'Please input your product name!' }]}
+            >
+              <Input
+                type='text'
+                placeholder='Enter URL'
+                className='form_input'
+                value={formData.image_url}
+                onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+              />
+            </Form.Item>
+
+
+            <Form.Item label="Source" name="source">
+              <Select
+
+
+                optionFilterProp="label"
+                defaultValue={formData.source}
+                value={formData.source}
+
+                onChange={(value) => setFormData({ ...formData, source: value })}
+
+              >
+                <Select.Option disabled>Select</Select.Option>
+                <Select.Option value={"vimeo"}>Vimeo</Select.Option>
+                <Select.Option value={"Youtube"}>Youtube</Select.Option>
+              </Select>
+
+            </Form.Item>
+
+
+            <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+              Embed
+            </Button>
+          </Form>
+          :
+          <></>
+          }
 
           {previewImages.length > 0 && (
             <div style={{ marginTop: 16 }}>

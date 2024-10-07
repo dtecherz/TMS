@@ -306,7 +306,8 @@ function PaymentMethods() {
 
                                     <div className='mb-4'>
                                         <h4 className='text-[1rem] font-bold'>Acount Detail </h4>
-                                        <p>{p.Account_Details}</p>
+                                        {/* <p>{p.Account_Details}</p> */}
+                                        <p dangerouslySetInnerHTML={{ __html: p.Account_Details }} />
                                     </div>
 
                                     <div>

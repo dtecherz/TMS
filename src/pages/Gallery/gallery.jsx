@@ -40,13 +40,28 @@ function Gallery() {
               console.log(e);
               return <Col key={i} xs={12} sm={12} md={8} lg={6} style={{ padding: "10px", border: "2px dashed gray" }}>
                 <div className='relative'>
-                  <Image
-                    className='logo all_images'
-                    preview={false}
-                    src={`${File_URL}/${e.image_url}`}
-                    alt='logo image'
-                    fallback={placeholderimage}
-                  />
+                  {
+                    e.type === "video" ?
+
+                    <iframe width="230" height="315" src="https://www.youtube.com/embed/8-E1LbChJ88?si=2BLn04c9Scs_E4vY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                    :
+                    <>
+                    <Image
+                      className='logo all_images'
+                      preview={false}
+                      // src={"https://www.youtube.com/embed/8-E1LbChJ88?si=2BLn04c9Scs_E4vY"}
+                      src={`${File_URL}/${e.image_url}`}
+                      alt='logo image'
+                      fallback={placeholderimage}
+                    />
+                    
+                    </>
+
+                  }
+
+                  
+
                   <div className='absolute top-0 right-0 border-red-600 bg-white text-red-600 px-2 py-1 rounded-lg cursor-pointer'>
                     <DeleteOutlined />
                   </div>
