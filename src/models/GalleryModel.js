@@ -5,6 +5,15 @@ const gallerySchema = new mongoose.Schema({
     image_url: {
         type: String,
         required: true
+    },
+    source:{
+        type:String,
+        default:"Internal"
+    },
+    type:{
+        type:"String",
+        enum:["image","video"],
+        default:"image"
     }
 }, {
     timestamps: true // Automatically manage createdAt and updatedAt fields

@@ -8,6 +8,8 @@ router.post('/add-images', verfiyToken, imgUpload, galleryControllers.addImges)
 
 router.get('/get-images',verfiyToken,galleryControllers.getAllImages)
 
+router.post('/embed',verfiyToken,galleryControllers.embedVideoImages)
+
 
 
 
