@@ -6,18 +6,24 @@ const VariationOption = require('../models/variationOptionModel')
 const Category = require('../models/categoryModels')
 const PaymentModal = require('../models/paymentModel')
 const ShippingModal = require('../models/shippingModel')
+const bcryptjs = require('bcryptjs')
+const bcrypt = require('bcrypt');
+
 
 
 const platform = async () => {
     try {
         const user = await User.find()
+        console.log('user',user.length)
         if (!user || user.length === 0) {
-
-            const newUser = User({
+            const password = "admin123"
+            const saltRounds = 10;
+            const hashedPassword = await bcryptjs.hash(password, saltRounds);
+            const newUser = new User({
                 email: "admin123@gmail.com",
                 name: "admin",
                 phone: "923012343456",
-                password: "admin123",
+                password: hashedPassword,
                 role: "admin"
             })
             await newUser.save()
@@ -47,22 +53,18 @@ const platform = async () => {
                 { variation_id: materialId, name: "jeans" },
             ])
 
-            const category = await Category.insertMany([
-                { category_name: "Watches" },
-                { category_name: "Bags" },
-                { category_name: "Shoes" },
-            ])
+            await new Category({ category_name: "Watches" }).save()
+            await new Category({ category_name: "Bags" }).save()
+            await new Category({ category_name: "Shoes" }).save()    
             const categoryId = variationOption.find(c=>c.category_name === "Watches")._id 
 
-            const payment = PaymentModal({
+            const payment = new PaymentModal({
                 payment_type:"COD",
-                
                 Title:"Cash On Delivery",
-
             })
             await payment.save()
 
-            const shipping = ShippingModal({
+            const shipping = new ShippingModal({
                 name:"Free shipping",
                 charges:0
             })
@@ -70,9 +72,10 @@ const platform = async () => {
             await shipping.save()
           
 
-
             return { success: true, message: "databse added succesfully" }
         }
+
+
     } catch (error) {
         return { success: false, message: "Error creating databse" };
 

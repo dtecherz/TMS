@@ -65,10 +65,10 @@ const galleryControllers = {
 
     async embedVideoImages(req,res){
         try {
-            const {image_url,source} = req.body
+            const {image_url,source,type} = req.body
 
             const file = new Gallery({
-                type:"video",
+                type,
                 image_url,
                 source
             })
@@ -78,7 +78,7 @@ const galleryControllers = {
                 success:true,
                 message:"file embeded succesfully",
                 file:file
-                
+
             })
         } catch (error) {
             console.log(error)

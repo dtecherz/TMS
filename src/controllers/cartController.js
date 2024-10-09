@@ -322,6 +322,11 @@ const cartController = {
                 return res.status(400).send({ success: false, message: "Invalid product ID" });
             }
 
+            // product stock managemnt 
+
+            let productStockManagament = product.stock_management
+            console.log('pppppppp',productStockManagament)
+
             // check product variant in product config table 
             const productVariant = await ProductConfig.find({ product_id: product_id })
             if (productVariant.length > 0 && product_config_id == null) {
@@ -349,7 +354,7 @@ const cartController = {
 
                 cart_id = userCart._id
 
-            } {
+            }else {
                 cart_id = userCart._id
             }
 
@@ -362,7 +367,7 @@ const cartController = {
                     return res.status(400).send({ success: false, message: `This variant of the product is out of stock. Only ${variantQuantity} items are left.` });
                 }
 
-                if (!product_config_id && quantity > productQuantity) {
+                if (!product_config_id && (quantity > productQuantity) && productStockManagament) {
                     return res.status(400).send({ success: false, message: `This product is out of stock. Only ${productQuantity} items are left.` });
                 }
 
@@ -385,7 +390,7 @@ const cartController = {
                         return res.status(400).send({ success: false, message: `This product variant is out of stock. Only ${variantQuantity} items are left.` });
                     }
 
-                    if (!product_config_id && newQuantity > productQuantity) {
+                    if (!product_config_id && (newQuantity > productQuantity ) && productStockManagament) {
                         return res.status(400).send({ success: false, message: `This product is out of stock. Only ${productQuantity} items are left.` });
                     }
 

@@ -69,15 +69,12 @@ const categoryController = {
         },
 
 
-
+        
     // delete category 
-
-
-
     async deleteCategory(req, res) {
         try {
             const category_id = req.params.id
-            const category = await Category.findOneAndDelete(category_id)
+            const category = await Category.findOneAndDelete({_id: category_id})
             return res.status(200).send({ success: true, message: "category deleted succesfuly" })
         } catch (error) {
             console.log(error);
@@ -89,12 +86,8 @@ const categoryController = {
         }
     },
 
-
-
-
+    
     // get single category 
-
-
     async getSingleCategory(req, res) {
         try {
 
@@ -106,10 +99,10 @@ const categoryController = {
             
             
             // const category_id = req.params.id
-            const slug = req.params.slug
-            const category = await Category.findOne({slug:slug})
+            const id = req.params.id
+            const category = await Category.findOne({_id:id})
                 .populate({path: 'parent_category_id', select: ["category_name"]});
-
+            console.log('>>>>',id,category)
             console.log('catgeory', category)
 
             if (Category.length == 0) {
@@ -151,7 +144,6 @@ const categoryController = {
 
 
     // get categories with product count 
-
     async getCategoriesWithProduct(req, res) {
         try {
             const category = await Category.find()
@@ -166,11 +158,8 @@ const categoryController = {
         }
     },
 
-
-
-
+    
     // count product in single category 
-
     async countProductInCategory(req, res) {
         try {
             const categoryProducts = await Product.aggregate([

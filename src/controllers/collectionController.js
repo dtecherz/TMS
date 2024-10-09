@@ -42,31 +42,34 @@ const collectionController = {
 
     async updateCollection(req,res){
         try {
-            const {name,products,status}= req.body
-            const id = req.params.id
-            if(!id) return res.status(400).send({success:false,message:"collection id is required"})
-            const updatedData = {}
-
-            if(name){
-                updatedData.name = name
+            const { name, products, status } = req.body;
+            const id = req.params.id;
+        
+            if (!id) return res.status(400).send({ success: false, message: "Collection ID is required" });
+            console.log('')
+            const updatedData = {};
+            if (name) updatedData.name = name;
+            if (products) updatedData.products = products;
+            if (status) updatedData.status = status;
+        
+            const collection = await Collection.findById(id);
+            if (!collection) {
+                return res.status(400).send({ success: false, message: "Invalid collection ID" });
             }
-            if(products){
-                updatedData.products = products
-            }
-            if(status){
-                updatedData.status = status
-            }
-
-            const collection = await findOne({_id:id})
-            if(!collection){
-                return res.status(400).send({success:false,message:"invalid collection id"})
-            }
-
-
-            const updateCollection = await Collection.findOneAndUpdate(id,updatedData)
-            if(!collection) return res.status(400).send({success:false,message:"no collection found"})
-                return res.status(200).send({success:true,message:"collection updated succesfully",colection:updateCollection})
-        } catch (error) {
+        
+            const updateCollection = await Collection.findOneAndUpdate(
+                { _id: id }, // Filter as an object
+                updatedData,
+               
+            );
+            if (!updateCollection) return res.status(400).send({ success: false, message: "No collection found" });
+        
+            return res.status(200).send({
+                success: true,
+                message: "Collection updated successfully",
+                collection: updateCollection,
+            });
+        }  catch (error) {
             console.log(error)
             return res.status(400).send({
                 success:false,
@@ -85,8 +88,8 @@ const collectionController = {
         try {
             const slug = req.params.slug
             const id = req.params.id
-
-            const collection = await Collection.findOne({ slug: slug })
+                
+            const collection = await Collection.findOne({ _id: id })
             .populate({
                 path: 'products', // Populate the products
                 populate: { path: 'images', select: ['image_url', '_id'] } // Within products, populate images
@@ -105,6 +108,33 @@ const collectionController = {
         }
     },
 
+
+    // get single collection basis on slug 
+
+    
+    async getSingleCollectionWithSlug(req,res){
+        try {
+            const slug = req.params.slug
+            const id = req.params.id
+                
+            const collection = await Collection.findOne({ slug: slug })
+            .populate({
+                path: 'products', // Populate the products
+                populate: { path: 'images', select: ['image_url', '_id'] } // Within products, populate images
+            });
+            if(!collection) return res.status(200).send({success:false,message:"no collection found"})
+
+                return res.status(200).send({
+                    success:true,
+                    message:"collection got succesfully",
+                    collection:collection
+                })
+
+        } catch (error) {
+            console.log(error)
+            return res.status(400).send({success:false,message:"something went wrong while getting this collection",error:error.message})
+        }
+    },
 
 
     // get all collections 

@@ -68,6 +68,8 @@ const productController = {
             // const slug = req.params.slug
 
             let updateData = {};
+            console.log('uppp',req.body)
+            console.log('stock_management',typeof req.body.stock_management, req.body.stock_management)
             if (req.body.category_id) {
                 updateData.category_id = req.body.category_id;
             }
@@ -83,7 +85,7 @@ const productController = {
             if (req.body.long_description) {
                 updateData.long_description = req.body.long_description;
             }
-            if (req.body.stock_management) {
+            if (typeof req.body.stock_management != "undefined" && req.body.stock_management != null) {
                 updateData.stock_management = req.body.stock_management;
             }
             if (req.body.status) {
@@ -144,7 +146,7 @@ const productController = {
 
             const product = await Product.findOne({slug:slug})
                 .populate({ path: 'category_id', select: ['category_name', 'slug'] })
-                .populate({ path: 'images', select: ["image_url", "_id"] })
+                .populate({ path: 'images', select: ["image_url", "_id","type"] })
                 .populate({
                     path: 'productConfig',
                     populate: [

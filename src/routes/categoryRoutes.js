@@ -5,7 +5,7 @@ const {verfiyToken} = require('../middlware/jwt')
 
 router.post("/add-category", verfiyToken,productCategoryController.addProductCategory);
 router.put("/update-category/:id", productCategoryController.updateCategory);
-router.get("/get-single/:slug", productCategoryController.getSingleCategory);
+router.get("/get-single/:id", productCategoryController.getSingleCategory);
 router.delete("/delete-category/:id", productCategoryController.deleteCategory);
 router.get("/get", productCategoryController.getAllCategories);
 

@@ -33,7 +33,7 @@ productSchema = new mongoose.Schema({
     },
     stock_management: {
         type: Boolean,
-        required: true,
+        // required: true,
         default:0
     },
     SKU: {

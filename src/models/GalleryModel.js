@@ -12,7 +12,7 @@ const gallerySchema = new mongoose.Schema({
     },
     type:{
         type:"String",
-        enum:["image","video"],
+        enum:["image","video","external-image"],
         default:"image"
     }
 }, {
