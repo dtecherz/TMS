@@ -51,18 +51,18 @@ function App() {
   }, [isMenuOpen]);
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (window.location.host === "localhost:5173") {
-      return () => {
-        // GuestLoginData(formData);
-      };
-    } else {
-      // GuestLoginData(formData);
-    }
+  //   if (window.location.host === "localhost:5173") {
+  //     return () => {
+  //       // GuestLoginData(formData);
+  //     };
+  //   } else {
+  //     // GuestLoginData(formData);
+  //   }
 
-    getUserCartsData()
-  }, []);
+  //   getUserCartsData()
+  // }, []);
 
   console.log('ppppppppp', cookies.pk2)
 

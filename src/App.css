@@ -882,6 +882,7 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
   margin: 0rem 1rem;
   text-align: center;
   position: relative;
+  height: 100%;
 }
 
 .testimonial_card .testimonial_card_border {

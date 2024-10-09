@@ -14,6 +14,7 @@ import { File_URL } from '../config';
 import { Alert } from '../ContextAPI/Components/notify';
 import { addToCart, DeleteCartItem } from '../ContextAPI/APIs/api';
 import formatter from '../helpers/formatter';
+import { handleImageError } from '../helpers/imgHandler';
 
 const { Option } = Select;
 
@@ -80,7 +81,7 @@ function Cart() {
             title: '',
             dataIndex: 'image',
             key: 'image',
-            render: (img) => <Image src={`${File_URL}/${img}`} alt={img} className='cart_image' />,
+            render: (img) => <Image src={`${File_URL}/${img}`} alt={img} className='cart_image'  onError={handleImageError} />,
         },
         {
             title: 'Product',
@@ -129,11 +130,11 @@ function Cart() {
 
     const data = carts.map((e, i) => {
         console.log('ttttttttttttttt',typeof e.subTotalPrice)
-        const imageUrls = e.product_id.images.map(image => image.image_url);
+        const imageUrls = e.product_id.images.map(image => image.image_url)  ;
         return {
             key: i,
             cartItemId:e._id,
-            image: imageUrls[0],
+            image: imageUrls[0]  ,
             product: (
                 <div>
                     <Link to={`/product/${e.product_id._id}`}>{e.product_id.name}</Link>

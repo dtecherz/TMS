@@ -708,7 +708,7 @@ export const GetShippingMethod = async () => {
 
 export const getOneColection = async (slug) =>{
   try {
-    return await CallAPI("GET", `api/collection/get-single/${slug}`)
+    return await CallAPI("GET", `api/collection/get-single-col/${slug}`)
   } catch (error) {
     throw error
   }

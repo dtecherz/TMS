@@ -23,9 +23,9 @@ function Filter() {
 
     const getPageData = async () => {
         const res = await getlistPageData()
-
+        console.log('rsssssssssssssss',res)
         if (res.success) {
-            setCategory(res.categoies)
+            setCategory(res.categoies.filter(c=> c.pCount !== 0))
             setPriceRange([res.lowestPrice, res.highestPrice])
             setMinMaxPrice([res.lowestPrice, res.highestPrice])
         }

@@ -28,7 +28,7 @@ function Home() {
 
     const [colection, setColection] = useState({})
 
-    let slug = "eid-25"
+    let slug = "summer-collection"
     const getSingleCollection = async () => {
         console.log('>>>>>>>>>>>>>>>>>>>>>>>')
         try {

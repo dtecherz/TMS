@@ -16,7 +16,7 @@ function Testimonial_Slider() {
         centerMode: false,
         centerPadding: "10px",
         speed: 500,
-        slidesToShow: 4,
+        slidesToShow: 3,
         slidesToScroll: 4,
         initialSlide: 0,
         responsive: [
@@ -66,7 +66,7 @@ function Testimonial_Slider() {
                     <div>
                         <div className="testimonial_card">
                             <h4>Saim Rafi</h4>
-                            <p>"Amazing products and fast delivery! The sneakers I bought are super comfortable, and the prices are unbeatable. </p>
+                            <p>"Exceeded expectations! My shoes fit perfectly, and the bag is just beautiful. Quick delivery, top-notch quality </p>
                             <div className="testimonial_card_border"></div>
                         </div>
                         <div className='testimonial_author_desc'>
@@ -78,7 +78,7 @@ function Testimonial_Slider() {
                     <div>
                         <div className="testimonial_card">
                             <h4>Usama Khan</h4>
-                            <p>I’m thrilled with my new jacket! Great quality. The  shopping experience was smooth, and the customer support was very helpful</p>
+                            <p>Perfect shoes and bag! Quality materials, trendy styles, and fast service. Shopping here was so easy </p>
                             <div className="testimonial_card_border"></div>
                         </div>
                         <div className='testimonial_author_desc'>
@@ -90,7 +90,7 @@ function Testimonial_Slider() {
                     <div>
                         <div className="testimonial_card">
                             <h4>Hassan Tanoli</h4>
-                            <p>Bought a gift for my sister, and she loved it! The packaging was beautiful, and delivery was right on time. Will be back for more!</p>
+                            <p>Best shopping experience! Stylish shoes and bags, superb quality, and quick delivery. My go-to place now!</p>
                             <div className="testimonial_card_border"></div>
                         </div>
                         <div className='testimonial_author_desc'>
@@ -102,7 +102,7 @@ function Testimonial_Slider() {
                     <div>
                         <div className="testimonial_card">
                             <h4>Ahsan Khan</h4>
-                            <p>Great service and fantastic product selection. My new headphones arrived quickly and work perfectly. Highly recommend this store</p>
+                            <p>"Quality shoes and bags that match every outfit! Great fit, trendy styles, and fast shipping. </p>
                             <div className="testimonial_card_border"></div>
                         </div>
                         <div className='testimonial_author_desc'>
@@ -113,8 +113,8 @@ function Testimonial_Slider() {
                     </div>
                     <div>
                         <div className="testimonial_card">
-                            <h4>Functional design</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor dunt ut te dolore magna aliqua ut enim minim veni</p>
+                            <h4>Musto</h4>
+                            <p>Love my new shoes and bag! Stylish, comfortable, and exactly as pictured. Fast delivery and amazing quality.</p>
                             <div className="testimonial_card_border"></div>
                         </div>
                         <div className='testimonial_author_desc'>

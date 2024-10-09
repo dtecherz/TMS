@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../ContextAPI/Components/auth';
 import { Cookies, useCookies } from 'react-cookie';
 import formatter from '../helpers/formatter';
+import { handleImageError } from '../helpers/imgHandler';
 
 
 const text = `
@@ -1008,7 +1009,7 @@ function Checkout() {
 
                                                 <div className='flex items-center'>
                                                     <div className='relative'>
-                                                        <Image src={`${File_URL}/${imageUrls[0]}`} alt="product image" className='cart_image' />
+                                                        <Image src={`${File_URL}/${imageUrls[0]}`} alt="product image" className='cart_image' onError={handleImageError} />
                                                         <div className="product_qty absolute -top-1 -right-2 bg-[#973e12] rounded-xl w-6 h-6 flex items-center justify-center">
                                                             <p className='!text-white'>{e.quantity}</p>
                                                         </div>
