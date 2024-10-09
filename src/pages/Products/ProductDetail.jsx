@@ -19,6 +19,7 @@ import MyModal from '../../components/Modal'
 import VariantModal from '../../components/setting_components/VariantModal'
 import VariationModal from './VariationModal'
 import AddProductVariation from './AddProductVariation'
+import ImageModal from './ImageModal'
 
 
 // import e from 'express'
@@ -115,10 +116,26 @@ function ProductDetail() {
             Alert(error.message, false)
         }
     }
-    const labelStyle = status === "active" ?
-    { color: 'green', borderBottom: "2px solid green", padding: "5px 10px" , borderRadius:"5px" }
-    : 
-    { color: 'red', borderBottom: "2px solid red", padding: "5px 10px", borderRadius:"5px" } 
+
+    function labelStyle(params) {
+        console.log("status");
+        console.log("status");
+        console.log("status");
+        console.log("status");
+        console.log(form.getFieldValue("stock_management"));
+        if (form.getFieldValue("status") == "active") {
+            return { color: 'green', borderBottom: "2px solid green", padding: "5px 10px", borderRadius: "5px" }
+
+        } else {
+            return { color: 'red', borderBottom: "2px solid red", padding: "5px 10px", borderRadius: "5px" }
+
+        }
+    }
+
+    // const labelStyle = status === " active" ?
+    // { color: 'green', borderBottom: "2px solid green", padding: "5px 10px" , borderRadius:"5px" }
+    // : 
+    // { color: 'red', borderBottom: "2px solid red", padding: "5px 10px", borderRadius:"5px" } 
 
 
     useEffect(() => {
@@ -363,6 +380,12 @@ function ProductDetail() {
 
     };
 
+    const sortedImages = (img) => {
+        console.log('??????????????', form.getFieldValue("images"))
+        console.log('Sorted images:', img);
+        form.setFieldValue("images", img); // Specify "images" directly
+        // productUpdate();
+    };
 
 
     const handleImageDelete = (indexToRemove) => {
@@ -637,7 +660,7 @@ function ProductDetail() {
                     onFinish={productUpdate} // Pass form values to productUpdate
                     onFinishFailed={(errorInfo) => console.log('Failed:', errorInfo)}
                     autoComplete="off"
-                    
+
                 >
                     <Row>
                         <Col xs={24} sm={24} md={12} className='col'>
@@ -656,7 +679,7 @@ function ProductDetail() {
 
                         <Col xs={24} sm={24} md={12} className='col'>
                             <Form.Item
-                                label={<span style={labelStyle}>Status</span>}
+                                label={<span style={labelStyle()}>Status</span>}
                                 name="status"
                             >
                                 <Select>
@@ -714,14 +737,14 @@ function ProductDetail() {
                         <Col xs={24} sm={24} md={8} className='col'>
                             <Form.Item label="Stock Management" name="stock_management">
                                 <Select>
-                                    <Select.Option value={""}>Select</Select.Option>
+                                    {/* <Select.Option value={""}>Select</Select.Option> */}
                                     <Select.Option value={true}>Yes</Select.Option>
                                     <Select.Option value={false}>No</Select.Option>
                                 </Select>
                             </Form.Item>
                         </Col>
 
-
+                        {console.log('ssss', form.getFieldValue("stock_management"))}
                         <Col xs={24} sm={24} md={8} className='col'>
                             <Form.Item
                                 label="Total Quantity"
@@ -731,6 +754,7 @@ function ProductDetail() {
                                     type='number'
                                     placeholder='Enter Total Quantity of Product'
                                     className='form_input'
+                                    disabled={form.getFieldValue("stock_management") == true}
                                 />
                             </Form.Item>
                         </Col>
@@ -777,10 +801,12 @@ function ProductDetail() {
                         </Col>
                     </Row>
 
+                    <h3>Images</h3>
                     <div className='product_images'>
                         {console.log('aaaa', form.getFieldValue('images'))}
                         {form.getFieldValue('images')?.map((o, index) => (
                             <div className='images' key={index}>
+
                                 <img
                                     src={`${File_URL}/${o.image_url}`}
                                     alt={`Selected image ${index}`}
@@ -791,14 +817,30 @@ function ProductDetail() {
                             </div>
                         ))}
                     </div>
+                    <div className='d-flex'>
+                        <Row>
 
-                    <Form.Item
-                        label="Images"
-                        name="images"
-                    >
-                        <MyModal handleImageSelect={handleImageSelect} />
-                    </Form.Item>
+                            <Col lg={18} sm={18} md={18}>
 
+                                <div>
+
+                                    <Form.Item
+                                        // label="Images"
+                                        name="images"
+                                    >
+                                        <MyModal handleImageSelect={handleImageSelect} />
+                                    </Form.Item>
+                                </div>
+                            </Col>
+                            <Col lg={6} sm={6} md={6}>
+                                <div>
+                                    {console.log('imageeeeee', form.getFieldValue('images'))}
+                                    <ImageModal photos={form.getFieldValue("images")} btn={"Sort Images"} sortedImages={sortedImages} productUpdate={productUpdate}></ImageModal>
+                                </div>
+                            </Col>
+
+                        </Row>
+                    </div>
                     <button className='btn' htmlType="submit" style={{ width: "100%" }}>
                         Update
                     </button>

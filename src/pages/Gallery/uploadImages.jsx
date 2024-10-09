@@ -248,20 +248,21 @@ const UploadImages = () => {
   const [previewImages, setPreviewImages] = useState([]);
   const [formData, setFormData] = useState({
     image_url: "",
-    source: ""
+    source: "",
+    type: "",
   })
 
 
 
-  const fileEmbed = async () =>{
+  const fileEmbed = async () => {
     try {
       const response = await embedImageVideo(formData)
-      if(response.success){
-        Alert(response.message ,response.success)
+      if (response.success) {
+        Alert(response.message, response.success)
       }
     } catch (error) {
       console.log(error)
-      Alert(error.message,false)
+      Alert(error.message, false)
     }
   }
 
@@ -322,7 +323,7 @@ const UploadImages = () => {
     <>
       <section className='addresses_area'>
         <div>
-          <Upload.Dragger
+          {/* <Upload.Dragger
             multiple
             showUploadList={false}
             customRequest={({ file, onSuccess, onError }) => {
@@ -340,64 +341,110 @@ const UploadImages = () => {
             <p className="ant-upload-hint">Support for multiple image uploads.</p>
 
 
+          </Upload.Dragger> */}
+
+          <Upload.Dragger
+            multiple
+            showUploadList={false}
+            customRequest={({ file, onSuccess, onError }) => {
+              // Check if file type is allowed
+              const isImage = file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/jpg";
+
+              if (!isImage) {
+                onError("Only JPEG, JPG, and PNG images are allowed.");
+                return;
+              }
+
+              // If file is valid, proceed
+              setFileList(prev => [...prev, file]);
+              handlePreview(file);
+              onSuccess();
+            }}
+            accept=".jpeg,.jpg,.png" // Accept only JPEG, JPG, and PNG formats
+          >
+            <p className="ant-upload-drag-icon">
+              <UploadOutlined />
+            </p>
+            <p className="ant-upload-text">Click or drag image(s) to this area to upload</p>
+            <p className="ant-upload-hint">Support for multiple image uploads in JPEG, JPG, or PNG format.</p>
           </Upload.Dragger>
-        
+
           <Button type="primary" style={{ marginTop: 16 }} onClick={handleUpload}> Upload </Button>
-          <Button type="primary" style={{ marginTop: 16 }} onClick={()=>setExternal(true)}> Embed </Button>
-          
+          <Button type="primary" style={{ marginTop: 16 }} onClick={() => setExternal(true)}> Embed </Button>
+
           {
             external === true ?
-            <Form
-            name="basic"
-            layout='horizontal'
-            labelCol={{ span: 24 }}
-            wrapperCol={{ span: 24 }}
-            style={{ maxWidth: "100%" }}
-            initialValues={{ remember: true }}
-            onFinish={fileEmbed}
-            onFinishFailed={(errorInfo) => console.log('Failed:', errorInfo)}
-            autoComplete="off"
-          >
-            <Form.Item
-              label="URL"
-              name="name"
-              rules={[{ required: true, message: 'Please input your product name!' }]}
-            >
-              <Input
-                type='text'
-                placeholder='Enter URL'
-                className='form_input'
-                value={formData.image_url}
-                onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-              />
-            </Form.Item>
-
-
-            <Form.Item label="Source" name="source">
-              <Select
-
-
-                optionFilterProp="label"
-                defaultValue={formData.source}
-                value={formData.source}
-
-                onChange={(value) => setFormData({ ...formData, source: value })}
-
+              <Form
+                name="basic"
+                layout='horizontal'
+                labelCol={{ span: 24 }}
+                wrapperCol={{ span: 24 }}
+                style={{ maxWidth: "100%" }}
+                initialValues={{ remember: true }}
+                onFinish={fileEmbed}
+                onFinishFailed={(errorInfo) => console.log('Failed:', errorInfo)}
+                autoComplete="off"
               >
-                <Select.Option disabled>Select</Select.Option>
-                <Select.Option value={"vimeo"}>Vimeo</Select.Option>
-                <Select.Option value={"Youtube"}>Youtube</Select.Option>
-              </Select>
+                <Form.Item
+                  label="URL"
+                  name="name"
+                  rules={[{ required: true, message: 'Please input your product name!' }]}
+                >
+                  <Input
+                    type='text'
+                    placeholder='Enter URL'
+                    className='form_input'
+                    value={formData.image_url}
+                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                  />
+                </Form.Item>
 
-            </Form.Item>
+
+                <Form.Item label="Source" name="source">
+                  <Select
 
 
-            <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-              Embed
-            </Button>
-          </Form>
-          :
-          <></>
+                    optionFilterProp="label"
+                    defaultValue={formData.source}
+                    value={formData.source}
+
+                    onChange={(value) => setFormData({ ...formData, source: value })}
+
+                  >
+                    <Select.Option disabled>Select</Select.Option>
+                    <Select.Option value={"vimeo"}>Vimeo</Select.Option>
+                    <Select.Option value={"Youtube"}>Youtube</Select.Option>
+                  </Select>
+
+                </Form.Item>
+                <Form.Item label="Type" name="type">
+                  <Select
+
+
+                    optionFilterProp="label"
+                    defaultValue={formData.type}
+                    value={formData.type}
+
+                    onChange={(value) => setFormData({ ...formData, type: value })}
+
+                  >
+                    <Select.Option disabled>Select</Select.Option>
+                    <Select.Option value={"external-image"}>external-image</Select.Option>
+                    <Select.Option value={"video"}>video</Select.Option>
+                  </Select>
+
+                </Form.Item>
+
+
+
+
+
+                <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+                  Embed
+                </Button>
+              </Form>
+              :
+              <></>
           }
 
           {previewImages.length > 0 && (

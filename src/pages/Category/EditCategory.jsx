@@ -5,10 +5,10 @@ import { GetCategories, singleCategory, updateCategory } from '../../ContextAPI/
 import { useParams } from 'react-router-dom'
 
 const EditCategory = () => {
-    const { slug } = useParams()
+    const { id } = useParams()
     const [form] = Form.useForm()
     const [categories, setCategories] = useState([])
-    const [id,setId] = useState("")
+    // const [id,setId] = useState("")
 
     const getAllCategories = async () => {
         try {
@@ -26,7 +26,7 @@ const EditCategory = () => {
 
     const getSingleCategory = async () => {
         try {
-            const response = await singleCategory(slug)
+            const response = await singleCategory(id)
             if (response.success) {
                 const categoryData = response.category
                 console.log('ccc',categoryData)
@@ -35,7 +35,7 @@ const EditCategory = () => {
                     parent_category_id: categoryData?.parent_category_id?._id || null, // Set default to empty if no parent
                     status:categoryData.status
                 })
-                setId(categoryData._id)
+                // setId(categoryData._id)
             } else {
                 Alert(response.message, false)
             }
@@ -63,11 +63,11 @@ const EditCategory = () => {
     }
 
     useEffect(() => {
-        if (slug) {
+        if (id) {
             getSingleCategory()
         }
         getAllCategories()
-    }, [slug])
+    }, [id])
 
     return (
         <section className='create_area'>

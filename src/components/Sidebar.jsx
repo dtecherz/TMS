@@ -77,7 +77,7 @@ function Sidebar({ collapsed }) {
         getItem('Category', 'sub1', <ProductOutlined />, [
             getItem(<Link to={"/category-list"}>Category List</Link>, '3'),
             // getItem(<Link to={"/create-category"}>Create Category</Link>, '4'),
-            getItem(<Link to={"/edit-category/:id"}>Edit Category</Link>, '5'), // Moved to position 5
+            // getItem(<Link to={"/edit-category/:id"}>Edit Category</Link>, '5'), // Moved to position 5
         ]),
         getItem(<Link to={"/variation-list"}>Variation</Link>, '6', <VideoCameraOutlined />), // Changed index from 5 to 6
         getItem('Products', 'sub2', <ProductOutlined />, [
@@ -97,12 +97,12 @@ function Sidebar({ collapsed }) {
             getItem(<Link to={"/upload-images"}>Upload</Link>, '13'),
         ]),
         getItem(<Link to={"/add-payment-method"}>Payment</Link>, '14', <MoneyCollectOutlined />),
-        getItem(<span onClick={() => SignOut()}>Logout</span>, '15', <UserDeleteOutlined />),
         getItem('Shipping Methods', 'sub4', <ProductOutlined />, [
             getItem(<Link to={"/shipping-methods"}>Shipping List</Link>, '16'),
             // getItem(<Link to={"/add-shipping-method"}>Create Shipping</Link>, '17'),
             // getItem(<Link to={"/edit-shipping-method/:id"}>Edit Shipping</Link>, '18'),
         ]),
+        getItem(<span onClick={() => SignOut()}>Logout</span>, '15', <UserDeleteOutlined />),
     ];
     
     // Determine the active key based on the current URL path
@@ -112,7 +112,7 @@ function Sidebar({ collapsed }) {
         if (path.startsWith('/users')) return '1';
         if (path.startsWith('/category-list')) return '3';
         // if (path.startsWith('/create-category')) return '4';
-        if (path.startsWith('/edit-category/:id')) return '5'; // Updated to '5' for Edit Category
+        // if (path.startsWith('/edit-category/:id')) return '5'; // Updated to '5' for Edit Category
         if (path.startsWith('/variation-list')) return '6'; // Updated from '5' to '6'
         if (path.startsWith('/product-list')) return '7'; // Updated from '6' to '7'
         if (path.startsWith('/create-product')) return '8'; // Updated from '7' to '8'

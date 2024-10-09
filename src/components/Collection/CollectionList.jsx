@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { getCollections } from '../../ContextAPI/APIs/api';
+import { DeleteCollection, getCollections } from '../../ContextAPI/APIs/api';
 import { Button, Table, Tag, Popconfirm } from 'antd';
 import { HolderOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { Alert } from '../../ContextAPI/Components/notify';
 
 const CollectionList = () => {
     const [collection, setCollections] = useState([]);
@@ -63,9 +64,19 @@ const CollectionList = () => {
         return date.toLocaleDateString(); // Format date as needed
     };
 
-    const catgoryDelete = async (id) => {
-        // Your delete logic here
-    };
+    
+
+
+    const collectionDelete = async (id) =>{
+        try {
+            const response = await DeleteCollection(id)
+            if(response.success) Alert(response.message,response.success)
+                CollectionsData()
+        } catch (error) {
+            console.log(error)
+            Alert(error.message,false)
+        }
+    }
 
     const data = collection?.map((e, i) => {
         return {
@@ -74,14 +85,14 @@ const CollectionList = () => {
             products: e.products ? e.products : "---", // Display the products field
             status: e.status,
             createdAt: formatDate(e.createdAt),
-            edit: <Link to={`/edit-collection/${e.slug}`}><button className='detail_btn'>View</button></Link>,
+            edit: <Link to={`/edit-collection/${e._id}`}><button className='detail_btn'>View</button></Link>,
             delete: (
                 <Button type="primary" danger ghost>
                     <Popconfirm
                         title="Delete the collection"
-                        description="Are you sure you want to delete this Category?"
+                        description="Are you sure you want to delete this Collection?"
                         icon={<QuestionCircleOutlined style={{ color: 'orange' }} />}
-                        onConfirm={() => catgoryDelete(e._id)}
+                        onConfirm={() => collectionDelete(e._id)}
                         okText="Yes"
                         cancelText="No"
                     >

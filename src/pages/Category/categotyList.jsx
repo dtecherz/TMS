@@ -104,7 +104,7 @@ function CategoryList() {
             status: [e.status],
             createdAt: formatDate(e.createdAt),
             pcount:e.pCount ,
-            edit:<Link to={`/edit-category/${e.slug}`}><button className='detail_btn'>Edit</button></Link>,
+            edit:<Link to={`/edit-category/${e._id}`}><button className='detail_btn'>Edit</button></Link>,
             delete: <Button  type="primary"  danger ghost>
             <Popconfirm
                                 title="Update the order status"

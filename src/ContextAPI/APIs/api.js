@@ -144,10 +144,10 @@ export const addCategory = async (body) => {
   }
 };
 
-export const singleCategory = async (slug)=>{
+export const singleCategory = async (id)=>{
   console.log('ooo')
   try {
-    return await CallAPI("GET",`api/product-category/get-single/${slug}`)
+    return await CallAPI("GET",`api/product-category/get-single/${id}`)
   } catch (error) {
     throw error
   }
@@ -880,6 +880,27 @@ export const getCollections = async () =>{
 export const getOneColection = async (slug) =>{
   try {
     return await CallAPI("GET", `api/collection/get-single/${slug}`)
+  } catch (error) {
+    throw error
+  }
+}
+
+
+
+// update collection 
+
+export const updateColection = async (id,body) =>{
+  try {
+    
+    return await CallAPI("PUT", `api/collection/update-collection/${id}`,body)
+  } catch (error) {
+    throw error
+  }
+}
+export const DeleteCollection = async (id) =>{
+  try {
+    
+    return await CallAPI("DELETE", `api/collection/delete-collection/${id}`)
   } catch (error) {
     throw error
   }

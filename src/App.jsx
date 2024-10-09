@@ -57,7 +57,7 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/users" element={<Users />} />
         <Route path="/category-list" element={<CategoryList />} />
-        <Route path="/edit-category/:slug" element={<EditCategory />} />
+        <Route path="/edit-category/:id" element={<EditCategory />} />
         <Route path="/create-category" element={<CreateCategory />} />
         <Route path="/variation-list" element={<VariationsList />} />
         <Route path="/variation-option-list/:id" element={<VariationOptionList />} />
@@ -78,7 +78,7 @@ function App() {
         <Route path="/edit-shipping-method/:id" element={<EditShippingMethods />} />
         <Route path="/collection-list" element={<CollectionList />} />
         <Route path="/create-collection" element={<CreateCollection />} />
-        <Route path="/edit-collection/:slug" element={<EditCollection />} />
+        <Route path="/edit-collection/:id" element={<EditCollection />} />
       </Route>
     </Routes>
     </>

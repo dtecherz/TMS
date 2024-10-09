@@ -10,6 +10,7 @@
   const MyModal = ({ handleImageSelect }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [images, setImages] = useState([]);
+    const [media,setMedia] = useState([])
     const [img, setImg] = useState([]);
 
     const getAllImages = async () => {
@@ -17,7 +18,8 @@
         const response = await getImages();
         if (response.success) {
           const formattedImages = response.images.map(img => ({
-            src: `${File_URL}/${img.image_url}`,
+            // src: `${File_URL}/${img.image_url}`,
+             src: img.type === "video" ? img.image_url : `${File_URL}/${img.image_url}`,
             width: 320,
             height: 240,
             caption: img.caption || "",
@@ -27,6 +29,7 @@
           }));
           setImages(formattedImages);
           setImg(response.images);
+          setMedia(formattedImages)
         }
       } catch (error) {
         console.log(error);
@@ -43,6 +46,7 @@
         isSelected: false
       }));
       setImages(deselectedImages);
+      setMedia(deselectedImages)
       setIsModalOpen(false);  // Close the modal
     };
 
@@ -53,6 +57,7 @@
           i === index ? { ...image, isSelected: !image.isSelected } : image
         );
         setImages(nextImages);
+        setMedia(nextImages)
         console.log('nextImages', nextImages)
 
         const selectedImages = nextImages.filter(image => image.isSelected).map(image => image._id);
@@ -70,7 +75,7 @@
     return (
       <>
         <div className='gallery'>
-          <button className='btn' type="button" onClick={showModal} style={{ width: "20%", marginBottom: "1rem" }}>
+          <button className='btn' type="button" onClick={showModal} style={{ width: "30%", marginBottom: "1rem" }}>
             Add Images
           </button>
 
