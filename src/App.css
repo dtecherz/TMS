@@ -1224,6 +1224,7 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
 }
 
 .single_products_area .single_product_image {
+  height: 400px;
   border: 1px solid var(--themeLightBrownColor);
   padding: 1rem;
   width: 100% !important;
