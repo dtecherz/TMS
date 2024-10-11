@@ -20,12 +20,13 @@ function Material({ data, selectedmaterial, setselectedMaterial, matchingVariant
         if (materials.length > 0 && (!selectedmaterial && sizes.length > 0)) {
             console.log(":::::::::::::::::::::")
             // setSizes(sizes)
-            setselectedMaterial(sizes[0])
+            setselectedMaterial(materials[0])
         }
     }, [])
 
 
-    if (materials.length == 0) return
+    if (materials.length == 0) return null
+    console.log('mmmmmmmmmmmmmm', matchingVariant)
 
     return (
         <>
@@ -38,16 +39,21 @@ function Material({ data, selectedmaterial, setselectedMaterial, matchingVariant
                         <h5>Material</h5>
 
 
-
-
                         <div className="flex flex-wrap gap-3">
                             {
                                 (materials).length > 0 ? (materials).map((materail, i) => {
 
-                                    const isEnabled = matchingVariant ? matchingVariant?.some(variant => variant?.material?.name === material) : true;
+                                    const isEnabled = matchingVariant ? matchingVariant.some(variant => variant?.material?.name === materail) : true;
+
 
                                     return (
-                                        <span key={i} className={`tag ${materail === selectedmaterial ? "materialSelected" : "defaultTagStyle"}  ${isEnabled ? "" : "disabled"}`} onClick={(e) => isEnabled && setselectedMaterial(materail)}>{materail}</span>
+                                        <span key={i}
+                                            className={`tag ${materail === selectedmaterial ? "materialSelected" : ""}
+              ${isEnabled ? "" : "disabled"}`}
+                                            onClick={(e) => isEnabled && setselectedMaterial(materail)}>
+
+                                            {materail}
+                                        </span>
                                     )
                                 })
                                     :

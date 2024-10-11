@@ -117,6 +117,9 @@ function SingleProduct() {
     };
 
 
+    
+
+
     function newIncrement(val) {
         console.log('value', val)
 
@@ -136,11 +139,17 @@ function SingleProduct() {
             console.log("Checking config:", config);
 
             // Ensure that each condition is checked correctly
-            return (
-                (!color || config.color?.name === color) &&
-                (!size || config.size?.name === size) &&
-                (!material || config.material?.name === material)
-            );
+            // return (
+            //     (((!color || config.color?.name === color) &&(!size || config.size?.name === size)) && ((!color || config.color?.name === color) && (!material || config.material?.name === material)))
+            // );
+
+
+            const colorMatches = color ? config.color?.name === color : config.color == null;
+            const sizeMatches = size ? config.size?.name === size : config.size == null;
+            const materialMatches = material ? config.material?.name === material : config.material == null;
+    
+            // Return true if all conditions are met based on provided values
+            return colorMatches && sizeMatches && materialMatches;
         });
 
         console.log('Matched Config:', matchedConfig);
@@ -157,6 +166,43 @@ function SingleProduct() {
         console.log('Price:', price);
     }
 
+
+    // function findMatchingProductConfig(color, size, material) {
+    //     console.log('Finding matching config with Color:', color, ', Size:', size, ', Material:', material);
+    
+    //     // Check if productData and productConfig are available
+    //     if (!productData || !productData.productConfig) {
+    //         console.log("No product data or product configurations available.");
+    //         return;
+    //     }
+    
+    //     const matchedConfig = productData.productConfig.find(config => {
+    //         console.log("Checking config:", config);
+    
+    //         // Updated logic to ensure that material must match if it exists
+    //         // const colorMatch = !color || config.color?.name === color;
+    //         // const sizeMatch = !size || config.size?.name === size;
+    //         const materialMatch = material === undefined || material === null || config.material?.name === material;
+    //         const sizeMatch = size === undefined || size === null || config.size?.name === size;
+    //         const colorMatch = color === undefined || color === null || config.color?.name === color;
+    
+    //         return colorMatch && sizeMatch && materialMatch;
+    //     });
+    
+    //     console.log('Matched Config:', matchedConfig);
+    
+    //     // Update price only if matchedConfig is found
+    //     if (matchedConfig) {
+    //         setPrcie(productData?.price + matchedConfig?.price);
+    //         setFormData({ ...formData, product_config_id: matchedConfig?._id || null });
+    //     } else {
+    //         setPrcie(productData?.price); // Fallback price if no matching config
+    //         setFormData({ ...formData, product_config_id: null });
+    //     }
+    
+    //     console.log('Price:', price);
+    // }
+    
 
 
     console.log('ccccccccccccccccccccccccccc', sizes)

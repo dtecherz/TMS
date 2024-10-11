@@ -139,7 +139,7 @@ function Cart() {
                 <div>
                     <Link to={`/product/${e.product_id._id}`}>{e.product_id.name}</Link>
                     <div className="config">
-                        {e.a?.color && (
+                        {e.product_config_id?.color && (
                             <div className="config-item">
                                 <span className="config-key">Color:</span>
                                 <span className="config-value">{e.product_config_id.color.name}</span>

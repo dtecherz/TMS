@@ -56,6 +56,9 @@ function Sizes({ data, selectedSize, setselectedSize, matchingVariant ,colors,se
             {sizes.length > 0 && sizes.map((size, index) => {
                 // Check if size exists in matchingVariant
                 const isEnabled = matchingVariant ? matchingVariant?.some(variant => variant?.size?.name === size) : true;
+
+                console.log('mmmmmmmmmmmmmm', matchingVariant)
+
                 return (
                     <span
                         key={index}

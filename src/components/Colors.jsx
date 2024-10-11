@@ -48,8 +48,17 @@ function Colors({ data, selectedColor, setselectedColor, matchingVariant, setCol
                 <div className='flex flex-wrap gap-1'>
                     {
                         (colors).length > 0 && (colors).map((color, i) => {
-                            return <span key={i} className={`${selectedColor === color ? "selected-color-circle" : "color-circle"}`} onClick={() => setselectedColor(color)} style={{ backgroundColor: `${color}` }}></span>
+                            return  <span
+                            key={i}
+                            className={`tag ${color === selectedColor ? "colorSelected" : ""} `}
+                            onClick={() => setselectedColor(color)}
+                        >
+                            {color}
+                        </span>
                         })
+                        // (colors).length > 0 && (colors).map((color, i) => {
+                        //     return <span key={i} className={`${selectedColor === color ? "selected-color-circle" : "color-circle"}`} onClick={() => setselectedColor(color)} style={{ backgroundColor: `${color}` }}></span>
+                        // })
                     }
                 </div>
             </div>
