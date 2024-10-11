@@ -363,7 +363,7 @@ const cartController = {
             console.log('cartItems', cartItems)
             if (!cartItems) {
                 // New item to be added to cart
-                if (product_config_id && quantity > variantQuantity) {
+                if ((product_config_id && quantity > variantQuantity) && productStockManagament) {
                     return res.status(400).send({ success: false, message: `This variant of the product is out of stock. Only ${variantQuantity} items are left.` });
                 }
 
@@ -386,7 +386,7 @@ const cartController = {
                 console.log('newQuantity', newQuantity)
                 if (quantity > 0) {
                     console.log(">>>>>>>>>>>>>>>>>>>")
-                    if (product_config_id && newQuantity > variantQuantity) {
+                    if ((product_config_id && newQuantity > variantQuantity) && productStockManagament) {
                         return res.status(400).send({ success: false, message: `This product variant is out of stock. Only ${variantQuantity} items are left.` });
                     }
 

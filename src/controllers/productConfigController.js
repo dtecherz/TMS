@@ -21,12 +21,14 @@ const productConfigController={
         if (!product) {
           return res.status(404).send({ success: false, message: "Product not found" });
         }
-    
+
+        let productStockManagament = product.stock_management
+        console.log('productStockManagament',productStockManagament)
         const totalQuantityOfProduct = product.total_quantity;
     
         if (totalQuantityOfProduct != null) {
-          if (sumOfVariantQuantity > totalQuantityOfProduct) {
-            return res.status(400).send({ success: false, message: "Stock quantity limit exceeded 1" });
+          if ((sumOfVariantQuantity > totalQuantityOfProduct ) && productStockManagament) {
+            return res.status(400).send({ success: false, message: "Stock quantity limit exceeded " });
           }
         }
     
@@ -36,8 +38,8 @@ const productConfigController={
           let quantityFromDatabase = productConfigQuery.reduce((acc, res) => (acc + parseInt(res.stock_quantity, 10)), 0);
     
           if (totalQuantityOfProduct != null) {
-            if ((sumOfVariantQuantity + quantityFromDatabase) > totalQuantityOfProduct) {
-              return res.status(400).send({ success: false, message: "Stock quantity limit exceeded 2" });
+            if (((sumOfVariantQuantity + quantityFromDatabase) > totalQuantityOfProduct)  && productStockManagament) {
+              return res.status(400).send({ success: false, message: " " });
             }
           }
         }
@@ -171,12 +173,14 @@ const productConfigController={
         if (!product) {
           return res.status(404).send({ success: false, message: "Product not found" });
         }
+
+        let productStockManagament = product.stock_management
     
         const totalQuantityOfProduct = product.total_quantity;
     
         if (totalQuantityOfProduct != null) {
-          if (sumOfVariantQuantity > totalQuantityOfProduct) {
-            return res.status(400).send({ success: false, message: "Stock quantity limit exceeded 1" });
+          if ((sumOfVariantQuantity > totalQuantityOfProduct) && productStockManagament) {
+            return res.status(400).send({ success: false, message: "Stock quantity limit exceeded " });
           }
         }
 
@@ -187,8 +191,8 @@ const productConfigController={
           let quantityFromDatabase = productConfigQuery.reduce((acc, res) => (acc + parseInt(res.stock_quantity, 10)), 0);
     
           if (totalQuantityOfProduct != null) {
-            if ((sumOfVariantQuantity + quantityFromDatabase) > totalQuantityOfProduct) {
-              return res.status(400).send({ success: false, message: "Stock quantity limit exceeded 2" });
+            if (((sumOfVariantQuantity + quantityFromDatabase) > totalQuantityOfProduct)  && productStockManagament) {
+              return res.status(400).send({ success: false, message: "Stock quantity limit exceeded " });
             }
           }
         }

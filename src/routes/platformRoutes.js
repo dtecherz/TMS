@@ -14,6 +14,11 @@ router.post('/add-icon',platformController.addSocialLinksData)
 router.get('/get-icon',platformController.getSocialIcons)
 
 
+// get active collection 
+
+router.get('/get-active-collection',platformController.activeCollections)
+
+
 
 
 

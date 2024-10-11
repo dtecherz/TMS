@@ -1,7 +1,7 @@
 const categoriesModel = require("../models/categoryModels");
 const productModel = require("../models/productModel");
 const SocialLinks = require('../models/LinksModel')
-
+const CollectionModel = require('../models/collectionModel')
 
 const platformController = {
 
@@ -119,6 +119,41 @@ const platformController = {
                 message:"something went wrong ehile setting u platform",
                 error:error.message
 
+            })
+        }
+    },
+
+
+    // active collection list 
+
+
+    async activeCollections(req,res){
+        try {
+            const collections = await  CollectionModel.find()
+
+            if(collections.length >0){
+                const activeColections = collections.filter(e=>e.active)
+                console.log('aaaa',activeColections)
+
+                return res.status(200).send({
+                    success:true,
+                    message:"active collections got succefsully",
+                    activeCollections:activeColections
+                })
+            }
+
+            return res.status(200).send({
+                success:true,
+                message:"active collections got succefsully",
+                activeCollections:[]
+            })
+
+        } catch (error) {
+            console.log(error)
+            return res.status(400).send({
+                success:false,
+                message:"something went wrong while getting collection",
+                error:error.message
             })
         }
     }

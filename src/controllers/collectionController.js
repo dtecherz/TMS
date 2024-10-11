@@ -116,14 +116,16 @@ const collectionController = {
         try {
             const slug = req.params.slug
             const id = req.params.id
+            console.log('slug',slug)
+            const limit = 10
                 
             const collection = await Collection.findOne({ slug: slug })
             .populate({
                 path: 'products', // Populate the products
                 populate: { path: 'images', select: ['image_url', '_id'] } // Within products, populate images
             });
+            console.log('summer-collection',collection)
             if(!collection) return res.status(200).send({success:false,message:"no collection found"})
-
                 return res.status(200).send({
                     success:true,
                     message:"collection got succesfully",
