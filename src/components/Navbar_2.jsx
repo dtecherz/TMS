@@ -13,6 +13,7 @@ import logo2 from '../assets/black-version-removebg-preview.png'
 import { useAuth } from '../ContextAPI/Components/auth';
 import { useCookies } from 'react-cookie';
 import { useCart } from '../ContextAPI/Components/CartContext';
+import { useCollection } from '../ContextAPI/Components/colectionContext';
 
 const { Header } = Layout;
 
@@ -22,6 +23,8 @@ const { Header } = Layout;
 function Navbar_2(props) {
 
     const {user ,SignOut} = useAuth()
+    const {collections} = useCollection()
+
     const {carts} = useCart()
     console.log('cartsssssss',carts)
     const [cookies, setCookie, removeCookie] = useCookies(['pk2']);
@@ -106,7 +109,7 @@ function Navbar_2(props) {
                                 }
                                 </Link>
                                 {
-                                    (user && (cookies?.pk2 !== null || cookies.pk2 !== undefined)) ?
+                                    ( (cookies?.pk2 !== null || cookies.pk2 !== undefined)) ?
                         <Tooltip title="Logout">
                             <Link to={'/sign-in'} className=" md:hidden block py-2 px-3 transition-all duration-300 focus:outline-none focus:ring-0 font-medium md:p-0 sm:px-4 sm:py-2">
                                     <LogoutOutlined className='social_icons' style={{fontSize: "20px"}}  onClick={()=>SignOut()} />
@@ -130,6 +133,16 @@ function Navbar_2(props) {
                             </Link>
                                 </div>
                             </li>
+
+                            {
+                                
+                                collections?.map((c,i)=>{
+                                   return  <li key ={i}>
+                                        <Link to={`/collection/${c.slug}`}>{c.name}</Link>
+                                        </li>
+                                        console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",collections)
+                                })
+                            }
 
                         </ul>
                     </div>

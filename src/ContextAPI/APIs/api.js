@@ -717,9 +717,31 @@ export const getOneColection = async (slug) =>{
 
 
 
+// get active collection 
 
 
 
+export const getActiveCollection = async () =>{
+  try {
+    return await CallAPI('GET',`api/platform/get-active-collection`)
+  } catch (error) {
+    throw error
+  }
+}
+
+
+
+
+
+
+export const getAllColections = async ()  =>{
+  try {
+    
+    return await CallAPI('GET',`api/collection/get`)
+  } catch (error) {
+    throw error
+  }
+}
 
 
 

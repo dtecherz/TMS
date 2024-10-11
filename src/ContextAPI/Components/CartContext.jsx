@@ -28,10 +28,9 @@ export const CartProvider = ({ children }) => {
 
 
     const getUserCartsData = async () => {
-        console.log('chal rha h ')
         const token = cookies?.pk2
         if(token){
-
+            
             
             try {
                 
@@ -59,17 +58,18 @@ export const CartProvider = ({ children }) => {
                 if(response.success) 
                     setSubTotal(response.subTotalPrice);
                 setTotal(response.Total)
-                    setCarts(response.cartItems)
+                setCarts(response.cartItems)
             } catch (error) {
                console.log(error)
 
             }
         }
     };
+    console.log('acbccccccccccccccccccccccccccccc ',carts)
     console.log('crrt',localData)
 
     useEffect(()=>{
-        // getUserCartsData()
+        getUserCartsData()
     },[])
 
 

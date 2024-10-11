@@ -111,12 +111,6 @@ function ProductList() {
                                         })
                                     }
 
-                                    {/* <Col xs={24} sm={12} md={12} lg={7} xl={7}> <ProductCard /> </Col>
-                                    <Col xs={24} sm={12} md={12} lg={7} xl={7}> <ProductCard /> </Col>
-                                    <Col xs={24} sm={12} md={12} lg={7} xl={7}> <ProductCard /> </Col>
-                                    <Col xs={24} sm={12} md={12} lg={7} xl={7}> <ProductCard /> </Col>
-                                    <Col xs={24} sm={12} md={12} lg={7} xl={7}> <ProductCard /> </Col>
-                                    <Col xs={24} sm={12} md={12} lg={7} xl={7}> <ProductCard /> </Col> */}
 
                                 </Row>
                             </Col>

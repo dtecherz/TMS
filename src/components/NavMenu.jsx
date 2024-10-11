@@ -3,6 +3,7 @@ import { Collapse } from 'antd'
 import { Link } from 'react-router-dom';
 import { useAuth } from '../ContextAPI/Components/auth';
 import { useCookies } from 'react-cookie';
+import { useCollection } from '../ContextAPI/Components/colectionContext';
 
 const text1 = `Product List`;
 const text2 = `Cart`;
@@ -11,6 +12,8 @@ const text3 = `Product Single`;
 function NavMenu() {
 
     const { user ,SignOut} = useAuth()
+    const {collections} = useCollection()
+
     const [cookies, setCookie, removeCookie] = useCookies(['pk2']);
 
     console.log("cokie", cookies)
@@ -106,6 +109,16 @@ function NavMenu() {
                                 <li><Link onClick={SignOut}>Sign Out</Link></li>
                                 :
                                 <></>
+                            }
+
+                            {
+                                
+                                collections?.map((c,i)=>{
+                                   return  <li key ={i}>
+                                        <Link to={`/collection/${c.slug}`}>{c.name}</Link>
+                                        </li>
+                                        console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",collections)
+                                })
                             }
                         </ul>
                     </div>

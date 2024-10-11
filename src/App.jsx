@@ -22,6 +22,8 @@ import Forbidden from './pages/403'
 import { useCart } from './ContextAPI/Components/CartContext'
 import MyOrders from './pages/MyOrders'
 import GuestOrderTracking from './pages/GuestOrderTracking'
+import CollectionList from './pages/CollectionList'
+import { useCollection } from './ContextAPI/Components/colectionContext'
 
 
 
@@ -30,6 +32,7 @@ import GuestOrderTracking from './pages/GuestOrderTracking'
 function App() {
 
   const { getUserCartsData, carts } = useCart()
+  const {getColletionData,collections} = useCollection()
   console.log('cartssssss', carts)
   const { GetLoginUSer, user, GuestLoginData } = useAuth();
   const [cookies, setCookie, removeCookie] = useCookies(['pk2']);
@@ -64,21 +67,24 @@ function App() {
   //   getUserCartsData()
   // }, []);
 
-  console.log('ppppppppp', cookies.pk2)
+  console.log('pppppppppaaaaaaaaaaaaaaaaa', user)
 
 
   useEffect(() => {
-    if (user == null && cookies.pk2 !== undefined) {
+    if (user !== null && cookies.pk2 !== undefined) {
+      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<')
       GetLoginUSer();
-    }
-  }, [user]);
-  useEffect(() => {
-    if (user == null && cookies.pk2 !== undefined) {
-      // GetLoginUSer();
       getUserCartsData()
     }
-  }, [carts]);
 
+  }, []);
+
+
+
+
+  useEffect(()=>{
+    getColletionData()
+  },[])
 
   window.scrollTo({
     top: 0,
@@ -93,6 +99,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/home-2" element={<Home_2 />} />
           <Route path="/shop" element={<ProductList />} />
+          <Route path="/collection/:slug" element={<CollectionList />} />
           <Route path="/product/:slug" element={<SingleProduct />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />

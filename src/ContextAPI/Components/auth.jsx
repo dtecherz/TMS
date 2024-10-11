@@ -99,17 +99,18 @@ export const AuthProvider = ({ children }) => {
         try {
             const response = await getLoginUser()
             
-            if (response.success) setUser(response?.user)
-
-        } catch (error) {
+            if (response.success)  setUser(response?.user)
+                
+            } catch (error) {
            
             if (error.signout) SignOut()
-            if (error.redirect) return navigate(error.redirect)
+                if (error.redirect) return navigate(error.redirect)
+                }
+
+
         }
-
-
-    }
-
+        
+        console.log('acbccccccccccccccccccccccccccccc',user)
 
 
 
