@@ -91,7 +91,7 @@ function Sidebar({ collapsed }) {
         getItem(<Link to={"/product-variation-list"}>Products Variations</Link>, '9', <FileOutlined />), // Updated from 8 to 9
         getItem(<Link to={"/orders"}>Orders</Link>, '10', <ShoppingOutlined />), // Updated from 9 to 10
         // getItem(<Link to={"/addresses"}>Addresses</Link>, '10', <FileOutlined />),
-        getItem(<Link to={"/settings"}>Settings</Link>, '11', <SettingOutlined />),
+        // getItem(<Link to={"/settings"}>Settings</Link>, '11', <SettingOutlined />),
         getItem('Gallery', 'sub3', <ProductOutlined />, [
             getItem(<Link to={"/gallery"}>All Images</Link>, '12'),
             getItem(<Link to={"/upload-images"}>Upload</Link>, '13'),
@@ -119,7 +119,7 @@ function Sidebar({ collapsed }) {
         if (path.startsWith('/product-variation-list')) return '9'; // Updated from '8' to '9'
         if (path.startsWith('/orders')) return '10'; // Updated from '9' to '10'
         if (path.startsWith('/addresses')) return '10';
-        if (path.startsWith('/settings')) return '11';
+        // if (path.startsWith('/settings')) return '11';
         if (path.startsWith('/gallery')) return '12';
         if (path.startsWith('/upload-images')) return '13';
         if (path.startsWith('/add-payment-method')) return '14';

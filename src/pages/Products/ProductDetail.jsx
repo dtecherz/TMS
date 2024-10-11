@@ -102,6 +102,7 @@ function ProductDetail() {
                 stock = form.getFieldValue('stock_management')
                 status = form.getFieldValue('status')
                 console.log('stock', stock)
+                set_st_m(stock)
                 setProductVariationData(productData.productConfig);
                 setId(productData._id)
 
@@ -637,6 +638,16 @@ function ProductDetail() {
     );
     { console.log("////////////", variationData) }
 
+
+    const [st_m, set_st_m] = useState(false)
+    function st_m_Change(e) {
+        console.log(document.getElementById("stock_management").value);
+        if (document.getElementById("stock_management") == true) set_st_m(true)
+        else set_st_m(false)
+    }
+
+
+
     return (
         <section className='create_area'>
             <Card className='add_product_card'>
@@ -673,6 +684,7 @@ function ProductDetail() {
                                     type='text'
                                     placeholder='Enter Product Name'
                                     className='form_input'
+                                    id='name123'
                                 />
                             </Form.Item>
                         </Col>
@@ -734,30 +746,7 @@ function ProductDetail() {
                             </Form.Item>
                         </Col>
 
-                        <Col xs={24} sm={24} md={8} className='col'>
-                            <Form.Item label="Stock Management" name="stock_management">
-                                <Select>
-                                    {/* <Select.Option value={""}>Select</Select.Option> */}
-                                    <Select.Option value={true}>Yes</Select.Option>
-                                    <Select.Option value={false}>No</Select.Option>
-                                </Select>
-                            </Form.Item>
-                        </Col>
-
-                        {console.log('ssss', form.getFieldValue("stock_management"))}
-                        <Col xs={24} sm={24} md={8} className='col'>
-                            <Form.Item
-                                label="Total Quantity"
-                                name="total_quantity"
-                            >
-                                <Input
-                                    type='number'
-                                    placeholder='Enter Total Quantity of Product'
-                                    className='form_input'
-                                    disabled={form.getFieldValue("stock_management") == true}
-                                />
-                            </Form.Item>
-                        </Col>
+                        
 
                         <Col xs={24} sm={24} md={8} className='col'>
                             {console.log('ttt', form.getFieldValue('SKU'))}
@@ -772,6 +761,41 @@ function ProductDetail() {
                                     className='form_input'
                                 />
                             </Form.Item>
+                        </Col>
+                        <Col xs={24} sm={24} md={8} className='col'>
+                            <Form.Item label="Stock Management" name="stock_management">
+                                <Select
+                                    onChange={(value) => {
+                                        // st_m_Change(value); // Call your existing handler
+                                        set_st_m(value); // Update state with the selected value
+                                    }}
+                                    id='stock_management'
+                                >
+                                    <Select.Option value={true}>Yes</Select.Option>
+                                    <Select.Option value={false}>No</Select.Option>
+                                </Select>
+                            </Form.Item>
+                            {console.log('sddddd',st_m)}
+                        </Col>
+
+                        <Col xs={24} sm={24} md={8} className='col'>
+                            {st_m ?
+                                <Form.Item
+                                    label="Total Quantity"
+                                    name="total_quantity"
+                                // disabled={form.getFieldValue("stock_management") == false}
+                                >
+                                    <Input
+                                        type='number'
+                                        placeholder='Enter Total Quantity of Product'
+                                        className='form_input'
+                                    // disabled
+                                    />
+                                </Form.Item>
+                                :
+                               <></>
+                            }
+
                         </Col>
 
                         <Col xs={24} className='col'>

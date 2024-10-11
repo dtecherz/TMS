@@ -36,14 +36,14 @@ const EditCollection = () => {
         try {
             const response = await getOneColection(id);
             if (response.success) {
-               const collectionData = response.collection
-               console.log('cccc',collectionData)
-               form.setFieldsValue({
-                //    id:collectionData._id,
-                name:collectionData.name,
-                products:collectionData.products.map(e=>e._id),
-                status:collectionData.status,
-               })
+                const collectionData = response.collection
+                console.log('cccc', collectionData)
+                form.setFieldsValue({
+                    //    id:collectionData._id,
+                    name: collectionData.name,
+                    products: collectionData.products.map(e => e._id),
+                    status: collectionData.status,
+                })
             }
         } catch (error) {
             console.log(error);
@@ -52,21 +52,25 @@ const EditCollection = () => {
 
 
 
-    const collectionUpdate = async () =>{
-            console.log("::::::::::::")
+    const collectionUpdate = async () => {
+        console.log("::::::::::::")
         const values = form.getFieldsValue();
         // const id = form.getFieldValue("id")
-        console.log('vvvvvvvvvv',id,values)
+        console.log('vvvvvvvvvv', id, values)
         try {
-            const response = await updateColection(id,values)
-            if(response.success) Alert(response.message,response.success)
-                getSingleCollection()
+            const response = await updateColection(id, values)
+            if (response.success) Alert(response.message, response.success)
+            getSingleCollection()
         } catch (error) {
             console.log(error)
-            Alert(error.message,false)
+            Alert(error.message, false)
         }
     }
 
+
+    function onSearch(val) {
+        console.log('search:', val);
+      }
     useEffect(() => {
         // Fetch products first, then collection to ensure all data is available
         getProducts().then(getSingleCollection);
@@ -104,6 +108,12 @@ const EditCollection = () => {
                         <Select
                             mode="multiple"
                             style={{ width: '100%' }}
+                            showSearch={true}
+                            onSearch={onSearch}
+                            filterOption={(input, option) =>
+                                option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0 ||
+                                option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                              }
                             suffixIcon={<DownOutlined />}
                             placeholder="Please select products"
                             options={productOptions} // Use the options prepared from the product list
