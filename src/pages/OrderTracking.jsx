@@ -21,6 +21,7 @@ function OrderTracking() {
     const [orderId, setOrderId] = useState("")
     const [delivered, setDeliverd] = useState("")
     const [orderLog, setOrderLog] = useState([])
+    const [shippingCharges,setShippingCharges] = useState("")
     const { id } = useParams()
 
     const orderDetailsWithProduct = async () => {
@@ -32,6 +33,7 @@ function OrderTracking() {
                 setOrder_Total(response.orderInfo.total)
                 setOrder_statue(response.orderInfo.Order_status)
                 setOrderId(response.orderDetail[0]?.order_id?.order_id)
+                setShippingCharges(response.orderDetail[0]?.order_id?.delivery_charges)
                 setDeliverd(response.orderLog.filter(e => e.details.Order_status == "delivered"))
                 setOrderLog(response.orderLog.filter(e => e.details.Order_status != "delivered"))
 
@@ -100,24 +102,24 @@ function OrderTracking() {
 
                                             <div>
                                                 <a href="#" className=" flex-1 font-medium font-[Alegreya] text-gray-900 hover:text-[#a55e3f] dark:text-white">
-                                                    {o?.product_id?.short_description}
+                                                    {o?.product_id?.name}
                                                 </a>
                                                 <div className="config" style={{ color: "white" }}>
                                                     {o.product_config_id?.color && (
                                                         <div className="config-item">
-                                                            <span className="config-key text-black">Color: </span>
+                                                            <span className="config-key ">Color: </span>
                                                             <span className="config-value text-[#a55e3f]">{o.product_config_id.color.name}</span>
                                                         </div>
                                                     )}
                                                     {o.product_config_id?.size && (
                                                         <div className="config-item">
-                                                            <span className="config-key text-black">Size: </span>
+                                                            <span className="config-key ">Size: </span>
                                                             <span className="config-value text-[#a55e3f]">{o.product_config_id.size.name}</span>
                                                         </div>
                                                     )}
                                                     {o.product_config_id?.material && (
                                                         <div className="config-item">
-                                                            <span className="config-key text-black">Material: </span>
+                                                            <span className="config-key ">Material:</span>
                                                             <span className="config-value text-[#a55e3f]">{o.product_config_id.material.name}</span>
                                                         </div>
                                                     )}
@@ -157,7 +159,7 @@ function OrderTracking() {
 
                                     <dl className="flex items-center justify-between gap-4">
                                         <dt className="font-normal text-gray-500 dark:text-gray-400">Shipping  Charges</dt>
-                                        <dd className="font-medium text-gray-900 dark:text-white">200</dd>
+                                        <dd className="font-medium text-gray-900 dark:text-white">{shippingCharges}</dd>
                                     </dl>
                                 </div>
 

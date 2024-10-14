@@ -23,7 +23,7 @@ function SingleProductSlider({ product, pImg, setPImg, images }) {
 
                             :
 
-                            <Image src={`${File_URL}/${images[i]?.image_url}`} preview={false} width={"100%"} height={"70px"} className="single_product_image !p-1" />
+                            <Image src={`${File_URL}/${images[i]?.image_url}`} preview={true} width={"100%"} height={"70px"} className="single_product_image !p-1" />
                     }
                 </a>
             );
@@ -70,7 +70,7 @@ function SingleProductSlider({ product, pImg, setPImg, images }) {
                                     <Image
                                         width={"100%"}
                                         className="single_product_image"
-                                        preview={false}
+                                        preview={true}
                                         src={e.image_url}
                                         alt='external logo image'
                                     //   fallback={placeholderimage}
@@ -79,7 +79,7 @@ function SingleProductSlider({ product, pImg, setPImg, images }) {
                                     <Image
                                         width={"100%"}
                                         className="single_product_image"
-                                        preview={false}
+                                        preview={true}
                                         src={`${File_URL}/${e.image_url}`}
                                         alt='logo image'
                                     //   fallback={placeholderimage}

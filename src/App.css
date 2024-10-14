@@ -241,6 +241,10 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
   text-align: left !important;
 }
 
+.config-key{
+  color: white;
+}
+
 .navbar_2 .cart-number {
   background-color: var(--themeBrownColor);
   color: white;

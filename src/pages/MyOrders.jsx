@@ -19,7 +19,7 @@ const MyOrders = () => {
     const [page, setPage] = useState(0);
     const [cookies, setCookie, removeCookie] = useCookies(['pk2']);
     let Localemail = JSON.parse(localStorage.getItem('email'))
-
+    console.log('local',Localemail)
 
     const dataSource = myOrders.map((data, i) => {
         return {
@@ -143,7 +143,7 @@ const MyOrders = () => {
 
                 <div className="container">
                     {
-                        !Localemail &&
+                        Localemail &&
                         <div className="login_card">
 
                             <h2>Find Your Orders By Email</h2>

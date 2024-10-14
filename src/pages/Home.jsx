@@ -200,7 +200,7 @@ function Home() {
 
                                                     <h4 className='product_name'>{e.name}</h4>
                                                     <p className='product_desc'>{truncateDescription(e.short_description, 30)}</p>
-                                                    <p className='product_price'>${e.price}</p>
+                                                    <p className='product_price'>{e.price}</p>
 
                                                     <div className='add_to_cart_btn'>
                                                         <My_Button text={"Add To Cart"} />

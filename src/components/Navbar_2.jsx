@@ -97,6 +97,14 @@ function Navbar_2(props) {
                                     </Fragment>
                                 })
                             }
+                             {
+                                
+                                collections?.map((c,i)=>{
+                                   return  <li key ={i}>
+                                        <Link to={`/collection/${c.slug}`  }  className="block py-2 px-3 transition-all duration-300 md:p-0">{c.name}</Link>
+                                        </li>
+                                })
+                            }
 
                             <li>
                                 <div className='flex'>
@@ -134,15 +142,7 @@ function Navbar_2(props) {
                                 </div>
                             </li>
 
-                            {
-                                
-                                collections?.map((c,i)=>{
-                                   return  <li key ={i}>
-                                        <Link to={`/collection/${c.slug}`}>{c.name}</Link>
-                                        </li>
-                                        console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",collections)
-                                })
-                            }
+                           
 
                         </ul>
                     </div>

@@ -13,7 +13,7 @@ import { useCart } from '../ContextAPI/Components/CartContext';
 import { File_URL } from '../config';
 import { Alert } from '../ContextAPI/Components/notify';
 import { addToCart, DeleteCartItem } from '../ContextAPI/APIs/api';
-import formatter from '../helpers/formatter';
+import formatter, { formatterWithoutSymbol } from '../helpers/formatter';
 import { handleImageError } from '../helpers/imgHandler';
 
 const { Option } = Select;
@@ -116,6 +116,8 @@ function Cart() {
             const response = await DeleteCartItem({cartItemId:cartItemId})
             if (response.success) {
                 Alert(response.message, response.success);
+        getUserCartsData()
+
                 // Update cart state after successful deletion
                 const updatedCarts = carts.filter(cart => cart._id !== cartItemId);
                 setCarts(updatedCarts);
@@ -137,31 +139,43 @@ function Cart() {
             image: imageUrls[0]  ,
             product: (
                 <div>
-                    <Link to={`/product/${e.product_id._id}`}>{e.product_id.name}</Link>
+                    <Link to={`/product/${e.product_id.slug}`}>{e.product_id.name}</Link>
                     <div className="config">
                         {e.product_config_id?.color && (
                             <div className="config-item">
-                                <span className="config-key">Color:</span>
+                                <span className="config-key text-black">Color:</span>
                                 <span className="config-value">{e.product_config_id.color.name}</span>
                             </div>
                         )}
                         {e.product_config_id?.size && (
-                            <div className="config-item">
-                                <span className="config-key">Size:</span>
+                            <div className="config-item ">
+                                <span className="config-key text-black">Size:</span>
                                 <span className="config-value">{e.product_config_id.size.name}</span>
                             </div>
                         )}
                         {e.product_config_id?.material && ( 
                             <div className="config-item">
-                                <span className="config-key">Material:</span>
+                                <span className="config-key text-black">Material:</span>
                                 <span className="config-value">{e.product_config_id.material.name}</span>
                             </div>
                         )}
                     </div>
                 </div>
             ),
+            price: (
+                (!e.product_id.discount || e.product_id.discount === 0 || e.product_id.discount === undefined) ?
+                    <p className='price'>
+                        {formatter.format(e.product_id.price + (e.product_config_id ? e.product_config_id.price : 0))}
+                    </p>
+                    :
+                    <p className='price'>
+                        {/* <s>{formatter.format(e.product_id.price + (e.product_config_id ? e.product_config_id.price : 0))}</s>
+                        &nbsp;  */}
+                        {formatterWithoutSymbol.format((e.product_id.price - ((e.product_id.discount / 100) * e.product_id.price) + (e.product_config_id ?( e.product_config_id.price  -((e.product_id.discount / 100) * e.product_config_id.price)) : 0)) || 0)}
+                    </p>
+            ),
             
-            price: formatter.format(e.product_id.price + (e.product_config_id ? e.product_config_id.price : 0)) || 0,
+            // price: formatter.format(e.product_id.price + (e.product_config_id ? e.product_config_id.price : 0)) || 0,
             quantity: <Quantity_Counter qty={e.quantity} updateQuantity={updateQuantity} product_id={e.product_id._id} product_config_id={e.product_config_id ? e.product_config_id._id : null} index={i} />,
             subtotal: formatter.format(e.singleItemPrice ?? e.subTotalPrice ?? 0),
 
@@ -337,7 +351,8 @@ function Cart() {
                             <div className='cart_total_table'>
                                 <Flex align='center' gap={200} className='cart_total_table_border hide'>
                                     <h4 className='text-9xl'>Subtotal</h4>
-                                    <p>${formatter.format(subTotal) || 0}</p>
+
+                                    <p>{formatter.format(subTotal ) || 0}</p>
                                 </Flex>
                                 <Flex align='center' gap={200} className='cart_total_table_border hide'>
                                     <h4>Shippings</h4>
@@ -358,7 +373,7 @@ function Cart() {
                                 </Flex>
                                 <Flex align='center' gap={245} className='cart_total_table_border'>
                                     <h4>Total</h4>
-                                    <h6 className='total_price'>${formatter.format(Total) || 0}</h6>
+                                    <h6 className='total_price'>{formatter.format(isNaN(Total) ? 0 : Total)}</h6>
                                 </Flex>
                             </div>
 

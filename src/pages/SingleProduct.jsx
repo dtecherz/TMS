@@ -224,7 +224,7 @@ function SingleProduct() {
         findMatchingVariants(selectedColor)
     }, [selectedColor, selectedSize, selectedmaterial]);
 
-
+    console.log('plplplpl',productData.discount)
     useEffect(() => {
         console.log('selectedColor4545', selectedColor)
         findMatchingProductConfig(selectedColor, selectedSize, selectedmaterial);
@@ -293,8 +293,8 @@ function SingleProduct() {
                                     </Flex>
 
 
-                                    {
-                                        (!productData.discount || productData.discount == 0) ?
+                                    {   
+                                        (!productData.discount || productData.discount == 0  || productData.discount === undefined) ?
                                             <p className='price'>{formatter.format(productData.price || 0)}</p>
                                             :
                                             <p className='price'>
@@ -362,7 +362,7 @@ function SingleProduct() {
 
                                                         <h4 className='product_name'>{e.name}</h4>
                                                         <p className='product_desc'>{truncateDescription(e.short_description, 30)}</p>
-                                                        <p className='product_price'>${e.price}</p>
+                                                        <p className='product_price'>{e.price}</p>
 
                                                         <div className='add_to_cart_btn'>
                                                             <My_Button text={"Add To Cart"} />

@@ -43,14 +43,18 @@ function Testimonial_Slider() {
                 settings: {
                     slidesToShow: 2,
                     slidesToScroll: 2,
-                    initialSlide: 2
+                    initialSlide: 2,
+                    arrows: true,
+                    dots: true,
                 }
             },
             {
                 breakpoint: 576,
                 settings: {
                     slidesToShow: 1,
-                    slidesToScroll: 1
+                    slidesToScroll: 1,
+                    arrows: true,
+                    dots: true,
                 }
             }
         ]

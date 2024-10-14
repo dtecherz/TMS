@@ -6,6 +6,7 @@ import Navbar_2 from '../components/Navbar_2'
 import BreadCrumb from '../components/BreadCrumb'
 import ProductCard from '../components/ProductCard'
 import { Col, Row } from 'antd'
+import Footer from '../components/Footer'
 
 const CollectionList = () => {
 
@@ -53,6 +54,10 @@ const CollectionList = () => {
                     </div>
                 </div>
             </section>
+
+
+            <Footer />
+
         </>
     )
 }

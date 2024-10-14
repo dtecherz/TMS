@@ -710,7 +710,7 @@ function Checkout() {
                                         <div className='mt-8'>
                                             <h3>Contact</h3>
                                             {
-                                                user == null &&
+                                                (user == null && cookies.pk2 === undefined || null ) &&
                                                 <Form.Item
                                                     label=""
                                                     name="email"
@@ -1021,7 +1021,7 @@ function Checkout() {
                                                     </div>
                                                 </div>
 
-                                                <p>${formatter.format(e.singleItemPrice)}</p>
+                                                <p>{formatter.format(e.singleItemPrice)}</p>
                                             </div>
                                         })
 
@@ -1033,12 +1033,12 @@ function Checkout() {
                                     </div>
                                     <div className='flex items-center justify-between my-4'>
                                         <p>Delivery Charges</p>
-                                        <p>${formatter.format(shippingCharges) || 0}</p>
+                                        <p>{formatter.format(shippingCharges) || 0}</p>
                                     </div>
 
                                     <div className='flex items-center justify-between'>
                                         <p className='total'>Total</p>
-                                        <p className='total_price'>${formatter.format(subTotal + shippingCharges)}</p>
+                                        <p className='total_price'>{formatter.format(subTotal + shippingCharges)}</p>
                                     </div>
                                 </div>
                             </Col>
