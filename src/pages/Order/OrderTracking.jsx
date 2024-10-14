@@ -26,6 +26,8 @@ const OrderTracking = () => {
   const [orderId, setOrderId] = useState("")
   const [delivered, setDeliverd] = useState("")
   const [orderLog, setOrderLog] = useState([])
+  const [shippingCharges,setShippingCharges] = useState("")
+
   const { id } = useParams()
 
 
@@ -38,6 +40,8 @@ const OrderTracking = () => {
             setOrder_Total(response.orderInfo.total)
             setOrder_statue(response.orderInfo.Order_status)
             setOrderId(response.orderDetail[0]?.order_id?.order_id)
+            setShippingCharges(response.orderDetail[0]?.order_id?.delivery_charges)
+
             setDeliverd(response.orderLog.filter(e => e.details.Order_status == "delivered"))
             setOrderLog(response.orderLog.filter(e => e.details.Order_status != "delivered"))
 
@@ -107,24 +111,24 @@ useEffect(() => {
 
                                             <div>
                                                 <a href="#" className=" flex-1 font-medium font-[Alegreya] text-gray-900 hover:text-[#a55e3f] dark:text-white">
-                                                    {o?.product_id?.short_description}
+                                                    {o?.product_id?.name}
                                                 </a>
                                                 <div className="config" style={{ color: "white" }}>
                                                     {o.product_config_id?.color && (
                                                         <div className="config-item">
-                                                            <span className="config-key text-black">Color: </span>
+                                                            <span className="config-key ">Color:</span>
                                                             <span className="config-value text-[#a55e3f]">{o.product_config_id.color.name}</span>
                                                         </div>
                                                     )}
                                                     {o.product_config_id?.size && (
                                                         <div className="config-item">
-                                                            <span className="config-key text-black">Size: </span>
+                                                            <span className="config-key ">Size:</span>
                                                             <span className="config-value text-[#a55e3f]">{o.product_config_id.size.name}</span>
                                                         </div>
                                                     )}
                                                     {o.product_config_id?.material && (
                                                         <div className="config-item">
-                                                            <span className="config-key text-black">Material: </span>
+                                                            <span className="config-key">Material:</span>
                                                             <span className="config-value text-[#a55e3f]">{o.product_config_id.material.name}</span>
                                                         </div>
                                                     )}
@@ -164,7 +168,7 @@ useEffect(() => {
 
                                     <dl className="flex items-center justify-between gap-4">
                                         <dt className="font-normal text-gray-500 dark:text-gray-400">Shipping  Charges</dt>
-                                        <dd className="font-medium text-gray-900 dark:text-white">200</dd>
+                                        <dd className="font-medium text-gray-900 dark:text-white">{shippingCharges}</dd>
                                     </dl>
                                 </div>
 
@@ -186,8 +190,8 @@ useEffect(() => {
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5" />
                                             </svg>
                                         </span>
-                                        <h4 className="!mb-0.5 text-base font-semibold text-gray-900 dark:text-white">Estimated delivery in 24 Nov 2023</h4>
-                                        <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Products delivered</p>
+                                        {/* <h4 className="!mb-0.5 text-base font-semibold text-gray-900 dark:text-white">Estimated delivery in 24 Nov 2023</h4>
+                                        <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Products delivered</p> */}
                                     </li>
 
                                     <li className="mb-10 ms-6">
