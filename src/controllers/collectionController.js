@@ -122,7 +122,9 @@ const collectionController = {
             const collection = await Collection.findOne({ slug: slug })
             .populate({
                 path: 'products', // Populate the products
-                populate: { path: 'images', select: ['image_url', '_id'] } // Within products, populate images
+                populate: { path: 'images', select: ['image_url', '_id'] },
+                populate:{path: "category_id", select : ['category_name']}
+                // Within products, populate images
             });
             console.log('summer-collection',collection)
             if(!collection) return res.status(200).send({success:false,message:"no collection found"})

@@ -194,7 +194,7 @@ const productController = {
     async getAllProducts(req, res) {
         try {
 
-            const limit = parseInt(process.env.ProductLimitPerPage)
+            const limit = parseInt(process.env.ProductLimitPerPage) || 12
             // const limit = 2
             const page = parseInt(req.query.page) || 1;
             console.log("page", page)

@@ -15,6 +15,9 @@ const orderController = {
     // place order 
 
     async shopOrder(req, res) {
+
+
+        console.log("heheheheheheheheheh")
         try {
             console.log(req.files);
             const {
@@ -115,20 +118,30 @@ const orderController = {
             if (!shippingMethod) return res.status(400).send({ success: false, message: "invalid shipping method " })
 
             let shipping_charges = shippingMethod.charges
-            console.log('shiping-charges', shipping_charges)
-
+            
+            
             let subTotalPrice = 0;
             cartItems.forEach((item) => {
-                const basePrice = item.product_id.price;
-                const configPrice = item.product_config_id ? item.product_config_id.price : 0;
+                let discountOfProduct = item.product_id.discount/100 
+                    let discountedPrice =item.product_id.price *discountOfProduct
+                // const basePrice = item.product_id.price;
+                const basePrice = (discountOfProduct != 0 || discountOfProduct >0 || discountOfProduct !== null || discountOfProduct !== undefined )? (item.product_id.price - discountedPrice) : item.product_id.price 
+
+
+                let discountedConfigOrice =  (item.product_config_id ? item.product_config_id.price : 0) * discountOfProduct 
+
+                // const configPrice = item.product_config_id ? item.product_config_id.price : 0;
+                const configPrice = item.product_config_id ? (item.product_config_id.price - discountedConfigOrice): 0;
+
                 const itemPrice = (basePrice + configPrice) * item.quantity;
 
                 subTotalPrice += itemPrice;
             });
+                console.log('shiping-charges', typeof shipping_charges, typeof subTotalPrice)
 
             console.log('cartItems', cartItems)
             console.log('total', subTotalPrice)
-            const totalPrice = subTotalPrice + shipping_charges
+            const totalPrice = parseInt(subTotalPrice) + parseInt(shipping_charges)
 
             const paymentMethod = await Payment.findOne({ _id: payment_method })
             console.log("paymentMethod", paymentMethod)
@@ -312,8 +325,9 @@ const orderController = {
 
             let shipping_charges = shippingMethod.charges;
             let subTotalPrice = sub_total; // Assuming `sub_total` is sent as part of the request body
-            const totalPrice = subTotalPrice + shipping_charges;
+            const totalPrice = parseInt(subTotalPrice) + parseInt(shipping_charges);
 
+            console.log('??????????????????????????????????>>>>>>>>',typeof shipping_charges, typeof subTotalPrice)
             const paymentMethod = await Payment.findOne({ _id: payment_method });
             if (paymentMethod.payment_type !== "COD" && !req.files.images) {
                 return res.status(400).send({ success: false, message: "payment invoice receipt is required" });
@@ -479,7 +493,7 @@ const orderController = {
                 })
                 .populate({
                     path: 'order_id',
-                    select: 'total Order_status order_id'
+                    select: 'total Order_status order_id  delivery_charges'
                 }).populate({
                     path: 'product_config_id',
                     populate: [

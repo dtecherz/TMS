@@ -473,7 +473,7 @@ const cartController = {
             const UserCartItems = await CartItem.find({ cart_id: cart._id })
                 .populate({
                     path: "product_id",
-                    select: "name price images",
+                    select: "name price images discount slug",
                     populate: {
                         path: "images",
                         select: "image_url"
@@ -492,12 +492,19 @@ const cartController = {
                 let subTotalPrice = 0;
                 let Total = 0
                 const updatedCartItems= UserCartItems.map(item => {
-                    const basePrice = item.product_id.price;
-                    const configPrice = item.product_config_id ? item.product_config_id.price : 0;
+                    let discountOfProduct = item.product_id.discount/100 
+                    let discountedPrice =item.product_id.price *discountOfProduct
+                    
+                    console.log('discountOfProduct',discountOfProduct,discountedPrice)
+                       const basePrice = (discountOfProduct != 0 || discountOfProduct >0 || discountOfProduct !== null || discountOfProduct !== undefined )? (item.product_id.price - discountedPrice) : item.product_id.price 
+                    // const basePrice = (item.product_id.price * discountOfProduct);
+                    let discountedConfigOrice =  (item.product_config_id ? item.product_config_id.price : 0) * discountOfProduct 
+                    const configPrice = item.product_config_id ? (item.product_config_id.price - discountedConfigOrice): 0;
+                    console.log('discountedConfigOrice',configPrice,discountedConfigOrice)
                     const singleItemPrice = (basePrice + configPrice) * item.quantity;
                     console.log('totalll',Total)
-                    subTotalPrice += singleItemPrice;
-                    Total = subTotalPrice 
+                    subTotalPrice += parseInt(singleItemPrice);
+                    Total = parseInt(subTotalPrice)
                     console.log('totalll1',Total)
                     return {
                         ...item.toObject(), // Convert Mongoose document to plain JS object
@@ -509,7 +516,7 @@ const cartController = {
                     success: true,
                     message: "Cart items retrieved successfully",
                     cartItems: updatedCartItems,
-                    subTotalPrice: subTotalPrice,
+                    subTotalPrice: subTotalPrice ,
                     Total: Total
                 });
             }
@@ -571,8 +578,15 @@ const cartController = {
                 let productConfigDetails = {};
                 const { product_id, product_config_id, quantity } = items[index];
                 const product = await Product.findOne({ _id: product_id }).populate({path: "images", select: ["image_url"]});
-    
-                if (product) productPrice = product.price;
+                
+                let discountOfProduct = product.discount/100
+                let discountedPrice =product.price *discountOfProduct
+
+                if (product){
+                    productPrice= (discountOfProduct != 0 || discountOfProduct > 0) ? (product.price - discountedPrice) : product.price
+
+                } 
+                // productPrice = product.price;
     
                 if (product_config_id) {
                     const productConfig = await ProductConfig.findOne({ _id: product_config_id })
