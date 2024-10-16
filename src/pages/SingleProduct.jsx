@@ -46,6 +46,8 @@ function SingleProduct() {
     const [sizes, setSizes] = useState([])
     const [material, setMaterials] = useState([])
     const [price, setPrcie] = useState("")
+    const [checkConfig,setCheckConfig] = useState(false)
+    const [matchingConfigQty,setMatchingConfigQty] = useState({})
     const [formData, setFormData] = useState({
         product_id: "",
         product_config_id: "",
@@ -61,6 +63,11 @@ function SingleProduct() {
             if (response.success) setProductData(response.productData)
             setRelatedProducts(response.relatedProducts.slice(0, 4))
             setFormData({ ...formData, product_id: response.productData._id })
+            if(response.productData.productConfig.length > 0 ){
+                setCheckConfig(true)
+            }
+            console.log('ddddddddddddddddddddddddddddddddd',checkConfig)
+            console.log('bbbbb',response.productData.productConfig.length > 0 ||  response.productData.productConfig !== null)
         } catch (error) {
             console.log(error)
             Alert(response.message, false)
@@ -68,6 +75,86 @@ function SingleProduct() {
     }
 
     console.log('productData', productData)
+    console.log('formddd', matchingConfigQty)
+
+    // const addItemInCart = async () => {
+    //     const token = cookies.pk2;
+    //     if (token) {
+    //         try {
+    //             const response = await addToCart(formData.product_id, formData);
+    //             if (response.success) {
+    //                 getUserCartsData();
+    //             }
+    //             return Alert(response.message, response.success);
+    //         } catch (error) {
+    //             console.log(error);
+    //             Alert(error.message, false);
+    //         }
+    //     } else {
+    //         const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+    //         let itemExists = false;
+
+    //         let updatedCart = storedCart;
+    //         console.log('fffffffff',formData)
+    //         if (storedCart) {
+
+    //             updatedCart = storedCart.map(item => {
+    //                 console.log('itemssss',item)
+    //                 // if(checkConfig && formData.product_config_id === null){
+    //                 //     return Alert("this prouct has variant so you need to select one variant first",false)
+    //                 // }
+    //                 if (item?.product_id === formData.product_id && item?.product_config_id === formData.product_config_id) {
+    //                     itemExists = true;
+    //                     let checkQtyInLocal = item.quantity + formData.quantity
+                        
+    //                     if(item.product_config_id === null ){
+
+                            
+    //                         if(productData.stock_management && (productData.total_quantity <checkQtyInLocal)){
+    //                             return Alert(`This product is out of stock only ${productData.total_quantity} are left`)
+    //                         }
+    //                     }else{
+    //                         if(productData.stock_management && (matchingConfigQty <checkQtyInLocal)){
+    //                             return Alert(`This product  variant is out of stock only ${matchingConfigQty} are left`)
+    //                         }
+    //                     }
+    //                         console.log('items',items)
+    //                     return {
+    //                         ...item,
+    //                         quantity: item.quantity + formData.quantity,
+    //                     };
+    //                 }
+    //                 return item;
+    //             });
+    //         }
+
+    //         if (!itemExists) {
+    //             console.log('formddd', formData.quantity)
+    //             if(checkConfig && formData.product_config_id === null){
+    //                 return Alert("this prouct has variant so you need to select one variant first",false)
+    //             }
+    //             if(productData.stock_management  && formData.quantity > productData.total_quantity){
+    //                 return Alert(`only ${productData.total_quantity} items are left`,false)
+    //             }
+    //             if(productData.stock_management  && (formData.quantity > matchingConfigQty.stock_quantity)){
+
+    //                 return Alert(`This variant of product is out of stock only ${matchingConfigQty.stock_quantity} are left`,false)
+    //             }
+    //             else{
+
+    //                 updatedCart.push(formData);
+    //                 Alert("Item added to cart successfully");
+    //             }
+    //         } else {
+    //             Alert("Item quantity updated successfully");
+    //         }
+
+    //         console.log('updddd', updatedCart)
+    //         localStorage.setItem('cart', JSON.stringify(updatedCart));
+    //         getUserCartsData()
+    //     }
+    // };
+
     const addItemInCart = async () => {
         const token = cookies.pk2;
         if (token) {
@@ -84,38 +171,63 @@ function SingleProduct() {
         } else {
             const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
             let itemExists = false;
-
+            let stockCheckFailed = false;
             let updatedCart = storedCart;
-
+    
             if (storedCart) {
-
                 updatedCart = storedCart.map(item => {
-
-                    if (item.product_id === formData.product_id && item.product_config_id === formData.product_config_id) {
+                    if (item?.product_id === formData.product_id && item?.product_config_id === formData.product_config_id) {
                         itemExists = true;
+                        const checkQtyInLocal = item.quantity + formData.quantity;
+    
+                        if (item.product_config_id === null) {
+                            if (productData.stock_management && checkQtyInLocal > productData.total_quantity) {
+                                Alert(`This product is out of stock. Only ${productData.total_quantity} are left.`,false);
+                                stockCheckFailed = true;
+                                return item;
+                            }
+                        } else {
+                            if (productData.stock_management && checkQtyInLocal > matchingConfigQty.stock_quantity) {
+                                Alert(`This product variant is out of stock. Only ${matchingConfigQty.stock_quantity} are left.`,false);
+                                stockCheckFailed = true;
+                                return item;
+                            }
+                        }
+    
                         return {
                             ...item,
-                            quantity: item.quantity + formData.quantity,
+                            quantity: checkQtyInLocal,
                         };
                     }
                     return item;
                 });
             }
-
+    
+            if (stockCheckFailed) return;
+    
             if (!itemExists) {
-                console.log('formddd', formData)
+                if (checkConfig && formData.product_config_id === null) {
+                    return Alert("Please select a variant for this product.", false);
+                }
+                if (productData.stock_management && formData.quantity > productData.total_quantity) {
+                    return Alert(`Only ${productData.total_quantity} items are left in stock.`, false);
+                }
+                if (productData?.stock_management && formData.quantity > matchingConfigQty?.stock_quantity) {
+                    return Alert(`This variant of product is out of stock. Only ${matchingConfigQty.stock_quantity} are left.`, false);
+                }
+    
                 updatedCart.push(formData);
                 Alert("Item added to cart successfully");
             } else {
                 Alert("Item quantity updated successfully");
             }
-
-            console.log('updddd', updatedCart)
+    
             localStorage.setItem('cart', JSON.stringify(updatedCart));
-            getUserCartsData()
+            getUserCartsData();
         }
     };
-
+    
+    
 
     
 
@@ -153,6 +265,7 @@ function SingleProduct() {
         });
 
         console.log('Matched Config:', matchedConfig);
+        setMatchingConfigQty(matchedConfig)
 
         // Update price only if matchedConfig is found
         if (matchedConfig) {
@@ -362,7 +475,7 @@ function SingleProduct() {
 
                                                         <h4 className='product_name'>{e.name}</h4>
                                                         <p className='product_desc'>{truncateDescription(e.short_description, 30)}</p>
-                                                        <p className='product_price'>{e.price}</p>
+                                                        <p className='product_price'>{formatter.format(e.price)}</p>
 
                                                         <div className='add_to_cart_btn'>
                                                             <My_Button text={"Add To Cart"} />

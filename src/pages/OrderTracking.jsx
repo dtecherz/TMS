@@ -130,6 +130,12 @@ function OrderTracking() {
 
                                             <div className="flex items-center justify-end w-full gap-4">
                                                 <p className="text-base font-normal text-gray-900 dark:text-white">x{o.quantity}</p>
+                                                {/* <p className="text-xl font-bold leading-tight text-gray-900 dark:text-white">{ (!o.product_id.discount || o.product_id.discount === 0 || o.product_id.discount === undefined) ?
+                                                <>  {formatter.format(o.product_id.price + (o.product_config_id ? o.product_config_id.price : 0))}</>
+                                                :
+                                                <>
+                                                 {formatter.format((o.product_id.price - ((o.product_id.discount / 100) * o.product_id.price) + (o.product_config_id ? (o.product_config_id.price - ((o.product_id.discount / 100) * o.product_config_id.price)) : 0)) || 0)}</>    
+                                            }</p> */}
                                                 <p className="text-xl font-bold leading-tight text-gray-900 dark:text-white">{formatter.format(o.price) || 0}</p>
                                             </div>
 
@@ -158,7 +164,7 @@ function OrderTracking() {
 
 
                                     <dl className="flex items-center justify-between gap-4">
-                                        <dt className="font-normal text-gray-500 dark:text-gray-400">Shipping  Charges</dt>
+                                        <dt className="font-normal text-gray-500 dark:text-gray-400">Shipping Charges</dt>
                                         <dd className="font-medium text-gray-900 dark:text-white">{shippingCharges}</dd>
                                     </dl>
                                 </div>

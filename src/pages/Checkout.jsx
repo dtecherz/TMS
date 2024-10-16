@@ -4,7 +4,7 @@ import { Button, Checkbox, Form, Input } from 'antd';
 import Navbar_2 from '../components/Navbar_2'
 import BreadCrumb from '../components/BreadCrumb'
 import My_Button from '../components/Button';
-
+import DOMPurify from 'dompurify';
 
 import cart_image from "../assets/shop-img-2.jpg"
 import { useCart } from '../ContextAPI/Components/CartContext';
@@ -66,6 +66,8 @@ function Checkout() {
         shiping_method: "",
 
     })
+
+    const [billingAddressValue, setBillingAddressValue] = useState(null);
     console.log('aaaa', shippingMethods)
     const handleCheckboxChange = (e) => {
         setFormData({ subscriberCheck: e.target.checked });
@@ -101,53 +103,6 @@ function Checkout() {
     }
 
 
-    // const OrderPlace = async () => {
-    //     const token = cookies?.pk2
-
-
-    //     try {
-
-    //         const thisForm = new FormData()
-    //         thisForm.append("images", formData.invoice_recipt)
-    //         thisForm.append("first_name", formData.first_name)
-    //         thisForm.append("last_name", formData.last_name)
-    //         thisForm.append("email", formData.email)
-    //         thisForm.append("phone", formData.phone)
-    //         thisForm.append("address", formData.address)
-    //         thisForm.append("city", formData.city)
-    //         thisForm.append("postal_code", formData.postal_code)
-    //         thisForm.append("region", formData.region)
-    //         thisForm.append("state", formData.state)
-    //         thisForm.append("billing_address", formData.billing_address)
-    //         thisForm.append("billing_city", formData.billing_city)
-    //         thisForm.append("billing_phone", formData.billing_phone)
-    //         thisForm.append("billing_postal_code", formData.billing_postal_code)
-    //         thisForm.append("Biling_addres_select", formData.Biling_addres_select)
-    //         thisForm.append("payment_method", formData.payment_method)
-    //         thisForm.append("shiping_method", formData.shiping_method)
-
-    //         if (token) {
-
-    //             console.log('thisss',thisForm)
-    //             const response = await placeOrder(thisForm)
-    //             if (response.success) navigate('/thankyou')
-    //             return Alert(response.message, response.success)
-    //         } else {
-    //             console.log('thisss',thisForm)
-    //             const response = await orderPlace(thisForm)
-    //             if (response.success) navigate('/thankyou')
-    //             return Alert(response.message, response.success)
-    //         }
-
-
-
-    //     } catch (error) {
-    //         console.log(error)
-    //         Alert(error.message, false)
-    //     }
-
-
-    // }
 
     const OrderPlace = async () => {
         const token = cookies?.pk2;
@@ -247,15 +202,7 @@ function Checkout() {
     const onChange = (e) => {
         setValue(e.target.value);
         console.log('eee', e.target.value)
-        // setFormData({
-        //     ...formData,
-
-        //     shiping_method: e.target.value,
-        // });
-        // const selectedMethod = shippingMethods.find((s)=>s._id === e.target.value )
-        // if(selectedMethod){
-        //     setShippingCharges(selectedMethod.charges)
-        // }
+        
 
 
         if (e.target.value === 5) {
@@ -379,7 +326,10 @@ function Checkout() {
             ),
             children: (
                 <div>
-                    <pre>{p.Account_Details}</pre>
+                    <pre>
+                <code  dangerouslySetInnerHTML={{ __html: p.Account_Details }} />
+              
+            </pre>
                 </div>
             ),
         }));
@@ -390,7 +340,7 @@ function Checkout() {
             key: i,
             label: (
                 <div>
-                    <Radio.Group onChange={onChange} value={value} className='radio_group'>
+                    <Radio.Group onChange={onPaymentMethod} value={paymentValue} className='radio_group'>
                         <Space direction="vertical">
                             <Radio value={p._id} onClick={() => { setFormData({ ...formData, payment_method: p._id }) }}>{p.Title}</Radio>
                         </Space>
@@ -408,7 +358,10 @@ function Checkout() {
             ),
             children: (
                 <div>
-                    <pre>{p.Account_Details}</pre>
+                   <pre>
+                <code  dangerouslySetInnerHTML={{ __html: p.Account_Details }} />
+              
+            </pre>
                 </div>
             ),
         }));
@@ -1021,7 +974,7 @@ function Checkout() {
                                                     </div>
                                                 </div>
 
-                                                <p>{formatter.format(e.singleItemPrice)}</p>
+                                                <p>{formatter.format(e.singleItemPrice  || e.subTotalPrice) }</p>
                                             </div>
                                         })
 

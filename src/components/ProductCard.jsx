@@ -46,7 +46,7 @@ function ProductCard({ data }) {
                     {/* <p className='product_price'>{formatter.format(data?.price || 11.99)}</p> */}
 
                     <div className='add_to_cart_btn'>
-                        <My_Button text={"Add To Cart"} />
+                        <My_Button text={"View"} />
                     </div>
                 </Card>
             </Link>

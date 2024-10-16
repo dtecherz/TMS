@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom'
 import { getOneColection } from '../ContextAPI/APIs/api'
 import { handleImageError } from '../helpers/imgHandler'
 import { File_URL } from '../config'
+import formatter from '../helpers/formatter'
 
 const imgStyle = {
     display: 'block',
@@ -200,7 +201,7 @@ function Home() {
 
                                                     <h4 className='product_name'>{e.name}</h4>
                                                     <p className='product_desc'>{truncateDescription(e.short_description, 30)}</p>
-                                                    <p className='product_price'>{e.price}</p>
+                                                    <p className='product_price'>{formatter.format(e.price)}</p>
 
                                                     <div className='add_to_cart_btn'>
                                                         <My_Button text={"Add To Cart"} />

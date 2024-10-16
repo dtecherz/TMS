@@ -46,7 +46,17 @@ function ProductList() {
     const [sortOrder, setSortOrder] = useState(1);
     console.log('order', sortOrder)
     const GetProducts = async () => {
-        const res = await getProducts(location.search, page,sortOrder)
+        console.log("locationnn",location.search)
+        let res 
+        if(location.search){
+            console.log("11111111111111111111")
+            res= await getProducts(location.search, 1,sortOrder)
+        }
+        else{
+            
+            console.log("22222222222222222")
+           res =await getProducts(location.search, page,sortOrder)
+        } 
         if (res.success) setProducts(res.products)
         setTotalProducts(res.totalProducts)
         setProductLImitPerPage(res.ProductLimitPerPage)

@@ -15,6 +15,7 @@ import { Alert } from '../ContextAPI/Components/notify';
 import { addToCart, DeleteCartItem } from '../ContextAPI/APIs/api';
 import formatter, { formatterWithoutSymbol } from '../helpers/formatter';
 import { handleImageError } from '../helpers/imgHandler';
+import { Cookies, useCookies } from 'react-cookie';
 
 const { Option } = Select;
 
@@ -25,6 +26,7 @@ const text = `
 `;
 
 function Cart() {
+    const [cookies] = useCookies(['pk2'])
 
     const { carts, getUserCartsData, setCarts, subTotal, Total } = useCart()
 
@@ -33,26 +35,109 @@ function Cart() {
 
 
     const updateQuantity = async (product_id, product_config_id, qty, index) => {
-        console.log('body')
         try {
-            const body = {
-                product_id: product_id,
-                product_config_id: product_config_id || null,
-                quantity: qty
+
+            const token = cookies.pk2
+            if (token) {
+                const body = {
+                    product_id: product_id,
+                    product_config_id: product_config_id || null,
+                    quantity: qty
+                }
+
+                const response = await addToCart(product_id, body)
+                if (response.success) {
+                    // Update cart state after successful API call
+                    const updatedCarts = [...carts]
+                    console.log('upppp', updatedCarts[index])
+                    updatedCarts[index].quantity += qty
+
+                    setCarts(updatedCarts)
+                    getUserCartsData()
+                    return Alert(response.message, response.success)
+                }
             }
 
-            const response = await addToCart(product_id, body)
-            if (response.success) {
-                // Update cart state after successful API call
-                const updatedCarts = [...carts]
+            else {
+                // **Guest User: Update Cart via localStorage**
+                const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+                console.log("storedCart----", storedCart);
+                console.log("carts----", carts);
+                // return
+                const cartItemIndex = storedCart.findIndex(
+                    (item) =>
+                    // console.log('ity',item)
+                    (item.product_id === product_id &&
+                        (item.product_config_id || null) === (product_config_id || null))
+                );
+                console.log('storedCart', product_config_id)
+                const findSortedCartItem = storedCart.find((item) => {
+                    // console.log('yyyyyyyyyyyyy',product_config_id,product_id,item)
+                    console.log('yyyyyyyyyyyyy', item.product_id === product_id && item.product_config_id === product_config_id)
+                    return item.product_id === product_id && item.product_config_id === product_config_id
 
-                updatedCarts[index].quantity += qty
+                })
+                console.log('findSortedCartItem', findSortedCartItem)
+                const findCartItem = carts.find((item) => {
+                    console.log('yyyyyyyyyy11', findSortedCartItem.product_id, item.product_id?._id, item.product_id.stock_management)
+                    console.log('yyyyyyyyyy11', item.product_config_id?._id, findSortedCartItem?.product_config_id)
+                    console.log('yyyyyyyyyyyyy', item.product_id?._id === findSortedCartItem?.product_id && item.product_config_id?._id === findSortedCartItem.product_config_id)
 
-                setCarts(updatedCarts)
-                getUserCartsData()
-                return Alert(response.message, response.success)
+                    return item.product_id?._id === findSortedCartItem.product_id && (item.product_config_id?._id || null === findSortedCartItem.product_config_id || null)
+                })
+                console.log('findSortedCartItemid', findSortedCartItem?.product_config_id)
+                let newQty
+                if (findSortedCartItem.product_config_id === null && findCartItem.product_id.stock_management) {
+                    console.log('mmmm',findCartItem.product_config_id?._id || null)
+                    console.log("matched",findSortedCartItem?.product_id == findCartItem.product_id?._id, (findSortedCartItem?.product_config_id  ? findSortedCartItem?.product_config_id : null )=== (findCartItem.product_config_id ? findCartItem.product_config_id?._id  : null))
+                    
+                        newQty= findSortedCartItem.quantity + qty
+                        console.log('newqty',newQty)
+                        if (newQty > findCartItem.product_id.total_quantity) {
+                            console.log("greater");
+                            return Alert(`This product is out of stock only ${findCartItem.product_id.total_quantity} are left`,false)
+
+                        }
+
+                    
+                }
+                if(findSortedCartItem.product_config_id !== null && findCartItem.product_id.stock_management){
+                  
+                        newQty= findSortedCartItem.quantity + qty
+                        if(newQty > findCartItem.product_config_id.stock_quantity){
+                            return Alert(`This variant of product is out of stock only ${findCartItem.product_config_id.stock_quantity} are left`,false)
+                        }
+                    
+                }
+
+                
+
+                    
+                    if (cartItemIndex !== -1) {
+                        console.log('-111111111111')
+                    // Item exists in cart, update quantity
+                    storedCart[cartItemIndex].quantity += qty;
+
+                    // Ensure quantity doesn't drop below 1
+                    if (storedCart[cartItemIndex].quantity < 1) {
+                        storedCart[cartItemIndex].quantity = 1;
+                    }
+
+                    // Save updated cart to localStorage
+                    localStorage.setItem('cart', JSON.stringify(storedCart));
+                    
+                    // Update context/state
+                    // setCarts(storedCart);
+                    getUserCartsData();
+                    Alert("Cart updated successfully.", true);
+                } else {
+                    // Item does not exist in cart, optionally add it
+                    Alert("Item not found in cart.", false);
+                }
+            
             }
         } catch (error) {
+            console.log('bodyyyyyyyyyyyyyyyyyyyyy')
             console.log(error)
             Alert(error.message, false)
         }
@@ -75,13 +160,13 @@ function Cart() {
             title: '',
             dataIndex: 'delete',
             key: 'delete',
-            render: (text,record) => <CloseOutlined className='dlt_icon' onClick={(e)=> deleteItemsOfCart(record.cartItemId)}  />,
+            render: (text, record) => <CloseOutlined className='dlt_icon' onClick={(e) => deleteItemsOfCart(record.cartItemId)} />,
         },
         {
             title: '',
             dataIndex: 'image',
             key: 'image',
-            render: (img) => <Image src={`${File_URL}/${img}`} alt={img} className='cart_image'  onError={handleImageError} />,
+            render: (img) => <Image src={`${File_URL}/${img}`} alt={img} className='cart_image' onError={handleImageError} />,
         },
         {
             title: 'Product',
@@ -109,34 +194,52 @@ function Cart() {
 
     // delete cart items 
 
-    const deleteItemsOfCart = async (cartItemId)=>{
+    const deleteItemsOfCart = async (cartItemId) => {
         try {
-            console.log('cartItemId',cartItemId)
-            // const confirmation = window.location.confirm("are yu ure you want to remove")
-            const response = await DeleteCartItem({cartItemId:cartItemId})
-            if (response.success) {
-                Alert(response.message, response.success);
-        getUserCartsData()
 
-                // Update cart state after successful deletion
-                const updatedCarts = carts.filter(cart => cart._id !== cartItemId);
-                setCarts(updatedCarts);
+            console.log('cartItemId', cartItemId)
+            const token = cookies.pk2
+            if (token) {
+
+                // const confirmation = window.location.confirm("are yu ure you want to remove")
+                const response = await DeleteCartItem({ cartItemId: cartItemId })
+                if (response.success) {
+                    Alert(response.message, response.success);
+                    getUserCartsData()
+
+                    // Update cart state after successful deletion
+                    const updatedCarts = carts.filter(cart => cart._id !== cartItemId);
+                    setCarts(updatedCarts);
+                }
+            } else {
+                // **Guest User: Remove Cart Item from LocalStorage**
+                const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+                const updatedCart = carts.filter(item => item._id !== cartItemId);
+
+                // Update localStorage with the modified cart
+                localStorage.setItem('cart', JSON.stringify(updatedCart));
+                console.log('mmmmmmmmmmmmmm', updatedCart)
+                Alert("Item removed successfully", true);
+
+                // Refresh the cart display after deletion
+                getUserCartsData();
+                setCarts(updatedCart);
             }
 
         } catch (error) {
             console.log(error)
-            Alert(error.message,false)
+            Alert(error.message, false)
         }
     }
 
-
+    console.log('cttttrrrrrr', carts)
     const data = carts.map((e, i) => {
-        console.log('ttttttttttttttt',typeof e.subTotalPrice)
-        const imageUrls = e.product_id.images.map(image => image.image_url)  ;
+        console.log('ttttttttttttttt', typeof e.subTotalPrice)
+        const imageUrls = e.product_id?.images?.map(image => image.image_url);
         return {
             key: i,
-            cartItemId:e._id,
-            image: imageUrls[0]  ,
+            cartItemId: e._id,
+            image: imageUrls[0],
             product: (
                 <div>
                     <Link to={`/product/${e.product_id.slug}`}>{e.product_id.name}</Link>
@@ -153,7 +256,7 @@ function Cart() {
                                 <span className="config-value">{e.product_config_id.size.name}</span>
                             </div>
                         )}
-                        {e.product_config_id?.material && ( 
+                        {e.product_config_id?.material && (
                             <div className="config-item">
                                 <span className="config-key text-black">Material:</span>
                                 <span className="config-value">{e.product_config_id.material.name}</span>
@@ -171,17 +274,17 @@ function Cart() {
                     <p className='price'>
                         {/* <s>{formatter.format(e.product_id.price + (e.product_config_id ? e.product_config_id.price : 0))}</s>
                         &nbsp;  */}
-                        {formatterWithoutSymbol.format((e.product_id.price - ((e.product_id.discount / 100) * e.product_id.price) + (e.product_config_id ?( e.product_config_id.price  -((e.product_id.discount / 100) * e.product_config_id.price)) : 0)) || 0)}
+                        {formatter.format((e.product_id.price - ((e.product_id.discount / 100) * e.product_id.price) + (e.product_config_id ? (e.product_config_id.price - ((e.product_id.discount / 100) * e.product_config_id.price)) : 0)) || 0)}
                     </p>
             ),
-            
+
             // price: formatter.format(e.product_id.price + (e.product_config_id ? e.product_config_id.price : 0)) || 0,
             quantity: <Quantity_Counter qty={e.quantity} updateQuantity={updateQuantity} product_id={e.product_id._id} product_config_id={e.product_config_id ? e.product_config_id._id : null} index={i} />,
             subtotal: formatter.format(e.singleItemPrice ?? e.subTotalPrice ?? 0),
 
         }
     });
-    
+
 
     const city = [1]
 
@@ -352,7 +455,7 @@ function Cart() {
                                 <Flex align='center' gap={200} className='cart_total_table_border hide'>
                                     <h4 className='text-9xl'>Subtotal</h4>
 
-                                    <p>{formatter.format(subTotal ) || 0}</p>
+                                    <p>{formatter.format(subTotal) || 0}</p>
                                 </Flex>
                                 <Flex align='center' gap={200} className='cart_total_table_border hide'>
                                     <h4>Shippings</h4>
