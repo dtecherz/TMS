@@ -40,7 +40,7 @@ const platform = async () => {
             const sizeId = variations.find(v => v.name === "Size")._id;
             const materialId = variations.find(v => v.name === "Material")._id;
 
-
+            console.log('111')
             const variationOption = await VariationOption.insertMany([
                 { variation_id: colorId, name: "red" },
                 { variation_id: colorId, name: "blue" },
@@ -52,17 +52,20 @@ const platform = async () => {
                 { variation_id: materialId, name: "leather" },
                 { variation_id: materialId, name: "jeans" },
             ])
-
+            
+            console.log('222')
             await new Category({ category_name: "Watches" }).save()
             await new Category({ category_name: "Bags" }).save()
             await new Category({ category_name: "Shoes" }).save()    
-            const categoryId = variationOption.find(c=>c.category_name === "Watches")._id 
-
+            // const categoryId = variationOption.find(c=>c.category_name === "Watches")._id 
+            console.log('333')
+            
             const payment = new PaymentModal({
                 payment_type:"COD",
                 Title:"Cash On Delivery",
             })
             await payment.save()
+            console.log('444')
 
             const shipping = new ShippingModal({
                 name:"Free shipping",

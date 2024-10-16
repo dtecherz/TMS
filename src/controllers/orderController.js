@@ -99,7 +99,7 @@ const orderController = {
             const cartItems = await CartItem.find({ cart_id:cart_id })
                 .populate({
                     path: 'product_id',
-                    select: 'name price category short_description images'
+                    select: 'name price category short_description images discount'
                 })
                 .populate({
                     path: "product_config_id",
@@ -121,7 +121,9 @@ const orderController = {
             
             
             let subTotalPrice = 0;
+            console.log('cartItems',cartItems)
             cartItems.forEach((item) => {
+                console.log('MMMM',item.product_id.discount)
                 let discountOfProduct = item.product_id.discount/100 
                     let discountedPrice =item.product_id.price *discountOfProduct
                 // const basePrice = item.product_id.price;
@@ -134,8 +136,9 @@ const orderController = {
                 const configPrice = item.product_config_id ? (item.product_config_id.price - discountedConfigOrice): 0;
 
                 const itemPrice = (basePrice + configPrice) * item.quantity;
-
+                console.log('this',basePrice,configPrice)
                 subTotalPrice += itemPrice;
+                console.log('sub_total',subTotalPrice)
             });
                 console.log('shiping-charges', typeof shipping_charges, typeof subTotalPrice)
 
@@ -483,7 +486,7 @@ const orderController = {
             const orderDetail = await OrderLine.find({ OrderId: order_id })
                 .populate({
                     path: 'product_id',
-                    select: "_id name price short_description images",
+                    select: "_id name price short_description images discount",
                     populate: [
                         {
                             path: 'images',
