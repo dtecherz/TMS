@@ -817,7 +817,7 @@ function ProductDetail() {
                             <Form.Item
                                 label="Long Description"
                                 name="long_description"
-                                rules={[{ required: true, message: 'Please input the long description!' }]}
+                                rules={[{ required: false, message: 'Please input the long description!' }]}
                             >
                                 <RichTextEditor value={form.getFieldValue('long_description')} handleTextEditor={handleTextEditor} />
                             </Form.Item>

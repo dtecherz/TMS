@@ -93,7 +93,7 @@ function Sidebar({ collapsed }) {
         // getItem(<Link to={"/addresses"}>Addresses</Link>, '10', <FileOutlined />),
         // getItem(<Link to={"/settings"}>Settings</Link>, '11', <SettingOutlined />),
         getItem('Gallery', 'sub3', <ProductOutlined />, [
-            getItem(<Link to={"/gallery"}>All Images</Link>, '12'),
+            getItem(<Link to={"/gallery"}>All Media</Link>, '12'),
             getItem(<Link to={"/upload-images"}>Upload</Link>, '13'),
         ]),
         getItem(<Link to={"/add-payment-method"}>Payment</Link>, '14', <MoneyCollectOutlined />),

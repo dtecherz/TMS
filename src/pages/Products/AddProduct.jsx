@@ -151,12 +151,12 @@ function AddProduct({ onProductCreate }) {
 
                             <Col xs={24} sm={24} md={12} className='col'>
                                 <Form.Item
-                                    label="Discount"
+                                    label="Discount %"
                                     name="discount"
                                 >
                                     <Input
                                         type='number'
-                                        placeholder='Enter Discount on Product'
+                                        placeholder='Enter discount in %'
                                         className='form_input'
                                         value={formData.discount}
                                         onChange={(e) => setFormData({ ...formData, discount: e.target.value })}

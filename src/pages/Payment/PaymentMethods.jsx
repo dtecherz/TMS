@@ -153,9 +153,10 @@ function PaymentMethods() {
 
 
     const handleTextEditor = (e) => {
-        console.log('eee', e)
+        console.log('eee', e,data.Account_Details)
             
-        setData({ ...data, Account_Details: e })
+        setData({ ...data, Account_Details: e.target.value })
+        console.log('eee',data.Account_Details)
     }
     
     const handleText = (value) => {

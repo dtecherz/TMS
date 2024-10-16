@@ -45,7 +45,8 @@ function Gallery() {
                 <iframe
                   width="230"
                   height="315"
-                  src="https://www.youtube.com/embed/8-E1LbChJ88?si=2BLn04c9Scs_E4vY"
+                  // src="https://www.youtube.com/embed/8-E1LbChJ88?si=2BLn04c9Scs_E4vY"
+                  src={e.image_url}
                   title="YouTube video player"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

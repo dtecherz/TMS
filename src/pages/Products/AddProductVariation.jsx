@@ -92,7 +92,7 @@ const AddProductVariation = ({ productId, stock ,getProductData}) => {
                 price: "",
             });
             setFormData([]);
-            getProductData()
+            // getProductData()
         } catch (error) {
             console.log(error);
             Alert(error.message, false);
@@ -351,7 +351,7 @@ const AddProductVariation = ({ productId, stock ,getProductData}) => {
                                 <div className="mb-4" style={{ marginBottom: "4px" }}>
 
                                     <Button type="primary" onClick={addProductVariation} style={{ width: "100%" }}>
-                                        ADD VARIANT
+                                        Save
                                     </Button>
                                 </div>
                             </>

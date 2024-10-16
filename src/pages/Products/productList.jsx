@@ -81,7 +81,7 @@ function ProductList() {
             price: e.price,
             stockManagement: e.stock_management ? "Yes" : "No",
             totalQty: e.total_quantity,
-            edit: <Link to={`/product-detail/${e.slug}`} className=''><button className='detail_btn'>Edit</button></Link>,
+            edit: <Link to={`/product-detail/${e.slug}`} className=''><button className='detail_btn'>View</button></Link>,
             delete: <Button  type="primary"  danger ghost>
                 <Popconfirm
                                     title="Update the order status"
