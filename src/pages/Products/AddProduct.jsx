@@ -159,6 +159,8 @@ function AddProduct({ onProductCreate }) {
                                         placeholder='Enter discount in %'
                                         className='form_input'
                                         value={formData.discount}
+                                        min={1}
+                                        max={100}
                                         onChange={(e) => setFormData({ ...formData, discount: e.target.value })}
                                     />
                                 </Form.Item>
@@ -186,6 +188,8 @@ function AddProduct({ onProductCreate }) {
                                         className='form_input'
                                         value={formData.total_quantity}
                                         disabled={!formData.stock_management}
+                                        min={1}
+                                        
                                         onChange={(e) => setFormData({ ...formData, total_quantity: e.target.value })}
                                     />
                                 </Form.Item>

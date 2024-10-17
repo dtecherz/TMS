@@ -4,6 +4,7 @@
   import { getImages } from '../ContextAPI/APIs/api';
   import { Gallery } from "react-grid-gallery";
   import { File_URL } from '../config';
+import GalleryComponent from './GalleryComponent';
 
 
 
@@ -17,19 +18,23 @@
       try {
         const response = await getImages();
         if (response.success) {
-          const formattedImages = response.images.map(img => ({
-            // src: `${File_URL}/${img.image_url}`,
-             src: img.type === "video" ? img.image_url : `${File_URL}/${img.image_url}`,
-            width: 320,
-            height: 240,
-            caption: img.caption || "",
-            isSelected: false,  // Add this line to track selection
-            _id: img._id, // Store the ID for selection
-            image_url: img.image_url
-          }));
+          const formattedImages = response.images.map(img => {
+            console.log('lll', img);  // Console log the image data here
+            return {
+              type:img.type,
+              src: img.type === "video" ? img.image_url : `${File_URL}/${img.image_url}`,
+              width: 320,
+              height: 240,
+              caption: img.caption || "",
+              isSelected: false,  // Add this line to track selection
+              _id: img._id, // Store the ID for selection
+              image_url: img.image_url
+            };
+          });
           setImages(formattedImages);
           setImg(response.images);
           setMedia(formattedImages)
+
         }
       } catch (error) {
         console.log(error);
@@ -37,6 +42,7 @@
       }
     };
 
+    console.log('?????',images)
     const showModal = () => setIsModalOpen(true);
 
     const handleOk = () => {
@@ -80,7 +86,8 @@
           </button>
 
           <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-            <Gallery images={images} onSelect={handleSelect} />
+            {/* <Gallery images={images} onSelect={handleSelect} /> */}
+            <GalleryComponent   images={images} onSelect={handleSelect}/>
           </Modal>
         </div>
       </>

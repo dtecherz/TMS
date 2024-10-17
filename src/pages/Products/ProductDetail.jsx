@@ -742,11 +742,13 @@ function ProductDetail() {
                                     type='number'
                                     placeholder='Enter Discount on Product'
                                     className='form_input'
+                                    min={1}
+                                    max={100}
                                 />
                             </Form.Item>
                         </Col>
 
-                        
+
 
                         <Col xs={24} sm={24} md={8} className='col'>
                             {console.log('ttt', form.getFieldValue('SKU'))}
@@ -775,7 +777,7 @@ function ProductDetail() {
                                     <Select.Option value={false}>No</Select.Option>
                                 </Select>
                             </Form.Item>
-                            {console.log('sddddd',st_m)}
+                            {console.log('sddddd', st_m)}
                         </Col>
 
                         <Col xs={24} sm={24} md={8} className='col'>
@@ -789,11 +791,12 @@ function ProductDetail() {
                                         type='number'
                                         placeholder='Enter Total Quantity of Product'
                                         className='form_input'
+                                        min={1}
                                     // disabled
                                     />
                                 </Form.Item>
                                 :
-                               <></>
+                                <></>
                             }
 
                         </Col>
@@ -830,11 +833,33 @@ function ProductDetail() {
                         {console.log('aaaa', form.getFieldValue('images'))}
                         {form.getFieldValue('images')?.map((o, index) => (
                             <div className='images' key={index}>
+                                {
+                                    o.type === "image" ?
 
-                                <img
-                                    src={`${File_URL}/${o.image_url}`}
-                                    alt={`Selected image ${index}`}
-                                />
+                                        <img
+                                            src={`${File_URL}/${o.image_url}`}
+                                            alt={`Selected image ${index}`}
+                                        />
+                                        :
+                                        o.type === "external-image" ?
+
+                                            <img
+                                                src={o.image_url}
+                                                alt={`Selected image ${index}`}
+                                            />
+                                            :
+                                            <iframe
+                                                width="100"
+                                                height="100"
+                                                // src="https://www.youtube.com/embed/8-E1LbChJ88?si=2BLn04c9Scs_E4vY"
+                                                src={o.image_url}
+                                                title="YouTube video player"
+                                                frameBorder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                referrerPolicy="strict-origin-when-cross-origin"
+                                                allowFullScreen
+                                            ></iframe>
+                                }
                                 <div className="overlay">
                                     <DeleteOutlined className='dlt_image_btn' onClick={() => handleImageDelete(index)} />
                                 </div>
@@ -1172,7 +1197,7 @@ function ProductDetail() {
                                                     <div className="mb-4" style={{ marginBottom: "4px" }}>
 
                                                         <Button type="primary" onClick={addProductVariation} style={{ width: "100%" }}>
-                                                            ADD VARIANT
+                                                            SAVE
                                                         </Button>
                                                     </div>
                                                 </>

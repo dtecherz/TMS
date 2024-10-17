@@ -286,7 +286,7 @@ const AddProductVariation = ({ productId, stock ,getProductData}) => {
                             }
 
                             <Form.Item
-                                label="Price"
+                                label="Variant additional Price"
                                 name="price"
                                 style={{ width: "100%" }}
                                 rules={[{ required: true, message: 'Please input your price!' }]}

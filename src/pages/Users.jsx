@@ -14,7 +14,9 @@ function Users() {
     const [totalUsers, setTotalUsers] = useState(0);
     const [userLimitPerPage, setUserLimitPerPage] = useState(10); // Default to 10 per page
     const getUsers = async () => {
+        
         try {
+            console.log("arga h")
             const response = await getAllUsers(page)
             if (response.success) {
                 setUserLimitPerPage(response.UsersPerPage)
