@@ -496,7 +496,7 @@ const orderController = {
                 })
                 .populate({
                     path: 'order_id',
-                    select: 'total Order_status order_id  delivery_charges'
+                    select: 'total `Order_status` order_id  delivery_charges'
                 }).populate({
                     path: 'product_config_id',
                     populate: [

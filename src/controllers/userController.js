@@ -167,7 +167,7 @@ const userController = {
 
   async getAllUsers(req, res) {
     try {
-
+      console.log(":::MIMIMIMIMIMI")
       const limit = process.env.UsersPerPage
       const page = parseInt(req.query.page) || 1
 

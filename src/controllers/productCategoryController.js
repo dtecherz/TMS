@@ -129,7 +129,7 @@ const categoryController = {
             };
 
 
-            const Categories = await Category.find(query).populate({path: 'parent_category_id', select: ["category_name"]})
+            const Categories = await Category.find(query).populate({path: 'parent_category_id', select: ["category_name"]}).sort({ createdAt: -1 })
             return res.status(200).send({ success: true, message: "categories got succesfully", categories: Categories })
 
         } catch (error) {
