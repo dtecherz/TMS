@@ -590,7 +590,7 @@ function Checkout() {
         const res = await getUserCartsData()
 
         if (res?.length === 0) {
-            return navigate('/')
+            return navigate('/shop')
         }
         // if(!user || user === null){
         //         return navigate('/403')

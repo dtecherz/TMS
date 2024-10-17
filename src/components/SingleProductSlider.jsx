@@ -19,11 +19,24 @@ function SingleProductSlider({ product, pImg, setPImg, images }) {
                 <a>
                     {
                         images[i].type === "video" ?
-                            <div>Video</div>
+                        <iframe
+                        width={"100%"}
+                        height="70px"
+                        // className="single_product_image"
+                        src={images[i]?.image_url}
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                    ></iframe>
 
                             :
+                            images[i].type === "image" ?
 
                             <Image src={`${File_URL}/${images[i]?.image_url}`} preview={true} width={"100%"} height={"70px"} className="single_product_image !p-1" />
+                            :
+                            <Image src={images[i]?.image_url} preview={true} width={"100%"} height={"70px"} className="single_product_image !p-1" />
+
                     }
                 </a>
             );

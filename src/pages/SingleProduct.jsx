@@ -270,6 +270,7 @@ function SingleProduct() {
         // Update price only if matchedConfig is found
         if (matchedConfig) {
             setPrcie(productData?.price + matchedConfig?.price);
+            console.log('kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk',price)
             setFormData({ ...formData, product_config_id: matchedConfig?._id || null });
         } else {
             setPrcie(productData?.price); // Fallback price if no matching config
@@ -408,7 +409,7 @@ function SingleProduct() {
 
                                     {   
                                         (!productData.discount || productData.discount == 0  || productData.discount === undefined) ?
-                                            <p className='price'>{formatter.format(productData.price || 0)}</p>
+                                            <p className='price'>{formatter.format(price || 0)}</p>
                                             :
                                             <p className='price'>
                                                 <s>{formatter.format(price || 0)}</s>

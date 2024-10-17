@@ -1034,6 +1034,10 @@ img.ant-image-img.single_product_image.\!p-1.css-dev-only-do-not-override-m4timi
   border-radius: 0 !important;
 }
 
+
+.slick-dots li{
+  height: 70px !important;
+}
 .products_area .ant-select-single {
   height: 45px !important;
   width: 100%;
