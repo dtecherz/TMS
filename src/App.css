@@ -147,8 +147,9 @@ h2 {
 
 .demo-logo-vertical .logo {
   max-width: 100%;
-  height: auto;
-  /* object-fit: cover; */
+  height: 100px;
+  object-fit: contain;
+  /* margin-top: 20px; */
 }
 
 .demo-logo-vertical h2 {

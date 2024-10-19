@@ -25,6 +25,6 @@ export const RichTextEditor = ({ value, handleTextEditor }) => {
     return <>
         {/* <div>RichTextEditor</div> */}
 
-        <ReactQuill placeholder='Add Email description' modules={Editor} theme="snow" value={value} onChange={handleTextEditor} />
+        <ReactQuill placeholder='Add Email description' modules={Editor} theme="snow" value={value || ""} onChange={handleTextEditor} />
     </>
 }

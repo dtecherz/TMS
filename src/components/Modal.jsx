@@ -68,8 +68,10 @@ import GalleryComponent from './GalleryComponent';
 
         const selectedImages = nextImages.filter(image => image.isSelected).map(image => image._id);
         const selectedImagesUrl = nextImages.filter(image => image.isSelected).map(image => image.image_url);
+        const selectedImagesData = nextImages.filter(image => image.isSelected).map(image => image);
+        const imageType = nextImages.filter(image=>image.isSelected).map(image=>image.type)
         console.log('sleected', selectedImages)
-        handleImageSelect(selectedImages, selectedImagesUrl); // Pass the selected images' IDs to the parent component
+        handleImageSelect(selectedImages, selectedImagesData); // Pass the selected images' IDs to the parent component
       };
 
 

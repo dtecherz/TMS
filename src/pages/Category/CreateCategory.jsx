@@ -76,6 +76,8 @@ const CreateCategory = () => {
                                     placeholder='Enter Product Name'
                                     className='form_input'
                                     value={formData.category_name}
+                                    minLength={3}
+                                    maxLength={50}
                                     onChange={(e) => setFormData({ ...formData, category_name: e.target.value })}
                                 />
                             </Form.Item>

@@ -36,7 +36,7 @@ const MyModal2 = (props) => {
       };
   return (
     <div className='container'>
-      <Button type="danger" onClick={showModal}>
+      <Button className='create_btn' type="danger" onClick={showModal}>
         Add Variation Option
       </Button>
 

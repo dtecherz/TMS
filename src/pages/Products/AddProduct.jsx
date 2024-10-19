@@ -65,7 +65,7 @@ function AddProduct({ onProductCreate }) {
     };
 
     const handleImageSelect = (imageId, imgUrl) => {
-        console.log('img', imageId);
+        console.log('imgssss', imageId,imgUrl);
         setFormData({ ...formData, images: imageId });
         setImg(imgUrl);
         console.log('imggggg', imgUrl)
@@ -249,15 +249,40 @@ function AddProduct({ onProductCreate }) {
 
 
                         <div className='product_images'>
-                        
+                                            {console.log("ooooooooooooo",img)}
                             {
                                 img.length > 0 && img?.map((url, index) => (
                                     <div className='images'>
-                                        <img
+                                        {
+                                            url.type === "external-image" ?
+                                            <img
                                             key={index}
-                                            src={`${File_URL}/${url}`}
+                                            src={url.image_url}
                                             alt={`Selected image ${index}`}
                                         />
+                                        :
+                                        url.type === "video" ?
+                                        <iframe
+                                                width="100"
+                                                height="100"
+                                                // src="https://www.youtube.com/embed/8-E1LbChJ88?si=2BLn04c9Scs_E4vY"
+                                                src={url.image_url}
+                                                title="YouTube video player"
+                                                frameBorder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                referrerPolicy="strict-origin-when-cross-origin"
+                                                allowFullScreen
+                                            ></iframe>
+                                            :
+                                            <img
+                                            key={index}
+                                            src={`${File_URL}/${url.image_url}`}
+                                            alt={`Selected image ${index}`}
+                                        />
+
+                                        }
+                                        
+                                        
 
                                         <div className="overlay">
                                             <DeleteOutlined className='dlt_image_btn' />

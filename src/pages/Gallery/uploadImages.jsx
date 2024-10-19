@@ -414,6 +414,7 @@ const UploadImages = () => {
                     <Select.Option disabled>Select</Select.Option>
                     <Select.Option value={"vimeo"}>Vimeo</Select.Option>
                     <Select.Option value={"Youtube"}>Youtube</Select.Option>
+                    <Select.Option value={"external-image"}>External Image </Select.Option>
                   </Select>
 
                 </Form.Item>

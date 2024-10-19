@@ -898,15 +898,21 @@ function ProductDetail() {
 
                     <h2>Product Variations</h2>
                     {/* <h3>Add more variants</h3> */}
+                    {productVariationData.length>0 ?
+                    
                     <Button
-                        // customClasses="w-full"
-                        className={`btn create_btn my-4`}
-                        type="danger"
-                        onClick={() => setShowForm(true)}
-                    // style={{ width: "150px" }}
-                    >
-                        Add more variants
-                    </Button>
+                    // customClasses="w-full"
+                    className={`btn create_btn my-4`}
+                    type="danger"
+                    onClick={() => setShowForm(true)}
+                // style={{ width: "150px" }}
+                >
+                    Add more variants
+                </Button>
+                :
+                <></>
+                }
+                    
                 </div>
                 {/* <div>
                     {productVariationData.map((variation, index) => (
@@ -1038,10 +1044,10 @@ function ProductDetail() {
 
                 </div> */}
 
-
+    {console.log('productVariationData',productVariationData.length)}
                 <div className='my-5'>
                     {
-                        productVariationData.length > 0 ?
+                        productVariationData.length > 0  && productVariationData.length !== 0  ?
                             <>
                                 {
 
@@ -1208,9 +1214,12 @@ function ProductDetail() {
                                 }
                             </>
                             :
+                            productVariationData.length === 0 ?
                             <>
-                                <AddProductVariation productId={id} stock={stock} getProductData={getProductData} />
+                                <AddProductVariation productId={id} stock={stock} GetProductData={getProductData} />
                             </>
+                            :
+                            <></>
                     }
 
 

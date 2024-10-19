@@ -61,7 +61,7 @@ const MyModal1 = (props) => {
           >
             <Input
               type='text'
-              placeholder='Enter Product Name'
+              placeholder='Enter variation name'
               className='form_input'
               value={name}
               onChange={(e) => setName(e.target.value)}

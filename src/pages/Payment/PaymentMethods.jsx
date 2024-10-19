@@ -24,7 +24,6 @@ function PaymentMethods() {
         status: "active"
     })
 
-
     // add paytmet method 
 
     const addPaymentMethods = async () => {
@@ -37,6 +36,18 @@ function PaymentMethods() {
             Alert(error.message, false)
         }
     }
+
+    // const addPaymentMethods = async (values) => {
+    //     try {
+    //         const response = await addPaymentMethod(values);
+    //         if (response.success) {
+    //             Alert(response.message, response.success);
+    //             getPaymentMethodsData();
+    //         }
+    //     } catch (error) {
+    //         Alert(error.message, false);
+    //     }
+    // };
 
 
 
@@ -152,12 +163,11 @@ function PaymentMethods() {
     };
 
 
-    const handleTextEditor = (e) => {
-        console.log('eee', e,data.Account_Details)
-            
-        setData({ ...data, Account_Details: e.target.value })
-        console.log('eee',data.Account_Details)
-    }
+    const handleTextEditor = (content) => {
+        console.log('Updated Account Details:', content);
+        // form.setFieldsValue({ Account_Details: content });
+        setData({ ...data, Account_Details: content });
+    };
     
     const handleText = (value) => {
         console.log('RichTextEditor onChange:', value);
@@ -252,9 +262,14 @@ function PaymentMethods() {
                             </Form.Item>
 
 
-                            <Form.Item label="Description" name="description">
-                                <RichTextEditor value={data.Account_Details} handleTextEditor={handleTextEditor} />
-                            </Form.Item>
+                            {/* <Form.Item label="Description" name="description">
+    {console.log('vvvvvv',data.Account_Details)}
+    
+                                
+
+
+                            </Form.Item> */}
+                                <RichTextEditor value={data?.Account_Details} handleTextEditor={handleTextEditor} />
 
 
 

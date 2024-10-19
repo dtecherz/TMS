@@ -6,9 +6,10 @@ import { Button, Card, Form, Input, Select } from 'antd'
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons"
 import VariationModal from './VariationModal'
 
-const AddProductVariation = ({ productId, stock ,getProductData}) => {
+const AddProductVariation = ({ productId, stock ,GetProductData}) => {
 
     const location = useLocation();
+    
 
 
     const queryParams = new URLSearchParams(location.search);
@@ -48,13 +49,16 @@ const AddProductVariation = ({ productId, stock ,getProductData}) => {
     const [colors, setColors] = useState([])
     const [materials, setMaterials] = useState([])
     const { id } = useParams()
-    console.log('idddddddddd', id)
+    const searchParams = new URLSearchParams(window.location.search);
+    const idddd = searchParams.get('id');
+    console.log('idddddddddd', idddd)
+
     const [formData, setFormData] = useState([])
 
 
     
     const [initialData, setInitialData] = useState({
-        product_id: productId,
+        product_id: productId || idddd,
         size: null,
         color: null,
         material: null,
@@ -69,7 +73,7 @@ const AddProductVariation = ({ productId, stock ,getProductData}) => {
     const AddAnotherVariant = () => {
         form.resetFields();
         setInitialData({
-            product_id: productId,
+            product_id: productId || idddd,
             size: null,
             color: null,
             material: null,
@@ -84,7 +88,7 @@ const AddProductVariation = ({ productId, stock ,getProductData}) => {
             const response = await addProductVariant(formData);
             if (response.success) Alert(response.message, response.success);
             setInitialData({
-                product_id: productId,
+                product_id: productId || idddd,
                 size: null,
                 color: null,
                 material: null,
@@ -92,7 +96,10 @@ const AddProductVariation = ({ productId, stock ,getProductData}) => {
                 price: "",
             });
             setFormData([]);
-            // getProductData()
+            // Conditionally call GetProductData if it's a function
+        if (typeof GetProductData === 'function') {
+            GetProductData();
+        }
         } catch (error) {
             console.log(error);
             Alert(error.message, false);
@@ -142,7 +149,7 @@ const AddProductVariation = ({ productId, stock ,getProductData}) => {
 
     useEffect(() => {
         if (productId) {
-            setInitialData((prevState) => ({ ...prevState, product_id: productId }));
+            setInitialData((prevState) => ({ ...prevState, product_id: productId || idddd }));
         }
     }, [productId]);
 

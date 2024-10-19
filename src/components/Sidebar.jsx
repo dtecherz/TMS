@@ -2,7 +2,7 @@ import React from 'react'
 import { UserOutlined, UserDeleteOutlined, MoneyCollectOutlined, ProductOutlined, VideoCameraOutlined, SettingOutlined, FileOutlined, ShoppingOutlined } from '@ant-design/icons';
 import { Image, Layout, Menu } from 'antd';
 import { Link, useLocation } from 'react-router-dom';
-import logo from "../assets/logo-ipsum.png"
+import logo from "../assets/white-version-removebg-preview.png"
 import { useAuth } from '../ContextAPI/Components/auth';
 
 
