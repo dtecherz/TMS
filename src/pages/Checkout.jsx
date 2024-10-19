@@ -840,11 +840,13 @@ function Checkout() {
                                                 <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                                                     <Form.Item
                                                         label=""
+                                                        // type:"number"
                                                         name="phone"
                                                         rules={[
                                                             {
                                                                 required: true,
                                                                 message: 'Please input your phone!',
+                                                             
                                                             },
                                                         ]}
                                                     >
