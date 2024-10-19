@@ -1,4 +1,4 @@
-const Variation = require('../models/variationModel')
+    const Variation = require('../models/variationModel')
 
 const variationController = {
 
@@ -15,7 +15,7 @@ const variationController = {
             }
     
             // Check if variation with the same name already exists
-            const existingVariation = await Variation.findOne({ name });
+            const existingVariation = await Variation.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') } });
             if (existingVariation) {
                 return res.status(409).json({ message: "This variation already exists" });
             }

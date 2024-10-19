@@ -29,7 +29,7 @@ const paymentController = {
                     message: "Account Details are required"
                 });
             }
-
+            console.log('Account_Details',Account_Details)
 
             const newPayment = new Payment({
                 payment_type,

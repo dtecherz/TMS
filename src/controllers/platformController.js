@@ -11,7 +11,7 @@ const platformController = {
             if (req.query.sub == "true") query = {}
             // if (req.query.sub == "true") query = { parent_category_id: { $ne: null } }
 
-            const Categories = await categoriesModel.find(query, { createdAt: 0, updatedAt: 0, __v: 0, status: 0, status: 0 })
+            const Categories = await categoriesModel.find(query, { createdAt: 0, updatedAt: 0, __v: 0,  })
 
             let lowestPrice = await productModel.findOne({}, { price: 1 }).sort({ price: 1 });
             let highestPrice = await productModel.findOne({}, { price: 1 }).sort({ price: -1 });

@@ -12,22 +12,29 @@ const variationOptionController = {
     async addVariationOption(req, res) {
         try {
             const { variation_id, name } = req.body;
-
+    
             // Check if required fields are provided
             if (!variation_id || !name) {
                 return res.status(400).json({ message: "Variation ID and Name fields are required" });
             }
-
+    
+            // Convert the name to lowercase for case-insensitive comparison
+            const lowerCaseName = name.toLowerCase();
+    
             // Check if variation option with the same name already exists for the given variation_id
-            const existingOption = await VariationOption.findOne({ variation_id, name });
+            const existingOption = await VariationOption.findOne({ 
+                variation_id, 
+                name: { $regex: new RegExp(`^${lowerCaseName}$`, 'i') } // Case-insensitive regex
+            });
+    
             if (existingOption) {
                 return res.status(409).json({ message: "This variation option already exists" });
             }
-
+    
             // Create a new variation option
             const newOption = new VariationOption({ variation_id, name });
             await newOption.save();
-
+    
             return res.status(200).json({
                 success: true,
                 message: "Variation option added successfully",
@@ -42,6 +49,7 @@ const variationOptionController = {
             });
         }
     },
+    
 
 
 
